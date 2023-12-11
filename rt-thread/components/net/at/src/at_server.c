@@ -33,6 +33,7 @@
 #define AT_CMD_SEMICOLON               ';'
 #define AT_CMD_CR                      '\r'
 #define AT_CMD_LF                      '\n'
+#define AT_CMD_NULL                    '\0'
 
 static at_server_t at_server_local = RT_NULL;
 static at_cmd_t cmd_table = RT_NULL;
@@ -42,8 +43,8 @@ extern rt_size_t at_utils_send(rt_device_t dev,
                                rt_off_t    pos,
                                const void *buffer,
                                rt_size_t   size);
-extern void at_vprintf(rt_device_t device, const char *format, va_list args);
-extern void at_vprintfln(rt_device_t device, const char *format, va_list args);
+extern void at_vprintf(rt_device_t device, char *send_buf, rt_size_t buf_size, const char *format, va_list args);
+extern void at_vprintfln(rt_device_t device, char *send_buf, rt_size_t buf_size, const char *format, va_list args);
 
 /**
  * AT server send data to AT device
@@ -56,7 +57,7 @@ void at_server_printf(const char *format, ...)
 
     va_start(args, format);
 
-    at_vprintf(at_server_local->device, format, args);
+    at_vprintf(at_server_local->device, at_server_local->send_buffer, sizeof(at_server_local->send_buffer), format, args);
 
     va_end(args);
 }
@@ -72,7 +73,7 @@ void at_server_printfln(const char *format, ...)
 
     va_start(args, format);
 
-    at_vprintfln(at_server_local->device, format, args);
+    at_vprintfln(at_server_local->device, at_server_local->send_buffer, sizeof(at_server_local->send_buffer), format, args);
 
     va_end(args);
 }
@@ -399,7 +400,7 @@ static rt_err_t at_cmd_get_name(const char *cmd_buffer, char *cmd_name)
     RT_ASSERT(cmd_name);
     RT_ASSERT(cmd_buffer);
 
-    for (i = 0; i < strlen(cmd_buffer) + 1; i++)
+    for (i = 0; i < strlen(cmd_buffer); i++)
     {
         if (*(cmd_buffer + i) == AT_CMD_QUESTION_MARK || *(cmd_buffer + i) == AT_CMD_EQUAL_MARK
                 || *(cmd_buffer + i) == AT_CMD_CR
@@ -472,6 +473,10 @@ static void server_parser(at_server_t server)
                     at_server_printf("\b \b");
                 }
 
+                continue;
+            }
+            else if (ch == AT_CMD_NULL)
+            {
                 continue;
             }
             else
