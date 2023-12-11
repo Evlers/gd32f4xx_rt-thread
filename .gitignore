@@ -27,6 +27,7 @@ documentation/html
 *.d
 *.dfinish
 *.su
+*.scvd
 
 #packages
 packages/pkgs_error.json
