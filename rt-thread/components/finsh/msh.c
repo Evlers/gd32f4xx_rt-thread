@@ -8,6 +8,7 @@
  * 2013-03-30     Bernard      the first verion for finsh
  * 2014-01-03     Bernard      msh can execute module.
  * 2017-07-19     Aubr.Cool    limit argc to RT_FINSH_ARG_MAX
+ * 2023-12-09     Evlers       Add smart complete to the shell command line.
  */
 #include <rtthread.h>
 #include <string.h>
@@ -33,7 +34,7 @@ typedef int (*cmd_function_t)(int argc, char **argv);
 
 int msh_help(int argc, char **argv)
 {
-    rt_kprintf("RT-Thread shell commands:\n");
+    rt_kprintf("\nRT-Thread shell commands:\n");
     {
         struct finsh_syscall *index;
 
@@ -561,6 +562,11 @@ void msh_auto_complete_path(char *path)
     DIR *dir = RT_NULL;
     struct dirent *dirent = RT_NULL;
     char *full_path, *ptr, *index;
+#ifdef FINSH_USING_SMART_COMPLETE
+    static uint8_t last_result_number = 0;
+    static char last_path[256];
+    rt_bool_t is_list_all_result = RT_FALSE;
+#endif
 
     if (!path)
         return;
@@ -610,9 +616,27 @@ void msh_auto_complete_path(char *path)
         index = dest;
     }
 
+#ifdef FINSH_USING_SMART_COMPLETE
+    /* If the path is the same as the previous path 
+     * and there are multiple results, the display all the search result. */
+    if (strlen(last_path) == strlen(path) && strncmp(path, last_path, strlen(path)) == 0 && last_result_number > 1)
+    {
+        is_list_all_result = RT_TRUE;
+        rt_kprintf("\n");
+    }
+    else
+    {
+        /* Last count result matched will be cleared */
+        last_result_number = 0;
+    }
+#endif
+
     /* auto complete the file or directory name */
     if (*index == '\0') /* display all of files and directories */
     {
+#ifdef FINSH_USING_SMART_COMPLETE
+        rt_kprintf("\n");
+#endif
         for (;;)
         {
             dirent = readdir(dir);
@@ -659,14 +683,23 @@ void msh_auto_complete_path(char *path)
                 /* list the candidate */
                 rewinddir(dir);
 
-                for (;;)
+#ifdef FINSH_USING_SMART_COMPLETE
+                /* Display all matched path */
+                if (is_list_all_result == RT_TRUE)
                 {
-                    dirent = readdir(dir);
-                    if (dirent == RT_NULL) break;
+#endif
+                    for (;;)
+                    {
+                        dirent = readdir(dir);
+                        if (dirent == RT_NULL) break;
 
-                    if (strncmp(index, dirent->d_name, rt_strlen(index)) == 0)
-                        rt_kprintf("%s\n", dirent->d_name);
+                        if (strncmp(index, dirent->d_name, rt_strlen(index)) == 0)
+                            rt_kprintf("%s\n", dirent->d_name);
+                    }
+#ifdef FINSH_USING_SMART_COMPLETE
                 }
+                last_result_number = multi;
+#endif
             }
 
             length = index - path;
@@ -687,6 +720,12 @@ void msh_auto_complete_path(char *path)
 
     closedir(dir);
     rt_free(full_path);
+
+#ifdef FINSH_USING_SMART_COMPLETE
+    /* Record the path */
+    memset(last_path, 0, sizeof(last_path));
+    memcpy(last_path, path, strlen(path));
+#endif
 }
 #endif /* DFS_USING_POSIX */
 
@@ -695,6 +734,11 @@ void msh_auto_complete(char *prefix)
     int length, min_length;
     const char *name_ptr, *cmd_name;
     struct finsh_syscall *index;
+#ifdef FINSH_USING_SMART_COMPLETE
+    static uint8_t last_result_number = 0;
+    static char last_cmd[FINSH_CMD_SIZE];
+    rt_bool_t is_list_all_result = RT_FALSE;
+#endif
 
     min_length = 0;
     name_ptr = RT_NULL;
@@ -733,6 +777,21 @@ void msh_auto_complete(char *prefix)
     }
 #endif /* DFS_USING_POSIX */
 
+#ifdef FINSH_USING_SMART_COMPLETE
+    /* If the command is the same as the previous command 
+     * and there are multiple results, the display all the search result. */
+    if (strlen(last_cmd) == strlen(prefix) && strncmp(prefix, last_cmd, strlen(prefix)) == 0 && last_result_number > 1)
+    {
+        is_list_all_result = RT_TRUE;
+        rt_kprintf("\n");
+    }
+    else
+    {
+        /* Last count result matched will be cleared */
+        last_result_number = 0;
+    }
+#endif
+
     /* checks in internal command */
     {
         for (index = _syscall_table_begin; index < _syscall_table_end; FINSH_NEXT_SYSCALL(index))
@@ -753,7 +812,15 @@ void msh_auto_complete(char *prefix)
                 if (length < min_length)
                     min_length = length;
 
+#ifdef FINSH_USING_SMART_COMPLETE
+                /* Display all matched command */
+                if (is_list_all_result == RT_TRUE)
+                    rt_kprintf("%s\n", cmd_name);
+                /* Calculate the number of results matched */
+                last_result_number ++;
+#else
                 rt_kprintf("%s\n", cmd_name);
+#endif
             }
         }
     }
@@ -763,6 +830,12 @@ void msh_auto_complete(char *prefix)
     {
         rt_strncpy(prefix, name_ptr, min_length);
     }
+
+#ifdef FINSH_USING_SMART_COMPLETE
+    /* Record the command */
+    memset(last_cmd, 0, sizeof(last_cmd));
+    memcpy(last_cmd, prefix, strlen(prefix));
+#endif
 
     return ;
 }

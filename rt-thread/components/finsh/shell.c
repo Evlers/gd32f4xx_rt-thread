@@ -16,6 +16,7 @@
  *                             initialization when use GNU GCC compiler.
  * 2016-11-26     armink       add password authentication
  * 2018-07-02     aozima       add custom prompt support.
+ * 2023-12-09     Evlers       Add smart complete to the shell command line.
  */
 
 #include <rthw.h>
@@ -378,9 +379,14 @@ static void finsh_wait_auth(void)
 
 static void shell_auto_complete(char *prefix)
 {
+#ifndef FINSH_USING_SMART_COMPLETE
     rt_kprintf("\n");
+#endif
     msh_auto_complete(prefix);
 
+#ifdef FINSH_USING_SMART_COMPLETE
+    rt_kprintf("\033[2K\r");
+#endif
     rt_kprintf("%s%s", FINSH_PROMPT, prefix);
 }
 
