@@ -6,6 +6,7 @@
  * Change Logs:
  * Date           Author       Notes
  * 2021-12-20     BruceOu      first implementation
+ * 2023-12-12     Evlers       update the io write of cs
  */
 #include "drv_spi.h"
 
@@ -122,7 +123,7 @@ static const struct gd32_spi spi_bus_obj[] = {
 
 /* private rt-thread spi ops function */
 static rt_err_t spi_configure(struct rt_spi_device* device, struct rt_spi_configuration* configuration);
-static rt_uint32_t spixfer(struct rt_spi_device* device, struct rt_spi_message* message);
+static rt_ssize_t spixfer(struct rt_spi_device* device, struct rt_spi_message* message);
 
 static struct rt_spi_ops gd32_spi_ops =
 {
@@ -146,7 +147,7 @@ static void gd32_spi_init(struct gd32_spi *gd32_spi)
     gpio_af_set(gd32_spi->spi_port, gd32_spi->alt_func_num, gd32_spi->sck_pin | gd32_spi->mosi_pin | gd32_spi->miso_pin);
 
     gpio_mode_set(gd32_spi->spi_port, GPIO_MODE_AF, GPIO_PUPD_NONE, gd32_spi->sck_pin | gd32_spi->mosi_pin | gd32_spi->miso_pin);
-    gpio_output_options_set(gd32_spi->spi_port, GPIO_OTYPE_PP, GPIO_OSPEED_200MHZ, gd32_spi->sck_pin | gd32_spi->mosi_pin | gd32_spi->miso_pin);
+    gpio_output_options_set(gd32_spi->spi_port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, gd32_spi->sck_pin | gd32_spi->mosi_pin | gd32_spi->miso_pin);
 #else
     /* Init SPI SCK MOSI */
     gpio_init(gd32_spi->spi_port, GPIO_MODE_AF_PP, GPIO_OSPEED_50MHZ, gd32_spi->sck_pin | gd32_spi->mosi_pin);
@@ -282,12 +283,11 @@ static rt_err_t spi_configure(struct rt_spi_device* device,
     return RT_EOK;
 };
 
-static rt_uint32_t spixfer(struct rt_spi_device* device, struct rt_spi_message* message)
+static rt_ssize_t spixfer(struct rt_spi_device* device, struct rt_spi_message* message)
 {
     struct rt_spi_bus * gd32_spi_bus = (struct rt_spi_bus *)device->bus;
     struct gd32_spi *spi_device = (struct gd32_spi *)gd32_spi_bus->parent.user_data;
     struct rt_spi_configuration * config = &device->config;
-    struct gd32_spi_cs * gd32_spi_cs = device->parent.user_data;
     uint32_t spi_periph = spi_device->spi_periph;
 
     RT_ASSERT(device != NULL);
@@ -296,7 +296,7 @@ static rt_uint32_t spixfer(struct rt_spi_device* device, struct rt_spi_message* 
     /* take CS */
     if(message->cs_take)
     {
-        gpio_bit_reset(gd32_spi_cs->GPIOx, gd32_spi_cs->GPIO_Pin);
+        rt_pin_write((rt_base_t)device->parent.user_data, PIN_LOW);
         LOG_D("spi take cs\n");
     }
 
@@ -372,7 +372,7 @@ static rt_uint32_t spixfer(struct rt_spi_device* device, struct rt_spi_message* 
     /* release CS */
     if(message->cs_release)
     {
-        gpio_bit_set(gd32_spi_cs->GPIOx, gd32_spi_cs->GPIO_Pin);
+        rt_pin_write((rt_base_t)device->parent.user_data, PIN_HIGH);
         LOG_D("spi release cs\n");
     }
 

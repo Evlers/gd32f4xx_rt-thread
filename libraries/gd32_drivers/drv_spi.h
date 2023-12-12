@@ -19,12 +19,6 @@
 extern "C" {
 #endif
 
-struct gd32_spi_cs
-{
-    uint32_t GPIOx;
-    uint32_t GPIO_Pin;
-};
-
 /* gd32 spi dirver class */
 struct gd32_spi
 {
