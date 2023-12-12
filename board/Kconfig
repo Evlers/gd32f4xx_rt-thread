@@ -230,6 +230,10 @@ menu "On-chip Peripheral Drivers"
                 endif
         endif
 
+    config BSP_USING_ON_CHIP_FLASH
+        bool "Enable on-chip FLASH"
+        default n
+
     source "libraries/gd32_drivers/Kconfig"
 
 endmenu
