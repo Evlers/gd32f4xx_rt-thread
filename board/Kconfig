@@ -299,7 +299,10 @@ menu "On-chip Peripheral Drivers"
 endmenu
 
 menu "Board extended module Drivers"
-
+    config RW007_USING_POWER_MANAGE
+        bool "Enable power manage for RW007 wifi modules"
+        depends on PKG_USING_RW007
+        default n
 endmenu
 
 endmenu

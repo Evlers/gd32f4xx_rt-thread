@@ -11,6 +11,11 @@ src = Split('''
 board.c
 ''')
 
+# add rw007 spi wifi drivers porting.
+if GetDepend(['PKG_USING_RW007']):
+    src += Glob('ports/rw007_port.c')
+
+
 path =  [cwd]
 path += [cwd + '/ports']
 
