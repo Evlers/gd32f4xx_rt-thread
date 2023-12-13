@@ -14,12 +14,27 @@
 #include <rtdevice.h>
 #include <board.h>
 
-/* defined the LED1 pin: PE3 */
-#define LED1_PIN GET_PIN(E, 3)
+#include "fal.h"
+#include "dfs_fs.h"
+
+#define DBG_TAG             "main"
+#define DBG_LVL             DBG_INFO
+#include "rtdbg.h"
+
+/* defined the LED1 pin: PC6 */
+#define LED1_PIN GET_PIN(C, 6)
 
 int main(void)
 {
     int count = 1;
+
+    fal_init();
+
+    fal_blk_device_create("flash");
+    if (dfs_mount("flash", "/", "elm", 0, 0) != 0)
+    {
+        LOG_I("Failed to mount the flash on the chip!");
+    }
 
     /* set LED1 pin mode to output */
     rt_pin_mode(LED1_PIN, PIN_MODE_OUTPUT);
