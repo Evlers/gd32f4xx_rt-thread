@@ -136,9 +136,9 @@ int wifi_spi_device_init(void)
     rt_wlan_set_mode(RT_WLAN_DEVICE_AP_NAME, RT_WLAN_AP);
 
     rw007_sn_get(sn_version);
-    LOG_I("\nSN: [%s]\n", sn_version);
+    LOG_I("sn: [%s]", sn_version);
     rw007_version_get(sn_version);
-    LOG_I("version: [%s]\n\n", sn_version);
+    LOG_I("version: [%s]", sn_version);
 
     return 0;
 }
