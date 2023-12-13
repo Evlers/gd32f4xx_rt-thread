@@ -91,6 +91,7 @@
 #define RT_DFS_ELM_MAX_SECTOR_SIZE 4096
 #define RT_DFS_ELM_REENTRANT
 #define RT_DFS_ELM_MUTEX_TIMEOUT 3000
+#define RT_USING_DFS_DEVFS
 #define RT_USING_FAL
 #define FAL_DEBUG 0
 #define FAL_PART_HAS_TABLE_CFG
@@ -146,12 +147,15 @@
 /* POSIX (Portable Operating System Interface) layer */
 
 #define RT_USING_POSIX_FS
+#define RT_USING_POSIX_DEVIO
 #define RT_USING_POSIX_POLL
 #define RT_USING_POSIX_SELECT
 #define RT_USING_POSIX_SOCKET
 
 /* Interprocess Communication (IPC) */
 
+#define RT_USING_POSIX_PIPE
+#define RT_USING_POSIX_PIPE_SIZE 512
 
 /* Socket is in the 'Network' category */
 
@@ -222,6 +226,15 @@
 
 /* IoT - internet of things */
 
+#define PKG_USING_PAHOMQTT
+#define PAHOMQTT_PIPE_MODE
+#define PKG_USING_PAHOMQTT_EXAMPLE
+#define PKG_USING_PAHOMQTT_TEST
+#define MQTT_USING_TLS
+#define RT_PKG_MQTT_THREAD_STACK_SIZE 8192
+#define PKG_PAHOMQTT_SUBSCRIBE_HANDLERS 8
+#define MQTT_DEBUG
+#define PKG_USING_PAHOMQTT_LATEST
 #define PKG_USING_WEBCLIENT
 #define WEBCLIENT_USING_FILE_DOWMLOAD
 #define WEBCLIENT_USING_MBED_TLS
