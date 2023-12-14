@@ -37,6 +37,10 @@ from utils import _make_path_relative
 from mkdist import do_copy_file
 from options import AddOptions
 
+if os.getenv('PROJECTS_PATH'):
+    PROJECTS_PATH = os.getenv('PROJECTS_PATH')
+else:
+    PROJECTS_PATH = os.path.normpath(os.getcwd())
 
 BuildOptions = {}
 Projects = []
@@ -368,8 +372,8 @@ def PrepareBuilding(env, root_directory, has_libcpu=False, remove_components = [
     # we need to seperate the variant_dir for BSPs and the kernels. BSPs could
     # have their own components etc. If they point to the same folder, SCons
     # would find the wrong source code to compile.
-    bsp_vdir = 'build'
-    kernel_vdir = 'build/kernel'
+    bsp_vdir = os.path.join(PROJECTS_PATH, 'build')
+    kernel_vdir = os.path.join(PROJECTS_PATH, 'build/kernel')
     # board build script
     objs = SConscript('SConscript', variant_dir=bsp_vdir, duplicate=0)
     # include kernel
@@ -831,14 +835,14 @@ def GenTargetProject(program = None):
     if GetOption('target') in ['mdk', 'mdk4', 'mdk5']:
         from keil import MDK2Project, MDK4Project, MDK5Project, ARMCC_Version
 
-        if os.path.isfile('template.uvprojx') and GetOption('target') not in ['mdk4']: # Keil5
-            MDK5Project(GetOption('project-name') + '.uvprojx', Projects)
+        if os.path.isfile(os.path.join(PROJECTS_PATH, 'template.uvprojx')) and GetOption('target') not in ['mdk4']: # Keil5
+            MDK5Project(os.path.join(PROJECTS_PATH, GetOption('project-name')) + '.uvprojx', Projects)
             print("Keil5 project is generating...")
-        elif os.path.isfile('template.uvproj') and GetOption('target') not in ['mdk5']: # Keil4
-            MDK4Project(GetOption('project-name') + '.uvproj', Projects)
+        elif os.path.isfile(os.path.join(PROJECTS_PATH, 'template.uvproj')) and GetOption('target') not in ['mdk5']: # Keil4
+            MDK4Project(os.path.join(PROJECTS_PATH, GetOption('project-name')) + '.uvproj', Projects)
             print("Keil4 project is generating...")
-        elif os.path.isfile('template.Uv2') and GetOption('target') not in ['mdk4', 'mdk5']: # Keil2
-            MDK2Project(GetOption('project-name') + '.Uv2', Projects)
+        elif os.path.isfile(os.path.join(PROJECTS_PATH, 'template.Uv2')) and GetOption('target') not in ['mdk4', 'mdk5']: # Keil2
+            MDK2Project(os.path.join(PROJECTS_PATH, GetOption('project-name')) + '.Uv2', Projects)
             print("Keil2 project is generating...")
         else:
             print ('No template project file found.')
@@ -849,7 +853,7 @@ def GenTargetProject(program = None):
     if GetOption('target') == 'iar':
         from iar import IARProject, IARVersion
         print("IAR Version: " + IARVersion())
-        IARProject(GetOption('project-name') + '.ewp', Projects)
+        IARProject(os.path.join(PROJECTS_PATH, GetOption('project-name')) + '.ewp', Projects)
         print("IAR project has generated successfully!")
 
     if GetOption('target') == 'vs':

@@ -2,6 +2,9 @@ import os
 import sys
 import rtconfig
 
+# Set the project path for keil and iar
+os.environ['PROJECTS_PATH']= os.getcwd() + "/projects"
+
 if os.getenv('RTT_ROOT'):
     RTT_ROOT = os.getenv('RTT_ROOT')
 else:

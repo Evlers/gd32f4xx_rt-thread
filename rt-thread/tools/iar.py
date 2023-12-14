@@ -34,6 +34,11 @@ from xml.etree.ElementTree import SubElement
 from utils import _make_path_relative
 from utils import xml_indent
 
+if os.getenv('PROJECTS_PATH'):
+    PROJECTS_PATH = os.getenv('PROJECTS_PATH')
+else:
+    PROJECTS_PATH = os.path.normpath(os.getcwd())
+
 fs_encoding = sys.getfilesystemencoding()
 
 iar_workspace = '''<?xml version="1.0" encoding="iso-8859-1"?>
@@ -80,7 +85,7 @@ def IARWorkspace(target):
 def IARProject(target, script):
     project_path = os.path.dirname(os.path.abspath(target))
 
-    tree = etree.parse('template.ewp')
+    tree = etree.parse(os.path.join(PROJECTS_PATH, 'template.ewp'))
     root = tree.getroot()
 
     out = open(target, 'w')
