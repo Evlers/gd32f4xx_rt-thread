@@ -56,7 +56,7 @@ static rt_err_t set_rtc_timestamp(time_t time_stamp)
 
     rtc_counter = (uint32_t)time_stamp;
 
-    struct tm *t = localtime(&rtc_counter);
+    struct tm *t = localtime((const time_t*)&rtc_counter);
     rtc_parameter_struct rtc_initpara;
 
     rtc_initpara.factor_asyn = prescaler_a;
