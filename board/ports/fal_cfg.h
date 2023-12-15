@@ -15,7 +15,7 @@
 #include <board.h>
 
 #define GD32_ONCHIP_FLASH_ADDR          GD32_FLASH_START_ADRESS + GD32_FLASH_SIZE - GD32_ONCHIP_FLASH_SIZE
-#define GD32_ONCHIP_FLASH_SIZE          (512 * 1024)
+#define GD32_ONCHIP_FLASH_SIZE          (1024 * 1024)
 
 extern const struct fal_flash_dev gd32_onchip_flash;
 
@@ -29,9 +29,11 @@ extern const struct fal_flash_dev gd32_onchip_flash;
 #ifdef FAL_PART_HAS_TABLE_CFG
 
 /* partition table */
-#define FAL_PART_TABLE                                                                  \
-{                                                                                       \
-    {FAL_PART_MAGIC_WROD, "flash", "onchip_flash",  0 , GD32_ONCHIP_FLASH_SIZE , 0},    \
+/*  magic_word              partition name  flash name          offset          size                */
+#define FAL_PART_TABLE                                                                              \
+{                                                                                                   \
+    {FAL_PART_MAGIC_WROD,   "root",         "onchip_flash",             0,      512 * 1024, 0},     \
+    {FAL_PART_MAGIC_WROD,   "easyflash",    "onchip_flash",    512 * 1024,      512 * 1024, 0},     \
 }
 
 #endif /* FAL_PART_HAS_TABLE_CFG */

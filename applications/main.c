@@ -16,6 +16,7 @@
 
 #include "fal.h"
 #include "dfs_fs.h"
+#include "easyflash.h"
 
 #define DBG_TAG             "main"
 #define DBG_LVL             DBG_INFO
@@ -28,13 +29,30 @@ int main(void)
 {
     int count = 1;
 
+    /* Initializes the flash abstraction layer */
     fal_init();
 
-    fal_blk_device_create("flash");
-    if (dfs_mount("flash", "/", "elm", 0, 0) != 0)
+    /* Create a block device using the flash abstraction layer */
+    fal_blk_device_create("root");
+
+    /* Mount the FAT file system to the root directory */
+    if (dfs_mount("root", "/", "elm", 0, 0) != 0)
     {
-        LOG_I("Failed to mount the flash on the chip!");
+        if (!dfs_mkfs("elm", "root")) 
+        {
+            if (dfs_mount("root", "/", "elm", 0, 0) != 0)
+            {
+                LOG_E("The fat file system failed to be mounted!");
+            }
+        }
+        else
+        {
+            LOG_E("FAT file system formatting failed!");
+        }
     }
+
+    /* Initializes the easyflash */
+    easyflash_init();
 
     /* set LED1 pin mode to output */
     rt_pin_mode(LED1_PIN, PIN_MODE_OUTPUT);
