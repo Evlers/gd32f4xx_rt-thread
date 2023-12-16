@@ -54,14 +54,5 @@ Export('SDK_LIB')
 # prepare building environment
 objs = PrepareBuilding(env, RTT_ROOT, has_libcpu=False)
 
-gd32_library = 'GD32F4xx_Firmware_Library'
-rtconfig.BSP_LIBRARY_TYPE = gd32_library
-
-# include libraries
-objs.extend(SConscript(os.path.join(libraries_path_prefix, gd32_library, 'SConscript')))
-
-# include drivers
-objs.extend(SConscript(os.path.join(libraries_path_prefix, 'gd32_drivers', 'SConscript')))
-
 # make a building
 DoBuilding(TARGET, objs)
