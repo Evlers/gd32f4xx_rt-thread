@@ -48,6 +48,7 @@ if GetDepend('RT_USING_ADC'):
 # add sdio drivers.
 if GetDepend('RT_USING_SDIO'):
     src += ['drv_sdio.c']
+    src += ['drv_sdio_adapter.c']
     
 # add pwm drivers.
 if GetDepend('RT_USING_PWM'):
