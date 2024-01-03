@@ -84,7 +84,7 @@ extern "C" {
                                     SDIO_STAT_RXORE  | SDIO_STAT_TXURE)
 
 
-#define HW_SDIO_DATATIMEOUT                    (0xFFFFFFFFU)
+#define HW_SDIO_DATATIMEOUT         (0xFFFFFFFFU)
 
 
 typedef void (*dma_txconfig)(uint32_t *src, uint32_t *dst, uint32_t size);

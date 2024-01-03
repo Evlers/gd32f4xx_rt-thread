@@ -20,6 +20,8 @@
 #define DBG_COLOR
 #include <rtdbg.h>
 
+#ifdef BSP_USING_SDIO
+
 #define SDIO_TX_RX_COMPLETE_TIMEOUT_LOOPS       (100000)
 
 #define RTHW_SDIO_LOCK(_sdio)                   rt_mutex_take(&_sdio->mutex, RT_WAITING_FOREVER)
@@ -237,7 +239,7 @@ static void rthw_sdio_send_command(struct rthw_sdio *sdio, struct sdio_pkg *pkg)
 
         /* sdio data configure */
         sdio_data_config(HW_SDIO_DATATIMEOUT, data->blks * data->blksize, sd_datablocksize_get(data->blksize));
-        sdio_data_transfer_config(data->flags & DATA_STREAM ? SDIO_TRANSMODE_STREAM : SDIO_TRANSMODE_BLOCK, 
+        sdio_data_transfer_config((data->flags & DATA_STREAM) ? SDIO_TRANSMODE_STREAM : SDIO_TRANSMODE_BLOCK, 
                                     (data->flags & DATA_DIR_READ) ? SDIO_TRANSDIRECTION_TOSDIO : SDIO_TRANSDIRECTION_TOCARD);
 
         sdio_operation_enable();
@@ -590,3 +592,5 @@ struct rt_mmcsd_host *sdio_host_create(struct gd32_sdio_des *sdio_des)
 
     return host;
 }
+
+#endif /* BSP_USING_SDIO */
