@@ -294,7 +294,7 @@ menu "On-chip Peripheral Drivers"
         bool "Enable on-chip FLASH"
         default n
 
-    source "libraries/gd32_drivers/Kconfig"
+    source "libraries/drivers/Kconfig"
 
 endmenu
 
