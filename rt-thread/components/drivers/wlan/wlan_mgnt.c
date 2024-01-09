@@ -859,7 +859,7 @@ static void rt_wlan_join_scan_callback(int event, struct rt_wlan_buff *buff, voi
             info->ssid.len == tgt_info->ssid.len)
     {
         /*Get the rssi the max ap*/
-        if(info->rssi > tgt_info->rssi)
+        if((info->rssi > tgt_info->rssi) || (tgt_info->rssi == 0))
         {
             tgt_info->security  = info->security;
             tgt_info->band      = info->band;
