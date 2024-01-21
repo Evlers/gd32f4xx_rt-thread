@@ -6,6 +6,7 @@
  * Change Logs:
  * Date             Author          Notes
  * 2023-12-30       Evlers          first version
+ * 2024-01-21       Evlers          Add support for byte stream data transfer software CRC16
  */
 
 #include <rthw.h>
@@ -14,6 +15,7 @@
 #include <string.h>
 
 #include <drv_sdio.h>
+#include "drv_sdio_crc.h"
 
 #define DBG_TAG             "drv.sdio"
 #define DBG_LVL             DBG_ERROR
@@ -22,7 +24,7 @@
 
 #ifdef BSP_USING_SDIO
 
-#define SDIO_TX_RX_COMPLETE_TIMEOUT_LOOPS       (100000)
+#define SDIO_TX_RX_COMPLETE_TIMEOUT_LOOPS       (1000000)
 
 #define RTHW_SDIO_LOCK(_sdio)                   rt_mutex_take(&_sdio->mutex, RT_WAITING_FOREVER)
 #define RTHW_SDIO_UNLOCK(_sdio)                 rt_mutex_release(&_sdio->mutex);
@@ -105,9 +107,12 @@ static void rthw_sdio_wait_completed(struct rthw_sdio *sdio)
     }
 
     cmd->resp[0] = sdio_response_get(SDIO_RESPONSE0);
-    cmd->resp[1] = sdio_response_get(SDIO_RESPONSE1);
-    cmd->resp[2] = sdio_response_get(SDIO_RESPONSE2);
-    cmd->resp[3] = sdio_response_get(SDIO_RESPONSE3);
+    if (resp_type(cmd) == RESP_R2)
+    {
+        cmd->resp[1] = sdio_response_get(SDIO_RESPONSE1);
+        cmd->resp[2] = sdio_response_get(SDIO_RESPONSE2);
+        cmd->resp[3] = sdio_response_get(SDIO_RESPONSE3);
+    }
 
     if (status & HW_SDIO_ERRORS)
     {
@@ -173,6 +178,7 @@ static void rthw_sdio_wait_completed(struct rthw_sdio *sdio)
 static void rthw_sdio_transfer_by_dma(struct rthw_sdio *sdio, struct sdio_pkg *pkg)
 {
     int size;
+    dma_multi_data_parameter_struct dma_struct;
 
     RT_ASSERT(sdio != RT_NULL);
     RT_ASSERT(pkg != RT_NULL);
@@ -181,14 +187,86 @@ static void rthw_sdio_transfer_by_dma(struct rthw_sdio *sdio, struct sdio_pkg *p
 
     size = pkg->cmd->data->blks * pkg->cmd->data->blksize;
 
+    /* clear all the interrupt flags */
+    dma_flag_clear(SDIO_DMA, SDIO_DMA_CHANNEL, DMA_FLAG_FEE);
+    dma_flag_clear(SDIO_DMA, SDIO_DMA_CHANNEL, DMA_FLAG_SDE);
+    dma_flag_clear(SDIO_DMA, SDIO_DMA_CHANNEL, DMA_FLAG_TAE);
+    dma_flag_clear(SDIO_DMA, SDIO_DMA_CHANNEL, DMA_FLAG_HTF);
+    dma_flag_clear(SDIO_DMA, SDIO_DMA_CHANNEL, DMA_FLAG_FTF);
+    dma_channel_disable(SDIO_DMA, SDIO_DMA_CHANNEL);
+    dma_deinit(SDIO_DMA, SDIO_DMA_CHANNEL);
+
     sdio_dma_enable();
     if (pkg->cmd->data->flags & DATA_DIR_WRITE)
     {
-        sdio->sdio_des.txconfig((rt_uint32_t *)pkg->buff, (rt_uint32_t *)&SDIO_FIFO, size);
+        /* configure the DMA channel */
+        dma_struct.periph_addr        = (uint32_t)&SDIO_FIFO;
+        dma_struct.memory0_addr       = (uint32_t)pkg->buff;
+        dma_struct.direction          = DMA_MEMORY_TO_PERIPH;
+        dma_struct.number             = size;
+        dma_struct.periph_inc         = DMA_PERIPH_INCREASE_DISABLE;
+        dma_struct.memory_inc         = DMA_MEMORY_INCREASE_ENABLE;
+        dma_struct.circular_mode      = DMA_CIRCULAR_MODE_DISABLE;
+
+        if (pkg->cmd->data->flags & DATA_STREAM)
+        {
+            dma_struct.periph_width       = DMA_PERIPH_WIDTH_32BIT;
+            dma_struct.memory_width       = DMA_MEMORY_WIDTH_8BIT;
+            dma_struct.priority           = DMA_PRIORITY_ULTRA_HIGH;
+            dma_struct.periph_burst_width = DMA_PERIPH_BURST_4_BEAT;
+            dma_struct.memory_burst_width = DMA_MEMORY_BURST_SINGLE;
+            dma_struct.critical_value     = DMA_FIFO_4_WORD;
+        }
+        else
+        {
+            dma_struct.periph_width       = DMA_PERIPH_WIDTH_32BIT;
+            dma_struct.memory_width       = DMA_MEMORY_WIDTH_32BIT;
+            dma_struct.priority           = DMA_PRIORITY_ULTRA_HIGH;
+            dma_struct.periph_burst_width = DMA_PERIPH_BURST_4_BEAT;
+            dma_struct.memory_burst_width = DMA_MEMORY_BURST_4_BEAT;
+            dma_struct.critical_value     = DMA_FIFO_4_WORD;
+        }
+        dma_multi_data_mode_init(SDIO_DMA, SDIO_DMA_CHANNEL, &dma_struct);
+
+        dma_flow_controller_config(SDIO_DMA, SDIO_DMA_CHANNEL, DMA_FLOW_CONTROLLER_PERI);
+        dma_channel_subperipheral_select(SDIO_DMA, SDIO_DMA_CHANNEL, SDIO_DMA_SUBPERI);
+        dma_channel_enable(SDIO_DMA, SDIO_DMA_CHANNEL);
     }
     else if (pkg->cmd->data->flags & DATA_DIR_READ)
     {
-        sdio->sdio_des.rxconfig((rt_uint32_t *)&SDIO_FIFO, (rt_uint32_t *)pkg->buff, size);
+        /* configure the DMA channel */
+        dma_struct.periph_addr        = (uint32_t)&SDIO_FIFO;
+        dma_struct.memory0_addr       = (uint32_t)pkg->buff;
+        dma_struct.direction          = DMA_PERIPH_TO_MEMORY;
+        dma_struct.number             = size;
+        dma_struct.periph_inc         = DMA_PERIPH_INCREASE_DISABLE;
+        dma_struct.memory_inc         = DMA_MEMORY_INCREASE_ENABLE;
+        dma_struct.circular_mode      = DMA_CIRCULAR_MODE_DISABLE;
+
+        if (pkg->cmd->data->flags & DATA_STREAM)
+        {
+            dma_struct.periph_width       = DMA_PERIPH_WIDTH_32BIT;
+            dma_struct.memory_width       = DMA_MEMORY_WIDTH_8BIT;
+            dma_struct.priority           = DMA_PRIORITY_ULTRA_HIGH;
+            dma_struct.periph_burst_width = DMA_PERIPH_BURST_SINGLE;
+            dma_struct.memory_burst_width = DMA_MEMORY_BURST_SINGLE;
+            dma_struct.critical_value     = DMA_FIFO_4_WORD;
+        }
+        else
+        {
+            dma_struct.periph_width       = DMA_PERIPH_WIDTH_32BIT;
+            dma_struct.memory_width       = DMA_MEMORY_WIDTH_32BIT;
+            dma_struct.priority           = DMA_PRIORITY_ULTRA_HIGH;
+            dma_struct.periph_burst_width = DMA_PERIPH_BURST_4_BEAT;
+            dma_struct.memory_burst_width = DMA_MEMORY_BURST_4_BEAT;
+            dma_struct.critical_value     = DMA_FIFO_4_WORD;
+        }
+        dma_multi_data_mode_init(SDIO_DMA, SDIO_DMA_CHANNEL, &dma_struct);
+
+        dma_flow_controller_config(SDIO_DMA, SDIO_DMA_CHANNEL, DMA_FLOW_CONTROLLER_PERI);
+        dma_channel_subperipheral_select(SDIO_DMA, SDIO_DMA_CHANNEL, SDIO_DMA_SUBPERI);
+        dma_channel_enable(SDIO_DMA, SDIO_DMA_CHANNEL);
+
         /* enable the DSM(data state machine) for data transfer */
         sdio_dsm_enable();
     }
@@ -198,6 +276,8 @@ static void rthw_sdio_send_command(struct rthw_sdio *sdio, struct sdio_pkg *pkg)
 {
     struct rt_mmcsd_cmd *cmd = pkg->cmd;
     struct rt_mmcsd_data *data = cmd->data;
+
+    rt_event_control(&sdio->event, RT_IPC_CMD_RESET, RT_NULL);
 
     /* save pkg */
     sdio->pkg = pkg;
@@ -219,15 +299,6 @@ static void rthw_sdio_send_command(struct rthw_sdio *sdio, struct sdio_pkg *pkg)
             data ? data->blksize : 0
            );
 
-    /* config response type */
-    uint32_t response_type;
-    if (resp_type(cmd) == RESP_NONE)
-        response_type = SDIO_RESPONSETYPE_NO;
-    else if (resp_type(cmd) == RESP_R2)
-        response_type = SDIO_RESPONSETYPE_LONG;
-    else
-        response_type = SDIO_RESPONSETYPE_SHORT;
-
     /* config data transfer */
     if (data != RT_NULL)
     {
@@ -236,6 +307,17 @@ static void rthw_sdio_send_command(struct rthw_sdio *sdio, struct sdio_pkg *pkg)
         sdio_data_transfer_config(SDIO_TRANSMODE_BLOCK, SDIO_TRANSDIRECTION_TOCARD);
         sdio_dsm_disable();
         sdio_dma_disable();
+
+        /* Hardware CRC16 computation is not supported in the case of byte stream transmission */
+        if ((data->flags & DATA_STREAM) && (data->flags & DATA_DIR_WRITE))
+        {
+            if (data->blks == 1 && data->blksize < DRV_SDIO_CRC16_4BIT_BUS_DATA_MAX_LEN)
+            {
+                /* Using software crc */
+                sdio_crc16_calc_4bit_bus((uint8_t *)pkg->buff, (uint8_t *)pkg->buff + data->blksize, data->blksize);
+                data->blksize += 8;
+            }
+        }
 
         /* sdio data configure */
         sdio_data_config(HW_SDIO_DATATIMEOUT, data->blks * data->blksize, sd_datablocksize_get(data->blksize));
@@ -249,13 +331,23 @@ static void rthw_sdio_send_command(struct rthw_sdio *sdio, struct sdio_pkg *pkg)
     }
 
     /* enable interrupt */
-    sdio_interrupt_enable(SDIO_STAT_CMDSEND | SDIO_STAT_CMDRECV | HW_SDIO_ERRORS);
+    sdio_interrupt_flag_clear(SDIO_INT_FLAG_CMDSEND | SDIO_INT_FLAG_CMDRECV | HW_SDIO_ERRORS);
+    sdio_interrupt_enable(SDIO_INTEN_CMDSENDIE | SDIO_INTEN_CMDRECVIE | HW_SDIO_ERRORS);
     if (data != RT_NULL)
     {
-        sdio_interrupt_enable(SDIO_STAT_DTEND);
+        sdio_interrupt_flag_clear(SDIO_INT_FLAG_DTEND);
+        sdio_interrupt_enable(SDIO_INTEN_DTENDIE);
     }
 
     /* send command */
+    uint32_t response_type;
+    if (resp_type(cmd) == RESP_NONE)
+        response_type = SDIO_RESPONSETYPE_NO;
+    else if (resp_type(cmd) == RESP_R2)
+        response_type = SDIO_RESPONSETYPE_LONG;
+    else
+        response_type = SDIO_RESPONSETYPE_SHORT;
+
     sdio_command_response_config(cmd->cmd_code, cmd->arg, response_type);
     sdio_wait_type_set(SDIO_WAITTYPE_NO);
     sdio_csm_enable();
@@ -268,7 +360,7 @@ static void rthw_sdio_send_command(struct rthw_sdio *sdio, struct sdio_pkg *pkg)
     {
         volatile rt_uint32_t count = SDIO_TX_RX_COMPLETE_TIMEOUT_LOOPS;
 
-        while (count && RESET == dma_flag_get(SDIO_DMA, SDIO_DMA_CHANNEL, DMA_FLAG_FTF))
+        while (count && (SDIO_STAT & (SDIO_STAT_TXRUN | SDIO_STAT_RXRUN)))
         {
             count--;
         }
@@ -305,24 +397,24 @@ static void rthw_sdio_request(struct rt_mmcsd_host *host, struct rt_mmcsd_req *r
             rt_uint32_t size = data->blks * data->blksize;
 
             RT_ASSERT(size <= SDIO_BUFF_SIZE);
-
-            pkg.buff = data->buf;
-            /* Check whether the buffer addresses meet alignment requirements */
-            if ((rt_uint32_t)data->buf & (SDIO_ALIGN - 1))
+            if (data->flags & DATA_STREAM)
             {
-                /* Use an already-aligned cache buffer */
-                pkg.buff = cache_buf;
-                if (data->flags & DATA_DIR_WRITE)
-                {
-                    memcpy(cache_buf, data->buf, size);
-                }
+                /* CRC16 value with a 4-bit bus width requires 8 bytes */
+                RT_ASSERT(size <= (SDIO_BUFF_SIZE - 8));
+            }
+
+            /* Use an already-aligned cache buffer */
+            pkg.buff = cache_buf;
+            if (data->flags & DATA_DIR_WRITE)
+            {
+                memcpy(cache_buf, data->buf, size);
             }
         }
 
         rthw_sdio_send_command(sdio, &pkg);
 
         /* Copy data from the aligned cache buffer */
-        if ((data != RT_NULL) && (data->flags & DATA_DIR_READ) && ((rt_uint32_t)data->buf & (SDIO_ALIGN - 1)))
+        if ((data != RT_NULL) && (data->flags & DATA_DIR_READ))
         {
             memcpy(data->buf, cache_buf, data->blksize * data->blks);
         }
@@ -361,8 +453,9 @@ static void rthw_sdio_iocfg(struct rt_mmcsd_host *host, struct rt_mmcsd_io_cfg *
         clk = clk_src;
     }
 
-    LOG_D("clock: %d bus_width: %s%s%s power: %s%s%s",
-            clk,
+    LOG_D("clock: %d%s bus_width: %s%s%s power: %s%s%s",
+            (clk >= 1000000) ? clk / 1000000 : clk / 1000,
+            (clk >= 1000000) ? "MHz" : "KHz",
             io_cfg->bus_width == MMCSD_BUS_WIDTH_8 ? "8" : "",
             io_cfg->bus_width == MMCSD_BUS_WIDTH_4 ? "4" : "",
             io_cfg->bus_width == MMCSD_BUS_WIDTH_1 ? "1" : "",
@@ -411,13 +504,16 @@ static void rthw_sdio_iocfg(struct rt_mmcsd_host *host, struct rt_mmcsd_io_cfg *
     {
     case MMCSD_POWER_OFF:
         sdio_power_state_set(SDIO_POWER_OFF);
+        sdio_clock_disable();
+        sdio_hardware_clock_disable();
         break;
     case MMCSD_POWER_UP:
-        sdio_power_state_set(SDIO_POWER_ON);
+        // sdio_power_state_set(PWRCTL_PWRCTL(2));
         break;
     case MMCSD_POWER_ON:
-        sdio_clock_enable();
         sdio_hardware_clock_enable();
+        sdio_clock_enable();
+        sdio_power_state_set(SDIO_POWER_ON);
         break;
     default:
         LOG_E("unknown power_mode %d", io_cfg->power_mode);
@@ -427,11 +523,12 @@ static void rthw_sdio_iocfg(struct rt_mmcsd_host *host, struct rt_mmcsd_io_cfg *
     RTHW_SDIO_UNLOCK(sdio);
 }
 
-void rthw_sdio_irq_update(struct rt_mmcsd_host *host, rt_int32_t enable)
+static void rthw_sdio_irq_update(struct rt_mmcsd_host *host, rt_int32_t enable)
 {
     if (enable)
     {
         LOG_D("enable sdio interrupt");
+        sdio_interrupt_flag_clear(SDIO_INT_FLAG_SDIOINT);
         sdio_interrupt_enable(SDIO_STAT_SDIOINT);
     }
     else
@@ -447,7 +544,7 @@ static rt_int32_t rthw_sd_delect(struct rt_mmcsd_host *host)
     return 0x01;
 }
 
-void rthw_sdio_irq_process(struct rt_mmcsd_host *host)
+static void rthw_sdio_irq_process(struct rt_mmcsd_host *host)
 {
     int complete = 0;
     struct rthw_sdio *sdio = host->private_data;
@@ -462,9 +559,9 @@ void rthw_sdio_irq_process(struct rt_mmcsd_host *host)
     else
     {
         /* command response received (CRC check passed) */
-        if (intstatus & SDIO_STAT_CMDRECV)
+        if (intstatus & SDIO_INT_FLAG_CMDRECV)
         {
-            sdio_interrupt_flag_clear(SDIO_STAT_CMDRECV);
+            sdio_interrupt_flag_clear(SDIO_INT_FLAG_CMDRECV);
 
             if (sdio->pkg != RT_NULL)
             {
@@ -482,9 +579,9 @@ void rthw_sdio_irq_process(struct rt_mmcsd_host *host)
         }
 
         /* command sent (no response required) */
-        if (intstatus & SDIO_STAT_CMDSEND)
+        if (intstatus & SDIO_INT_FLAG_CMDSEND)
         {
-            sdio_interrupt_flag_clear(SDIO_STAT_CMDSEND);
+            sdio_interrupt_flag_clear(SDIO_INT_FLAG_CMDSEND);
 
             /* Check whether an answer is required */
             if (resp_type(sdio->pkg->cmd) == RESP_NONE)
@@ -494,17 +591,17 @@ void rthw_sdio_irq_process(struct rt_mmcsd_host *host)
         }
 
         /* data end (data counter, SDIO_DATACNT, is zero) */
-        if (intstatus & SDIO_STAT_DTEND)
+        if (intstatus & SDIO_INT_FLAG_DTEND)
         {
-            sdio_interrupt_flag_clear(SDIO_STAT_DTEND);
+            sdio_interrupt_flag_clear(SDIO_INT_FLAG_DTEND);
             complete = 1;
         }
     }
 
     /* SD I/O interrupt received */
-    if ((intstatus & SDIO_STAT_SDIOINT) && (SDIO_INTEN & SDIO_STAT_SDIOINT))
+    if ((intstatus & SDIO_INT_FLAG_SDIOINT) && (SDIO_INTEN & SDIO_INT_SDIOINT))
     {
-        sdio_interrupt_flag_clear(SDIO_STAT_SDIOINT);
+        sdio_interrupt_flag_clear(SDIO_INT_FLAG_SDIOINT);
         sdio_irq_wakeup(host);
     }
 
@@ -517,6 +614,7 @@ void rthw_sdio_irq_process(struct rt_mmcsd_host *host)
 }
 
 /* mmcsd host interface */
+static struct rt_mmcsd_host *host;
 static const struct rt_mmcsd_host_ops ops =
 {
     rthw_sdio_request,
@@ -525,20 +623,14 @@ static const struct rt_mmcsd_host_ops ops =
     rthw_sdio_irq_update,
 };
 
-struct rt_mmcsd_host *sdio_host_create(struct gd32_sdio_des *sdio_des)
+static struct rt_mmcsd_host *sdio_host_create(struct gd32_sdio_des *sdio_des)
 {
     struct rt_mmcsd_host *host;
     struct rthw_sdio *sdio = RT_NULL;
 
-    if ((sdio_des == RT_NULL) ||
-            (sdio_des->txconfig == RT_NULL) ||
-            (sdio_des->rxconfig == RT_NULL))
+    if (sdio_des == RT_NULL)
     {
-        LOG_E("%s %s %s",
-                   (sdio_des == RT_NULL ? "sdio_des is NULL" : ""),
-                   (sdio_des ? (sdio_des->txconfig ? "txconfig is NULL" : "") : ""),
-                   (sdio_des ? (sdio_des->rxconfig ? "rxconfig is NULL" : "") : "")
-                  );
+        LOG_E("%s", (sdio_des == RT_NULL ? "sdio_des is NULL" : ""));
         return RT_NULL;
     }
 
@@ -571,7 +663,7 @@ struct rt_mmcsd_host *sdio_host_create(struct gd32_sdio_des *sdio_des)
     host->freq_max = SDIO_MAX_FREQ;
     host->valid_ocr = VDD_32_33 | VDD_33_34;
 #ifndef SDIO_USING_1_BIT
-    host->flags = MMCSD_BUSWIDTH_4 | MMCSD_MUTBLKWRITE | MMCSD_SUP_SDIO_IRQ;
+    host->flags = MMCSD_BUSWIDTH_4 | MMCSD_MUTBLKWRITE | MMCSD_SUP_SDIO_IRQ |MMCSD_SUP_HIGHSPEED;
 #else
     host->flags = MMCSD_MUTBLKWRITE | MMCSD_SUP_SDIO_IRQ;
 #endif
@@ -584,13 +676,106 @@ struct rt_mmcsd_host *sdio_host_create(struct gd32_sdio_des *sdio_des)
     sdio->host = host;
     host->private_data = sdio;
 
+    return host;
+}
+
+void SDIO_IRQHandler(void)
+{
+    /* enter interrupt */
+    rt_interrupt_enter();
+
+    /* Process All SDIO Interrupt Sources */
+    rthw_sdio_irq_process(host);
+
+    /* leave interrupt */
+    rt_interrupt_leave();
+}
+
+/*!
+    \brief      configure the GPIO of SDIO interface
+    \param[in]  none
+    \param[out] none
+    \retval     none
+*/
+static void gpio_config(void)
+{
+    /* configure the SDIO_DAT0(PC8), SDIO_DAT1(PC9), SDIO_DAT2(PC10), SDIO_DAT3(PC11), SDIO_CLK(PC12) and SDIO_CMD(PD2) */
+    gpio_af_set(SDIO_CLK_PORT, GPIO_AF_12, SDIO_CLK_PIN);
+    gpio_af_set(SDIO_CMD_PORT, GPIO_AF_12, SDIO_CMD_PIN);
+    gpio_af_set(SDIO_D0_PORT,  GPIO_AF_12, SDIO_D0_PIN);
+    gpio_af_set(SDIO_D1_PORT,  GPIO_AF_12, SDIO_D1_PIN);
+    gpio_af_set(SDIO_D2_PORT,  GPIO_AF_12, SDIO_D2_PIN);
+    gpio_af_set(SDIO_D3_PORT,  GPIO_AF_12, SDIO_D3_PIN);
+
+    gpio_mode_set(SDIO_CLK_PORT, GPIO_MODE_AF, GPIO_PUPD_NONE, SDIO_CLK_PIN);
+    gpio_output_options_set(SDIO_CLK_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, SDIO_CLK_PIN);
+
+    gpio_mode_set(SDIO_CMD_PORT, GPIO_MODE_AF, GPIO_PUPD_PULLUP, SDIO_CMD_PIN);
+    gpio_output_options_set(SDIO_CMD_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, SDIO_CMD_PIN);
+
+    gpio_mode_set(SDIO_D0_PORT, GPIO_MODE_AF, GPIO_PUPD_PULLUP, SDIO_D0_PIN);
+    gpio_output_options_set(SDIO_D0_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, SDIO_D0_PIN);
+
+    gpio_mode_set(SDIO_D1_PORT, GPIO_MODE_AF, GPIO_PUPD_PULLUP, SDIO_D1_PIN);
+    gpio_output_options_set(SDIO_D1_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, SDIO_D1_PIN);
+
+    gpio_mode_set(SDIO_D2_PORT, GPIO_MODE_AF, GPIO_PUPD_PULLUP, SDIO_D2_PIN);
+    gpio_output_options_set(SDIO_D2_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, SDIO_D2_PIN);
+
+    gpio_mode_set(SDIO_D3_PORT, GPIO_MODE_AF, GPIO_PUPD_PULLUP, SDIO_D3_PIN);
+    gpio_output_options_set(SDIO_D3_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, SDIO_D3_PIN);
+}
+
+/*!
+    \brief      configure the RCU of SDIO and DMA
+    \param[in]  none
+    \param[out] none
+    \retval     none
+*/
+static void rcu_config(void)
+{
+    rcu_periph_clock_enable(SDIO_GPIO_CLK);
+    rcu_periph_clock_enable(SDIO_GPIO_CMD);
+    rcu_periph_clock_enable(SDIO_GPIO_D0);
+    rcu_periph_clock_enable(SDIO_GPIO_D1);
+    rcu_periph_clock_enable(SDIO_GPIO_D2);
+    rcu_periph_clock_enable(SDIO_GPIO_D3);
+
+    rcu_periph_clock_enable(SDIO_PERI_CLOCK);
+    rcu_periph_clock_enable(SDIO_DMA_CLOCK);
+}
+
+int gd32_sdio_init(void)
+{
+    struct gd32_sdio_des sdio_des;
+
+    /* configure the RCU and GPIO, deinitialize the SDIO */
+    rcu_config();
+    gpio_config();
+    sdio_deinit();
+
+    /* configure the sdio interrupt */
+    nvic_irq_enable(SDIO_IRQn, 0, 0);
+
+    /* Save the sdio peripheral address */
+    sdio_des.hw_sdio = SDIO_BASE;
+
+    /* Create mmcsd host for sdio */
+    host = sdio_host_create(&sdio_des);
+    if (host == RT_NULL)
+    {
+        rt_kprintf("%s host create fail\n");
+        return -1;
+    }
+
     /* The sdio interrupt is enabled by default */
     rthw_sdio_irq_update(host, 1);
 
     /* ready to change */
     mmcsd_change(host);
 
-    return host;
+    return 0;
 }
+INIT_DEVICE_EXPORT(gd32_sdio_init);
 
 #endif /* BSP_USING_SDIO */

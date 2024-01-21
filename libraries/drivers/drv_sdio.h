@@ -57,6 +57,7 @@ extern "C" {
 #define SDIO_DMA_CHANNEL            DMA_CH3
 #define SDIO_DMA_IRQ                DMA1_Channel3_IRQn
 #define SDIO_DMA_IRQ_HANDLER        DMA1_Channel3_IRQHandler
+#define SDIO_DMA_SUBPERI            DMA_SUBPERI4
 
 #ifndef SDIO_BASE_ADDRESS
 #define SDIO_BASE_ADDRESS           (SDIO_BASE)
@@ -75,13 +76,13 @@ extern "C" {
 #endif
 
 #ifndef SDIO_MAX_FREQ
-#define SDIO_MAX_FREQ               (24 * 1000 * 1000)
+#define SDIO_MAX_FREQ               (16 * 1000 * 1000)
 #endif
 
 
-#define HW_SDIO_ERRORS              (SDIO_STAT_CCRCERR | SDIO_STAT_CMDTMOUT | \
-                                    SDIO_STAT_DTCRCERR | SDIO_STAT_DTTMOUT | \
-                                    SDIO_STAT_RXORE  | SDIO_STAT_TXURE)
+#define HW_SDIO_ERRORS              (SDIO_INT_FLAG_CCRCERR | SDIO_INT_FLAG_CMDTMOUT | \
+                                    SDIO_INT_FLAG_DTCRCERR | SDIO_INT_FLAG_DTTMOUT | \
+                                    SDIO_INT_FLAG_RXORE  | SDIO_INT_FLAG_TXURE)
 
 
 #define HW_SDIO_DATATIMEOUT         (0xFFFFFFFFU)
@@ -94,13 +95,8 @@ typedef rt_uint32_t (*sdio_clk_get)(uint32_t hw_sdio);
 struct gd32_sdio_des
 {
     uint32_t hw_sdio;
-    dma_txconfig txconfig;
-    dma_rxconfig rxconfig;
     sdio_clk_get clk_get;
 };
-
-struct rt_mmcsd_host *sdio_host_create(struct gd32_sdio_des *sdio_des);
-void rthw_sdio_irq_process(struct rt_mmcsd_host *host);
 
 #ifdef __cplusplus
 }
