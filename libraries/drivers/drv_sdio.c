@@ -523,7 +523,7 @@ static void rthw_sdio_iocfg(struct rt_mmcsd_host *host, struct rt_mmcsd_io_cfg *
     RTHW_SDIO_UNLOCK(sdio);
 }
 
-static void rthw_sdio_irq_update(struct rt_mmcsd_host *host, rt_int32_t enable)
+void rthw_sdio_irq_update(struct rt_mmcsd_host *host, rt_int32_t enable)
 {
     if (enable)
     {
@@ -620,7 +620,7 @@ static const struct rt_mmcsd_host_ops ops =
     rthw_sdio_request,
     rthw_sdio_iocfg,
     rthw_sd_delect,
-    rthw_sdio_irq_update,
+    NULL, // rthw_sdio_irq_update,
 };
 
 static struct rt_mmcsd_host *sdio_host_create(struct gd32_sdio_des *sdio_des)
@@ -663,7 +663,7 @@ static struct rt_mmcsd_host *sdio_host_create(struct gd32_sdio_des *sdio_des)
     host->freq_max = SDIO_MAX_FREQ;
     host->valid_ocr = VDD_32_33 | VDD_33_34;
 #ifndef SDIO_USING_1_BIT
-    host->flags = MMCSD_BUSWIDTH_4 | MMCSD_MUTBLKWRITE | MMCSD_SUP_SDIO_IRQ |MMCSD_SUP_HIGHSPEED;
+    host->flags = MMCSD_BUSWIDTH_4 | MMCSD_MUTBLKWRITE | MMCSD_SUP_HIGHSPEED;
 #else
     host->flags = MMCSD_MUTBLKWRITE | MMCSD_SUP_SDIO_IRQ;
 #endif
@@ -769,7 +769,7 @@ int gd32_sdio_init(void)
     }
 
     /* The sdio interrupt is enabled by default */
-    rthw_sdio_irq_update(host, 1);
+    // rthw_sdio_irq_update(host, 1);
 
     /* ready to change */
     mmcsd_change(host);
