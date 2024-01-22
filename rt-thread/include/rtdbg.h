@@ -148,6 +148,23 @@ extern "C" {
     }                                                       \
     while (0)
 
+#define dbg_log_hex(lvl, color_n, fmt, buf, len)            \
+    do                                                      \
+    {                                                       \
+        _DBG_LOG_HDR(lvl, color_n);                         \
+        rt_kprintf("%s(%u)", fmt, (len));                     \
+        if (fmt && (len) > 16) rt_kprintf("\n");              \
+        for (uint32_t i = 0; i < (len); i ++) {               \
+            if (i != 0 && !(i%16))                          \
+                rt_kprintf("\n");                           \
+            if (((len) > 16) && !(i%8))                       \
+                rt_kprintf(" ");                            \
+            rt_kprintf(" %02X", ((uint8_t *)buf)[i]);       \
+        }                                                   \
+        _DBG_LOG_X_END;                                     \
+    }                                                       \
+    while (0)
+
 #define dbg_raw(...)         rt_kprintf(__VA_ARGS__);
 
 #else
@@ -184,6 +201,12 @@ extern "C" {
 #endif
 
 #define LOG_RAW(...)         dbg_raw(__VA_ARGS__)
+
+#if (DBG_LEVEL >= DBG_WARNING)
+#define LOG_B(fmt, buf, len) dbg_log_hex("B", 0, fmt, buf, len)
+#else
+#define LOG_B(...)
+#endif
 
 #define LOG_HEX(name, width, buf, size)
 
