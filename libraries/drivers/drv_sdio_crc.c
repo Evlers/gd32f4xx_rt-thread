@@ -86,7 +86,7 @@ uint8_t sdio_crc7_calc (const uint8_t *ptr, uint32_t bit_num)
  * @param bit_num Number of bits
  * @return uint16_t Output CRC16 value
  */
-uint16_t sdio_crc16_calc (const uint8_t *ptr, uint32_t bit_num)
+static uint16_t sdio_crc16_calc (const uint8_t *ptr, uint32_t bit_num)
 {
 	uint32_t index = 0;
 	uint16_t crc = 0;
@@ -228,11 +228,26 @@ static void merge_crc_to_bus (uint8_t output[8], uint8_t input[8])
 /**
  * @brief Calculate CRC16 for SDIO bus data
  * 
- * @param ptr SDIO data (4wire)
- * @param crc Output CRC16 value[8]
- * @param len Length for sdio data (max is 512)
+ * @param crc Output CRC16 value[2]
+ * @param ptr SDIO data (1wire)
+ * @param len Length for sdio bus data
  */
-void sdio_crc16_calc_4bit_bus (uint8_t *ptr, uint8_t *crc, uint16_t len)
+void sdio_crc16_calc_1bit_bus (uint8_t crc[2], uint8_t *ptr, uint16_t len)
+{
+	uint16_t crc16 = sdio_crc16_calc(ptr, len * 8);
+	
+	crc[0] = (uint8_t )(crc16 >> 8);
+	crc[1] = (uint8_t )crc16;
+}
+
+/**
+ * @brief Calculate CRC16 for SDIO bus data
+ * 
+ * @param crc Output CRC16 value[8]
+ * @param ptr SDIO bus data (4wire)
+ * @param len Length for sdio data
+ */
+void sdio_crc16_calc_4bit_bus (uint8_t crc[8], uint8_t *ptr, uint16_t len)
 {
 	const int data_wire_buf_len = DRV_SDIO_CRC16_4BIT_BUS_DATA_MAX_LEN / 8 / 4;
 	uint8_t data_wire[4][data_wire_buf_len] = { 0 };

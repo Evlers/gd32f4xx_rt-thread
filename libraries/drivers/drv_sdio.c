@@ -311,11 +311,21 @@ static void rthw_sdio_send_command(struct rthw_sdio *sdio, struct sdio_pkg *pkg)
         /* Hardware CRC16 computation is not supported in the case of byte stream transmission */
         if ((data->flags & DATA_STREAM) && (data->flags & DATA_DIR_WRITE))
         {
-            if (data->blks == 1 && data->blksize < DRV_SDIO_CRC16_4BIT_BUS_DATA_MAX_LEN)
+            /* The CRC16 value is calculated by software and sent out from the bus */
+            if ((sdio->host->flags & MMCSD_BUSWIDTH_4) && (data->blksize < DRV_SDIO_CRC16_4BIT_BUS_DATA_MAX_LEN))
             {
-                /* Using software crc */
-                sdio_crc16_calc_4bit_bus((uint8_t *)pkg->buff, (uint8_t *)pkg->buff + data->blksize, data->blksize);
+                sdio_crc16_calc_4bit_bus((uint8_t *)pkg->buff + data->blksize, (uint8_t *)pkg->buff, data->blksize);
                 data->blksize += 8;
+            }
+            else if ((sdio->host->flags & MMCSD_BUSWIDTH_8) && (data->blksize < DRV_SDIO_CRC16_8BIT_BUS_DATA_MAX_LEN))
+            {
+                /* Software CRC calculations with 4-bit and 1-bit bus widths are supported only */
+                RT_ASSERT(!(sdio->host->flags & MMCSD_BUSWIDTH_8));
+            }
+            else if (!(sdio->host->flags & (MMCSD_BUSWIDTH_4 | MMCSD_BUSWIDTH_8)))
+            {
+                sdio_crc16_calc_1bit_bus((uint8_t *)pkg->buff + data->blksize, (uint8_t *)pkg->buff, data->blksize);
+                data->blksize += 2;
             }
         }
 
@@ -399,8 +409,21 @@ static void rthw_sdio_request(struct rt_mmcsd_host *host, struct rt_mmcsd_req *r
             RT_ASSERT(size <= SDIO_BUFF_SIZE);
             if (data->flags & DATA_STREAM)
             {
-                /* CRC16 value with a 4-bit bus width requires 8 bytes */
-                RT_ASSERT(size <= (SDIO_BUFF_SIZE - 8));
+                if (host->flags & MMCSD_BUSWIDTH_4)
+                {
+                    /* CRC16 value with a 4-bit bus width requires 8 bytes */
+                    RT_ASSERT(size <= (SDIO_BUFF_SIZE - 8));
+                }
+                else if (host->flags & MMCSD_BUSWIDTH_8)
+                {
+                    /* CRC16 value with a 8-bit bus width requires 16 bytes */
+                    RT_ASSERT(size <= (SDIO_BUFF_SIZE - 16));
+                }
+                else if (!(host->flags & (MMCSD_BUSWIDTH_4 | MMCSD_BUSWIDTH_8)))
+                {
+                    /* CRC16 value with a 1-bit bus width requires 2 bytes */
+                    RT_ASSERT(size <= (SDIO_BUFF_SIZE - 2));
+                }
             }
 
             /* Use an already-aligned cache buffer */
