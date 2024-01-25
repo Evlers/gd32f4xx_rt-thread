@@ -6,8 +6,11 @@
  * Change Logs:
  * Date           Author            Notes
  * 2021-12-20     BruceOu           the first version
+ * 2024-01-25     Evlers            Add accurate frequency calculations
  */
+
 #include "drv_soft_i2c.h"
+#include "delay.h"
 
 #ifdef RT_USING_I2C
 
@@ -18,6 +21,9 @@
 #error "Please define at least one BSP_USING_I2Cx"
 /* this driver can be disabled at menuconfig → RT-Thread Components → Device Drivers */
 #endif
+
+#define KHZ_TO_NS(khz)          (1000000 / khz)
+
 
 static const struct gd32_soft_i2c_config soft_i2c_config[] =
 {
@@ -119,11 +125,8 @@ static rt_int32_t gd32_get_scl(void *data)
   */
 static void gd32_udelay(rt_uint32_t us)
 {
-    int i = ( rcu_clock_freq_get(CK_SYS) / 4000000 * us);
-    while(i)
-    {
-        i--;
-    }
+    /* Minus jump time */
+    delay_ns(us - 1000);
 }
 
 static const struct rt_i2c_bit_ops gd32_bit_ops_default =
@@ -134,7 +137,7 @@ static const struct rt_i2c_bit_ops gd32_bit_ops_default =
     .get_sda  = gd32_get_sda,
     .get_scl  = gd32_get_scl,
     .udelay   = gd32_udelay,
-    .delay_us = 1,
+    .delay_us = KHZ_TO_NS(400), /* 400KHz */
     .timeout  = 100
 };
 
