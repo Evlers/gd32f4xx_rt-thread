@@ -11,13 +11,9 @@ src = Split('''
 board.c
 ''')
 
-# add rw007 spi wifi drivers porting.
-if GetDepend(['PKG_USING_RW007']):
-    src += Glob('ports/rw007_port.c')
+# add ports source files
+src += Glob('ports/*.c')
 
-# add easyflash porting
-if GetDepend(['PKG_USING_EASYFLASH']):
-    src += Glob('ports/ef_fal_port.c')
 
 path =  [cwd]
 path += [cwd + '/ports']

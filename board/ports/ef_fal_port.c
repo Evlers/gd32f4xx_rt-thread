@@ -34,6 +34,8 @@
 #include <rtthread.h>
 #include <fal.h>
 
+#ifdef PKG_USING_EASYFLASH
+
 /* EasyFlash partition name on FAL partition table */
 #define FAL_EF_PART_NAME               "easyflash"
 
@@ -208,3 +210,5 @@ void ef_print(const char *format, ...) {
     rt_kprintf("%s", log_buf);
     va_end(args);
 }
+
+#endif /* PKG_USING_EASYFLASH */
