@@ -507,7 +507,7 @@ static void rthw_sdio_iocfg(struct rt_mmcsd_host *host, struct rt_mmcsd_io_cfg *
         div -= 2;
 
         /* SDIO_CLK IO frequency = SDIOCLK / (DIV[8:0] + 2) */
-        sdio_clock_config(SDIO_SDIOCLKEDGE_FALLING, SDIO_CLOCKBYPASS_DISABLE, SDIO_CLOCKPWRSAVE_DISABLE, div);
+        sdio_clock_config(SDIO_SDIOCLKEDGE_RISING, SDIO_CLOCKBYPASS_DISABLE, SDIO_CLOCKPWRSAVE_DISABLE, div);
     }
 
     if (io_cfg->bus_width == MMCSD_BUS_WIDTH_8)

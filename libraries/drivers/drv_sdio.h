@@ -76,7 +76,7 @@ extern "C" {
 #endif
 
 #ifndef SDIO_MAX_FREQ
-#define SDIO_MAX_FREQ               (16 * 1000 * 1000)
+#define SDIO_MAX_FREQ               (24 * 1000 * 1000)
 #endif
 
 
