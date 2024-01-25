@@ -6,6 +6,7 @@
  * Change Logs:
  * Date           Author       Notes
  * 2021-12-20     BruceOu      first implementation
+ * 2024-01-10     Evlers       add dma supports
  */
 
 #ifndef __DRV_SPI_H__
@@ -18,6 +19,21 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+#define SPI_DMA_TIMEOUT_TIME            200     /* ms */
+#define SPI_USING_RX_DMA_FLAG           (1<<0)
+#define SPI_USING_TX_DMA_FLAG           (1<<1)
+
+struct gd32_spi_dma
+{
+    uint32_t periph;
+    rcu_periph_enum rcu;
+	dma_channel_enum channel;
+	dma_subperipheral_enum subperiph;
+	uint8_t irq;
+
+	rt_sem_t sem_ftf;
+};
 
 /* gd32 spi dirver class */
 struct gd32_spi
@@ -34,6 +50,16 @@ struct gd32_spi
     uint16_t sck_pin;
     uint16_t miso_pin;
     uint16_t mosi_pin;
+
+    rt_uint8_t spi_dma_flag;
+    struct
+    {
+        struct gd32_spi_dma rx;
+        struct gd32_spi_dma tx;
+    } dma;
+
+    /* Save the spi transfer mode configured */
+    uint32_t trans_mode;
 };
 
 rt_err_t rt_hw_spi_device_attach(const char *bus_name, const char *device_name, rt_base_t cs_pin);

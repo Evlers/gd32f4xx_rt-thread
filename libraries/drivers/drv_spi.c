@@ -7,12 +7,15 @@
  * Date           Author       Notes
  * 2021-12-20     BruceOu      first implementation
  * 2023-12-12     Evlers       update the io write of cs
+ * 2024-01-10     Evlers       add dma supports
+ * 2024-01-22     Evlers       add support for half duplex (3-wire mode)
  */
 #include "drv_spi.h"
 
 #ifdef RT_USING_SPI
 
 #if defined(BSP_USING_SPI0) || defined(BSP_USING_SPI1) || defined(BSP_USING_SPI2) || defined(BSP_USING_SPI3) || defined(BSP_USING_SPI4)
+#define DBG_LVL              DBG_INFO
 #define LOG_TAG              "drv.spi"
 
 #include <rtdbg.h>
@@ -33,7 +36,7 @@ static struct rt_spi_bus spi_bus3;
 static struct rt_spi_bus spi_bus4;
 #endif
 
-static const struct gd32_spi spi_bus_obj[] = {
+static struct gd32_spi spi_bus_obj[] = {
 
 #ifdef BSP_USING_SPI0
     {
@@ -49,6 +52,26 @@ static const struct gd32_spi spi_bus_obj[] = {
         GPIO_PIN_5,
         GPIO_PIN_6,
         GPIO_PIN_7,
+#ifdef BSP_SPI0_RX_USING_DMA
+        .dma.rx =
+        {
+            .periph = DMA1,
+            .channel = DMA_CH2,
+            .rcu = RCU_DMA1,
+            .subperiph = DMA_SUBPERI3,
+            .irq = DMA1_Channel2_IRQn,
+        },
+#endif
+#ifdef BSP_SPI0_TX_USING_DMA
+        .dma.tx =
+        {
+            .periph = DMA1,
+            .channel = DMA_CH3,
+            .rcu = RCU_DMA1,
+            .subperiph = DMA_SUBPERI3,
+            .irq = DMA1_Channel3_IRQn,
+        },
+#endif
     },
 #endif /* BSP_USING_SPI0 */
 
@@ -63,9 +86,29 @@ static const struct gd32_spi spi_bus_obj[] = {
 #if defined SOC_SERIES_GD32F4xx
         GPIO_AF_5,
 #endif
-        GPIO_PIN_12,
+        GPIO_PIN_13,
         GPIO_PIN_14,
         GPIO_PIN_15,
+#ifdef BSP_SPI1_RX_USING_DMA
+        .dma.rx =
+        {
+            .periph = DMA0,
+            .channel = DMA_CH3,
+            .rcu = RCU_DMA0,
+            .subperiph = DMA_SUBPERI0,
+            .irq = DMA0_Channel3_IRQn,
+        },
+#endif
+#ifdef BSP_SPI1_TX_USING_DMA
+        .dma.tx =
+        {
+            .periph = DMA0,
+            .channel = DMA_CH4,
+            .rcu = RCU_DMA0,
+            .subperiph = DMA_SUBPERI0,
+            .irq = DMA0_Channel4_IRQn,
+        },
+#endif
     },
 #endif /* BSP_USING_SPI1 */
 
@@ -83,23 +126,63 @@ static const struct gd32_spi spi_bus_obj[] = {
         GPIO_PIN_3,
         GPIO_PIN_4,
         GPIO_PIN_5,
+#ifdef BSP_SPI2_RX_USING_DMA
+        .dma.rx =
+        {
+            .periph = DMA0,
+            .channel = DMA_CH0,
+            .rcu = RCU_DMA0,
+            .subperiph = DMA_SUBPERI0,
+            .irq = DMA0_Channel0_IRQn,
+        },
+#endif
+#ifdef BSP_SPI2_TX_USING_DMA
+        .dma.tx =
+        {
+            .periph = DMA0,
+            .channel = DMA_CH5,
+            .rcu = RCU_DMA0,
+            .subperiph = DMA_SUBPERI0,
+            .irq = DMA0_Channel5_IRQn,
+        },
+#endif
     },
 #endif /* BSP_USING_SPI2 */
 
 #ifdef BSP_USING_SPI3
     {
-        SPI2,
-        "spi2",
+        SPI3,
+        "spi3",
         RCU_SPI3,
         RCU_GPIOE,
         &spi_bus3,
-        GPIOB,
+        GPIOE,
 #if defined SOC_SERIES_GD32F4xx
         GPIO_AF_5,
 #endif
         GPIO_PIN_2,
         GPIO_PIN_5,
         GPIO_PIN_6,
+#ifdef BSP_SPI3_RX_USING_DMA
+        .dma.rx =
+        {
+            .periph = DMA1,
+            .channel = DMA_CH0,
+            .rcu = RCU_DMA1,
+            .subperiph = DMA_SUBPERI4,
+            .irq = DMA1_Channel0_IRQn,
+        },
+#endif
+#ifdef BSP_SPI3_TX_USING_DMA
+        .dma.tx =
+        {
+            .periph = DMA1,
+            .channel = DMA_CH1,
+            .rcu = RCU_DMA1,
+            .subperiph = DMA_SUBPERI4,
+            .irq = DMA1_Channel1_IRQn,
+        },
+#endif
     },
 #endif /* BSP_USING_SPI3 */
 
@@ -117,6 +200,26 @@ static const struct gd32_spi spi_bus_obj[] = {
         GPIO_PIN_7,
         GPIO_PIN_8,
         GPIO_PIN_9,
+#ifdef BSP_SPI4_RX_USING_DMA
+        .dma.rx =
+        {
+            .periph = DMA1,
+            .channel = DMA_CH5,
+            .rcu = RCU_DMA1,
+            .subperiph = DMA_SUBPERI7,
+            .irq = DMA1_Channel5_IRQn,
+        },
+#endif
+#ifdef BSP_SPI4_TX_USING_DMA
+        .dma.tx =
+        {
+            .periph = DMA1,
+            .channel = DMA_CH6,
+            .rcu = RCU_DMA1,
+            .subperiph = DMA_SUBPERI7,
+            .irq = DMA1_Channel6_IRQn,
+        },
+#endif
     }
 #endif /* BSP_USING_SPI4 */
 };
@@ -131,31 +234,462 @@ static struct rt_spi_ops gd32_spi_ops =
     .xfer = spixfer,
 };
 
-/**
-* @brief SPI Initialization
-* @param gd32_spi: SPI BUS
-* @retval None
-*/
-static void gd32_spi_init(struct gd32_spi *gd32_spi)
+static void stm32_get_dma_info(void)
 {
-    /* enable SPI clock */
-    rcu_periph_clock_enable(gd32_spi->spi_clk);
-    rcu_periph_clock_enable(gd32_spi->gpio_clk);
-
-#if defined SOC_SERIES_GD32F4xx
-    /*GPIO pin configuration*/
-    gpio_af_set(gd32_spi->spi_port, gd32_spi->alt_func_num, gd32_spi->sck_pin | gd32_spi->mosi_pin | gd32_spi->miso_pin);
-
-    gpio_mode_set(gd32_spi->spi_port, GPIO_MODE_AF, GPIO_PUPD_NONE, gd32_spi->sck_pin | gd32_spi->mosi_pin | gd32_spi->miso_pin);
-    gpio_output_options_set(gd32_spi->spi_port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, gd32_spi->sck_pin | gd32_spi->mosi_pin | gd32_spi->miso_pin);
-#else
-    /* Init SPI SCK MOSI */
-    gpio_init(gd32_spi->spi_port, GPIO_MODE_AF_PP, GPIO_OSPEED_50MHZ, gd32_spi->sck_pin | gd32_spi->mosi_pin);
-
-    /* Init SPI MISO */
-    gpio_init(gd32_spi->spi_port, GPIO_MODE_IN_FLOATING, GPIO_OSPEED_50MHZ, gd32_spi->miso_pin);
+#ifdef BSP_SPI0_RX_USING_DMA
+    spi_bus_obj[0].spi_dma_flag |= SPI_USING_RX_DMA_FLAG;
 #endif
 
+#ifdef BSP_SPI0_TX_USING_DMA
+    spi_bus_obj[0].spi_dma_flag |= SPI_USING_TX_DMA_FLAG;
+#endif
+
+#ifdef BSP_SPI1_RX_USING_DMA
+    spi_bus_obj[1].spi_dma_flag |= SPI_USING_RX_DMA_FLAG;
+#endif
+
+#ifdef BSP_SPI1_TX_USING_DMA
+    spi_bus_obj[1].spi_dma_flag |= SPI_USING_TX_DMA_FLAG;
+#endif
+
+#ifdef BSP_SPI2_RX_USING_DMA
+    spi_bus_obj[2].spi_dma_flag |= SPI_USING_RX_DMA_FLAG;
+#endif
+
+#ifdef BSP_SPI2_TX_USING_DMA
+    spi_bus_obj[2].spi_dma_flag |= SPI_USING_TX_DMA_FLAG;
+#endif
+
+#ifdef BSP_SPI3_RX_USING_DMA
+    spi_bus_obj[3].spi_dma_flag |= SPI_USING_RX_DMA_FLAG;
+#endif
+
+#ifdef BSP_SPI3_TX_USING_DMA
+    spi_bus_obj[3].spi_dma_flag |= SPI_USING_TX_DMA_FLAG;
+#endif
+
+#ifdef BSP_SPI4_RX_USING_DMA
+    spi_bus_obj[4].spi_dma_flag |= SPI_USING_RX_DMA_FLAG;
+#endif
+
+#ifdef BSP_SPI4_TX_USING_DMA
+    spi_bus_obj[4].spi_dma_flag |= SPI_USING_TX_DMA_FLAG;
+#endif
+}
+
+#if defined(BSP_SPI0_RX_USING_DMA) || defined(BSP_SPI0_TX_USING_DMA) || \
+    defined(BSP_SPI1_RX_USING_DMA) || defined(BSP_SPI1_TX_USING_DMA) || \
+    defined(BSP_SPI2_RX_USING_DMA) || defined(BSP_SPI2_TX_USING_DMA) || \
+    defined(BSP_SPI3_RX_USING_DMA) || defined(BSP_SPI3_TX_USING_DMA) || \
+    defined(BSP_SPI4_RX_USING_DMA) || defined(BSP_SPI4_TX_USING_DMA)
+static void dma_interrupt (uint32_t periph, dma_channel_enum channel)
+{
+    for (int i = 0; i < (sizeof(spi_bus_obj) / sizeof(spi_bus_obj[0])); i ++)
+    {
+        if (spi_bus_obj[i].dma.rx.periph == periph && spi_bus_obj[i].dma.rx.channel == channel)
+        {
+            if (dma_interrupt_flag_get(spi_bus_obj[i].dma.rx.periph, spi_bus_obj[i].dma.rx.channel, DMA_INT_FLAG_FTF))
+            {
+                dma_interrupt_flag_clear(spi_bus_obj[i].dma.rx.periph, spi_bus_obj[i].dma.rx.channel, DMA_INT_FLAG_FTF);
+                if (spi_bus_obj[i].dma.rx.sem_ftf != NULL)
+                {
+                    /* If in half-duplex mode, stop the Rx clock */
+                    if (spi_bus_obj[i].trans_mode == SPI_TRANSMODE_BDTRANSMIT)
+                    {
+                        /* Set Tx mode to stop the Rx clock */
+                        spi_bidirectional_transfer_config(spi_bus_obj[i].spi_periph, SPI_BIDIRECTIONAL_TRANSMIT);
+                    }
+                    rt_interrupt_enter();
+                    rt_sem_release(spi_bus_obj[i].dma.rx.sem_ftf);
+                    rt_interrupt_leave();
+                    return ;
+                }
+            }
+        }
+
+        if (spi_bus_obj[i].dma.tx.periph == periph && spi_bus_obj[i].dma.tx.channel == channel)
+        {
+            if (dma_interrupt_flag_get(spi_bus_obj[i].dma.tx.periph, spi_bus_obj[i].dma.tx.channel, DMA_INT_FLAG_FTF))
+            {
+                dma_interrupt_flag_clear(spi_bus_obj[i].dma.tx.periph, spi_bus_obj[i].dma.tx.channel, DMA_INT_FLAG_FTF);
+                if (spi_bus_obj[i].dma.tx.sem_ftf != NULL)
+                {
+                    rt_interrupt_enter();
+                    rt_sem_release(spi_bus_obj[i].dma.tx.sem_ftf);
+                    rt_interrupt_leave();
+                    return ;
+                }
+            }
+        }
+    }
+}
+#endif
+
+#ifdef BSP_SPI2_RX_USING_DMA
+void DMA0_Channel0_IRQHandler (void)
+{
+    dma_interrupt(DMA0, DMA_CH0);
+}
+#endif
+
+#ifdef BSP_SPI1_RX_USING_DMA
+void DMA0_Channel3_IRQHandler (void)
+{
+    dma_interrupt(DMA0, DMA_CH3);
+}
+#endif
+
+#ifdef BSP_SPI1_TX_USING_DMA
+void DMA0_Channel4_IRQHandler (void)
+{
+    dma_interrupt(DMA0, DMA_CH4);
+}
+#endif
+
+#ifdef BSP_SPI2_TX_USING_DMA
+void DMA0_Channel5_IRQHandler (void)
+{
+    dma_interrupt(DMA0, DMA_CH5);
+}
+#endif
+
+#ifdef BSP_SPI3_RX_USING_DMA
+void DMA1_Channel0_IRQHandler (void)
+{
+    dma_interrupt(DMA1, DMA_CH0);
+}
+#endif
+
+#ifdef BSP_SPI3_TX_USING_DMA
+void DMA1_Channel1_IRQHandler (void)
+{
+    dma_interrupt(DMA1, DMA_CH1);
+}
+#endif
+
+#ifdef BSP_SPI0_RX_USING_DMA
+void DMA1_Channel2_IRQHandler (void)
+{
+    dma_interrupt(DMA1, DMA_CH2);
+}
+#endif
+
+#ifdef BSP_SPI0_TX_USING_DMA
+void DMA1_Channel3_IRQHandler (void)
+{
+    dma_interrupt(DMA1, DMA_CH3);
+}
+#endif
+
+#ifdef BSP_SPI4_RX_USING_DMA
+void DMA1_Channel5_IRQHandler (void)
+{
+    dma_interrupt(DMA1, DMA_CH5);
+}
+#endif
+
+#ifdef BSP_SPI4_TX_USING_DMA
+void DMA1_Channel6_IRQHandler (void)
+{
+    dma_interrupt(DMA1, DMA_CH6);
+}
+#endif
+
+static void gd32_spi_dma_config (struct gd32_spi *gd32_spi, rt_uint8_t data_width)
+{
+    dma_single_data_parameter_struct dma_init_struct = { 0 };
+
+    dma_init_struct.periph_addr         = (uint32_t)&SPI_DATA(gd32_spi->spi_periph);
+    dma_init_struct.periph_memory_width = data_width <= 8 ? DMA_PERIPH_WIDTH_8BIT : DMA_PERIPH_WIDTH_16BIT;
+    dma_init_struct.periph_inc          = DMA_PERIPH_INCREASE_DISABLE;
+    dma_init_struct.memory_inc          = DMA_MEMORY_INCREASE_ENABLE;
+    dma_init_struct.circular_mode       = DMA_CIRCULAR_MODE_DISABLE;
+
+    if (gd32_spi->spi_dma_flag & SPI_USING_RX_DMA_FLAG)
+    {
+        /* clear all the interrupt flags */
+        dma_flag_clear(gd32_spi->dma.rx.periph, gd32_spi->dma.rx.channel, DMA_FLAG_FEE);
+        dma_flag_clear(gd32_spi->dma.rx.periph, gd32_spi->dma.rx.channel, DMA_FLAG_SDE);
+        dma_flag_clear(gd32_spi->dma.rx.periph, gd32_spi->dma.rx.channel, DMA_FLAG_TAE);
+        dma_flag_clear(gd32_spi->dma.rx.periph, gd32_spi->dma.rx.channel, DMA_FLAG_HTF);
+        dma_flag_clear(gd32_spi->dma.rx.periph, gd32_spi->dma.rx.channel, DMA_FLAG_FTF);
+        dma_channel_disable(gd32_spi->dma.rx.periph, gd32_spi->dma.rx.channel);
+        dma_deinit(gd32_spi->dma.rx.periph, gd32_spi->dma.rx.channel);
+
+        /* configure SPI receive DMA */
+        rcu_periph_clock_enable(gd32_spi->dma.rx.rcu);
+
+        dma_deinit(gd32_spi->dma.rx.periph, gd32_spi->dma.rx.channel);
+        dma_init_struct.direction           = DMA_PERIPH_TO_MEMORY;
+        dma_init_struct.priority            = DMA_PRIORITY_HIGH;
+        dma_single_data_mode_init(gd32_spi->dma.rx.periph, gd32_spi->dma.rx.channel, &dma_init_struct);
+        dma_channel_subperipheral_select(gd32_spi->dma.rx.periph, gd32_spi->dma.rx.channel, gd32_spi->dma.rx.subperiph);
+
+        if (gd32_spi->dma.rx.irq != NULL)
+        {
+            nvic_irq_enable(gd32_spi->dma.rx.irq, 2, 0);
+            dma_interrupt_enable(gd32_spi->dma.rx.periph, gd32_spi->dma.rx.channel, DMA_CHXCTL_FTFIE);
+        }
+
+        dma_channel_disable(gd32_spi->dma.rx.periph, gd32_spi->dma.rx.channel);
+
+        if (gd32_spi->dma.rx.sem_ftf == NULL)
+        {
+            gd32_spi->dma.rx.sem_ftf = rt_sem_create("spi dma rx", 0, RT_IPC_FLAG_PRIO);
+            RT_ASSERT(gd32_spi->dma.rx.sem_ftf);
+        }
+    }
+    
+    if (gd32_spi->spi_dma_flag & SPI_USING_TX_DMA_FLAG)
+    {
+        /* clear all the interrupt flags */
+        dma_flag_clear(gd32_spi->dma.tx.periph, gd32_spi->dma.tx.channel, DMA_FLAG_FEE);
+        dma_flag_clear(gd32_spi->dma.tx.periph, gd32_spi->dma.tx.channel, DMA_FLAG_SDE);
+        dma_flag_clear(gd32_spi->dma.tx.periph, gd32_spi->dma.tx.channel, DMA_FLAG_TAE);
+        dma_flag_clear(gd32_spi->dma.tx.periph, gd32_spi->dma.tx.channel, DMA_FLAG_HTF);
+        dma_flag_clear(gd32_spi->dma.tx.periph, gd32_spi->dma.tx.channel, DMA_FLAG_FTF);
+        dma_channel_disable(gd32_spi->dma.tx.periph, gd32_spi->dma.tx.channel);
+        dma_deinit(gd32_spi->dma.tx.periph, gd32_spi->dma.tx.channel);
+
+        /* configure SPI transmit DMA */
+        rcu_periph_clock_enable(gd32_spi->dma.tx.rcu);
+
+        dma_deinit(gd32_spi->dma.tx.periph, gd32_spi->dma.tx.channel);
+        dma_init_struct.direction           = DMA_MEMORY_TO_PERIPH;
+        dma_init_struct.priority            = DMA_PRIORITY_LOW;
+        dma_single_data_mode_init(gd32_spi->dma.tx.periph, gd32_spi->dma.tx.channel, &dma_init_struct);
+        dma_channel_subperipheral_select(gd32_spi->dma.tx.periph, gd32_spi->dma.tx.channel, gd32_spi->dma.tx.subperiph);
+
+        if (gd32_spi->dma.tx.irq != NULL)
+        {
+            nvic_irq_enable(gd32_spi->dma.tx.irq, 2, 0);
+            dma_interrupt_enable(gd32_spi->dma.tx.periph, gd32_spi->dma.tx.channel, DMA_CHXCTL_FTFIE);
+        }
+
+        dma_channel_disable(gd32_spi->dma.tx.periph, gd32_spi->dma.tx.channel);
+
+        if (gd32_spi->dma.tx.sem_ftf == NULL)
+        {
+            gd32_spi->dma.tx.sem_ftf = rt_sem_create("spi dma tx", 0, RT_IPC_FLAG_PRIO);
+            RT_ASSERT(gd32_spi->dma.tx.sem_ftf);
+        }
+    }
+}
+
+static void spi_dma_exchange(struct rt_spi_device* device, struct rt_spi_message* message)
+{
+    struct rt_spi_bus * gd32_spi_bus = (struct rt_spi_bus *)device->bus;
+    struct gd32_spi *spi_device = (struct gd32_spi *)gd32_spi_bus->parent.user_data;
+
+    LOG_D("spi dma transfer start: %d\n", size);
+
+    if (message->send_buf && message->recv_buf)
+    {
+        /* Set the data length and data pointer */
+        DMA_CHM0ADDR(spi_device->dma.rx.periph, spi_device->dma.rx.channel) = (uint32_t)message->recv_buf;
+        DMA_CHM0ADDR(spi_device->dma.tx.periph, spi_device->dma.tx.channel) = (uint32_t)message->send_buf;
+        DMA_CHCNT(spi_device->dma.rx.periph, spi_device->dma.rx.channel) = message->length;
+        DMA_CHCNT(spi_device->dma.tx.periph, spi_device->dma.tx.channel) = message->length;
+
+        /* Enable DMA transfer */
+        dma_channel_enable(spi_device->dma.rx.periph, spi_device->dma.rx.channel);
+        dma_channel_enable(spi_device->dma.tx.periph, spi_device->dma.tx.channel);
+        spi_dma_enable(spi_device->spi_periph, SPI_DMA_RECEIVE);
+        spi_dma_enable(spi_device->spi_periph, SPI_DMA_TRANSMIT);
+
+        /* Wait for transmission to complete */
+        rt_sem_take(spi_device->dma.rx.sem_ftf, rt_tick_from_millisecond(SPI_DMA_TIMEOUT_TIME));
+        rt_sem_take(spi_device->dma.tx.sem_ftf, rt_tick_from_millisecond(SPI_DMA_TIMEOUT_TIME));
+
+        /* Disable dma and spi */
+        dma_channel_disable(spi_device->dma.rx.periph, spi_device->dma.rx.channel);
+        dma_channel_disable(spi_device->dma.tx.periph, spi_device->dma.tx.channel);
+        spi_dma_disable(spi_device->spi_periph, SPI_DMA_RECEIVE);
+        spi_dma_disable(spi_device->spi_periph, SPI_DMA_TRANSMIT);
+    }
+    else if (message->send_buf)
+    {
+        /* Set the data length and data pointer */
+        DMA_CHM0ADDR(spi_device->dma.tx.periph, spi_device->dma.tx.channel) = (uint32_t)message->send_buf;
+        DMA_CHCNT(spi_device->dma.tx.periph, spi_device->dma.tx.channel) = message->length;
+
+        /* Enable DMA transfer */
+        dma_channel_enable(spi_device->dma.tx.periph, spi_device->dma.tx.channel);
+        spi_dma_enable(spi_device->spi_periph, SPI_DMA_TRANSMIT);
+
+        /* Wait for transmission to complete */
+        rt_sem_take(spi_device->dma.tx.sem_ftf, rt_tick_from_millisecond(SPI_DMA_TIMEOUT_TIME));
+
+        /* Wait for the last data transfer to complete */
+        while (RESET != spi_i2s_flag_get(spi_device->spi_periph, SPI_FLAG_TRANS));
+
+        /* Disable dma and spi */
+        dma_channel_disable(spi_device->dma.tx.periph, spi_device->dma.tx.channel);
+        spi_dma_disable(spi_device->spi_periph, SPI_DMA_TRANSMIT);
+    }
+    else
+    {
+        uint16_t data = ~0;
+
+        /* Set the data length and data pointer */
+        DMA_CHM0ADDR(spi_device->dma.rx.periph, spi_device->dma.rx.channel) = (uint32_t)message->recv_buf;
+        DMA_CHCNT(spi_device->dma.rx.periph, spi_device->dma.rx.channel) = message->length;
+
+        /* Enable DMA transfer */
+        dma_channel_enable(spi_device->dma.rx.periph, spi_device->dma.rx.channel);
+        spi_dma_enable(spi_device->spi_periph, SPI_DMA_RECEIVE);
+
+        /* In full-duplex mode, you need to configure transmission dma */
+        if (spi_device->trans_mode == SPI_TRANSMODE_FULLDUPLEX)
+        {
+            /* Set the data length and data pointer */
+            DMA_CHM0ADDR(spi_device->dma.tx.periph, spi_device->dma.tx.channel) = (uint32_t)(&data);
+            DMA_CHCNT(spi_device->dma.tx.periph, spi_device->dma.tx.channel) = message->length;
+            dma_memory_address_generation_config(spi_device->dma.tx.periph, spi_device->dma.tx.channel, DMA_MEMORY_INCREASE_DISABLE);
+
+            /* Enable DMA transfer */
+            dma_channel_enable(spi_device->dma.tx.periph, spi_device->dma.tx.channel);
+            spi_dma_enable(spi_device->spi_periph, SPI_DMA_TRANSMIT);
+
+            /* Wait for receive to complete */
+            rt_sem_take(spi_device->dma.tx.sem_ftf, rt_tick_from_millisecond(SPI_DMA_TIMEOUT_TIME));
+        }
+        else if (spi_device->trans_mode == SPI_TRANSMODE_BDTRANSMIT)
+        {
+            /* Set Rx mode to start the Rx clock */
+            spi_bidirectional_transfer_config(spi_device->spi_periph, SPI_BIDIRECTIONAL_RECEIVE);
+        }
+
+        /* Wait for transmission to complete */
+        rt_sem_take(spi_device->dma.rx.sem_ftf, rt_tick_from_millisecond(SPI_DMA_TIMEOUT_TIME));
+
+        /* Disable dma and spi */
+        dma_channel_disable(spi_device->dma.rx.periph, spi_device->dma.rx.channel);
+        spi_dma_disable(spi_device->spi_periph, SPI_DMA_RECEIVE);
+        
+        if (spi_device->trans_mode == SPI_TRANSMODE_FULLDUPLEX)
+        {
+            dma_channel_disable(spi_device->dma.tx.periph, spi_device->dma.tx.channel);
+            spi_dma_disable(spi_device->spi_periph, SPI_DMA_TRANSMIT);
+            dma_memory_address_generation_config(spi_device->dma.tx.periph, spi_device->dma.tx.channel, DMA_MEMORY_INCREASE_ENABLE);
+        }
+    }
+
+    LOG_D("spi dma transfer finsh\n");
+}
+
+static void spi_exchange(struct rt_spi_device* device, struct rt_spi_message* message)
+{
+    struct rt_spi_bus * gd32_spi_bus = (struct rt_spi_bus *)device->bus;
+    struct gd32_spi *spi_device = (struct gd32_spi *)gd32_spi_bus->parent.user_data;
+    struct rt_spi_configuration * config = &device->config;
+    uint32_t spi_periph = spi_device->spi_periph;
+
+    LOG_D("spi poll transfer start: %d\n", size);
+
+    /* Set the transmission direction of half duplex */
+    if (spi_device->trans_mode == SPI_TRANSMODE_BDTRANSMIT && message->recv_buf != RT_NULL)
+    {
+        /* Clear receive buffer */
+        while (RESET != spi_i2s_flag_get(spi_periph, SPI_FLAG_RBNE))
+        {
+            uint16_t data = spi_i2s_data_receive(spi_periph);
+        }
+
+        /* Set Rx mode to start the Rx clock */
+        spi_bidirectional_transfer_config(spi_periph, SPI_BIDIRECTIONAL_RECEIVE);
+    }
+
+    if (config->data_width <= 8)
+    {
+        const rt_uint8_t *send_ptr = message->send_buf;
+        rt_uint8_t *recv_ptr = message->recv_buf;
+        rt_uint32_t size = message->length;
+
+        while (size--)
+        {
+            rt_uint8_t data = ~0;
+
+            if(send_ptr != RT_NULL)
+            {
+                data = *send_ptr++;
+            }
+
+            /* Todo: replace register read/write by gd32f4 lib */
+            if ((spi_device->trans_mode == SPI_TRANSMODE_FULLDUPLEX) || 
+                (spi_device->trans_mode == SPI_TRANSMODE_BDTRANSMIT && message->send_buf != RT_NULL))
+            {
+                /* Send the byte */
+                spi_i2s_data_transmit(spi_periph, data);
+                /* Wait until the transmit buffer is empty */
+                while (RESET == spi_i2s_flag_get(spi_periph, SPI_FLAG_TBE));
+            }
+
+            if ((spi_device->trans_mode == SPI_TRANSMODE_FULLDUPLEX) || 
+                (spi_device->trans_mode == SPI_TRANSMODE_BDTRANSMIT && message->recv_buf != RT_NULL))
+            {
+                /* Wait until a data is received */
+                while (RESET == spi_i2s_flag_get(spi_periph, SPI_FLAG_RBNE));
+                /* Get the received data */
+                data = spi_i2s_data_receive(spi_periph);
+            }
+
+            if (recv_ptr != RT_NULL)
+            {
+                *recv_ptr++ = data;
+            }
+        }
+    }
+    else if (config->data_width <= 16)
+    {
+        const rt_uint16_t * send_ptr = message->send_buf;
+        rt_uint16_t * recv_ptr = message->recv_buf;
+        rt_uint32_t size = message->length;
+
+        while (size--)
+        {
+            rt_uint16_t data = ~0;
+
+            if (send_ptr != RT_NULL)
+            {
+                data = *send_ptr++;
+            }
+
+            if ((spi_device->trans_mode == SPI_TRANSMODE_FULLDUPLEX) || 
+                (spi_device->trans_mode == SPI_TRANSMODE_BDTRANSMIT && message->send_buf != RT_NULL))
+            {
+                /* Send the short */
+                spi_i2s_data_transmit(spi_periph, data);
+                /* Wait until the transmit buffer is empty */
+                while (RESET == spi_i2s_flag_get(spi_periph, SPI_FLAG_TBE));
+            }
+
+            if ((spi_device->trans_mode == SPI_TRANSMODE_FULLDUPLEX) || 
+                (spi_device->trans_mode == SPI_TRANSMODE_BDTRANSMIT && message->recv_buf != RT_NULL))
+            {
+                /* Wait until a data is received */
+                while (RESET == spi_i2s_flag_get(spi_periph, SPI_FLAG_RBNE));
+                /* Get the received data */
+                data = spi_i2s_data_receive(spi_periph);
+            }
+
+            if (recv_ptr != RT_NULL)
+            {
+                *recv_ptr++ = data;
+            }
+        }
+    }
+
+    if (spi_device->trans_mode == SPI_TRANSMODE_BDTRANSMIT && message->recv_buf != RT_NULL)
+    {
+        /* Set Tx mode to stop the Rx clock */
+        spi_bidirectional_transfer_config(spi_periph, SPI_BIDIRECTIONAL_TRANSMIT);
+    }
+
+    /* Wait for the last data transfer to complete */
+    while (RESET != spi_i2s_flag_get(spi_periph, SPI_FLAG_TRANS));
+
+    LOG_D("spi poll transfer finsh\n");
 }
 
 static rt_err_t spi_configure(struct rt_spi_device* device,
@@ -169,8 +703,39 @@ static rt_err_t spi_configure(struct rt_spi_device* device,
     RT_ASSERT(device != RT_NULL);
     RT_ASSERT(configuration != RT_NULL);
 
-    //Init SPI
-    gd32_spi_init(spi_device);
+    /* enable SPI clock */
+    rcu_periph_clock_enable(spi_device->spi_clk);
+    rcu_periph_clock_enable(spi_device->gpio_clk);
+
+#if defined SOC_SERIES_GD32F4xx
+    /* GPIO pin configuration */
+    gpio_af_set(spi_device->spi_port, spi_device->alt_func_num, spi_device->sck_pin | spi_device->mosi_pin);
+
+    gpio_mode_set(spi_device->spi_port, GPIO_MODE_AF, GPIO_PUPD_NONE, spi_device->sck_pin | spi_device->mosi_pin);
+    gpio_output_options_set(spi_device->spi_port, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, spi_device->sck_pin | spi_device->mosi_pin);
+
+    if (!(configuration->mode & RT_SPI_3WIRE))
+    {
+        gpio_af_set(spi_device->spi_port, spi_device->alt_func_num, spi_device->miso_pin);
+        gpio_mode_set(spi_device->spi_port, GPIO_MODE_AF, GPIO_PUPD_NONE, spi_device->miso_pin);
+        gpio_output_options_set(spi_device->spi_port, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, spi_device->miso_pin);
+    }
+#else
+    /* Init SPI SCK MOSI */
+    gpio_init(spi_device->spi_port, GPIO_MODE_AF_PP, GPIO_OSPEED_MAX, spi_device->sck_pin | spi_device->mosi_pin);
+
+    /* Init SPI MISO */
+    if (!(configuration->mode & RT_SPI_3WIRE))
+    {
+        gpio_init(spi_device->spi_port, GPIO_MODE_IN_FLOATING, GPIO_OSPEED_MAX, spi_device->miso_pin);
+    }
+#endif
+
+    /* init DMA */
+    if (spi_device->spi_dma_flag)
+    {
+        gd32_spi_dma_config(spi_device, configuration->data_width);
+    }
 
     /* data_width */
     if(configuration->data_width <= 8)
@@ -269,9 +834,19 @@ static rt_err_t spi_configure(struct rt_spi_device* device,
         spi_init_struct.endian = SPI_ENDIAN_LSB;
     }
 
-    spi_init_struct.trans_mode = SPI_TRANSMODE_FULLDUPLEX;
+    /* Full duplex or half duplex */
+    if (configuration->mode & RT_SPI_3WIRE)
+    {
+        spi_init_struct.trans_mode = SPI_TRANSMODE_BDTRANSMIT;
+    }
+    else
+    {
+        spi_init_struct.trans_mode = SPI_TRANSMODE_FULLDUPLEX;
+    }
+
     spi_init_struct.device_mode = SPI_MASTER;
     spi_init_struct.nss = SPI_NSS_SOFT;
+    spi_device->trans_mode = spi_init_struct.trans_mode;
 
     spi_crc_off(spi_periph);
 
@@ -287,8 +862,6 @@ static rt_ssize_t spixfer(struct rt_spi_device* device, struct rt_spi_message* m
 {
     struct rt_spi_bus * gd32_spi_bus = (struct rt_spi_bus *)device->bus;
     struct gd32_spi *spi_device = (struct gd32_spi *)gd32_spi_bus->parent.user_data;
-    struct rt_spi_configuration * config = &device->config;
-    uint32_t spi_periph = spi_device->spi_periph;
 
     RT_ASSERT(device != NULL);
     RT_ASSERT(message != NULL);
@@ -300,72 +873,40 @@ static rt_ssize_t spixfer(struct rt_spi_device* device, struct rt_spi_message* m
         LOG_D("spi take cs\n");
     }
 
+    if (message->send_buf && message->recv_buf)
     {
-        if(config->data_width <= 8)
+        /* Data can be exchanged only in full duplex mode */
+        RT_ASSERT(spi_device->trans_mode == SPI_TRANSMODE_FULLDUPLEX);
+
+        if ((spi_device->spi_dma_flag & SPI_USING_RX_DMA_FLAG) && (spi_device->spi_dma_flag & SPI_USING_TX_DMA_FLAG))
         {
-            const rt_uint8_t * send_ptr = message->send_buf;
-            rt_uint8_t * recv_ptr = message->recv_buf;
-            rt_uint32_t size = message->length;
-
-            LOG_D("spi poll transfer start: %d\n", size);
-
-            while(size--)
-            {
-                rt_uint8_t data = 0xFF;
-
-                if(send_ptr != RT_NULL)
-                {
-                    data = *send_ptr++;
-                }
-
-                // Todo: replace register read/write by gd32f4 lib
-                //Wait until the transmit buffer is empty
-                while(RESET == spi_i2s_flag_get(spi_periph, SPI_FLAG_TBE));
-                // Send the byte
-                spi_i2s_data_transmit(spi_periph, data);
-
-                //Wait until a data is received
-                while(RESET == spi_i2s_flag_get(spi_periph, SPI_FLAG_RBNE));
-                // Get the received data
-                data = spi_i2s_data_receive(spi_periph);
-
-                if(recv_ptr != RT_NULL)
-                {
-                    *recv_ptr++ = data;
-                }
-            }
-            LOG_D("spi poll transfer finsh\n");
+            spi_dma_exchange(device, message);
         }
-        else if(config->data_width <= 16)
+        else
         {
-            const rt_uint16_t * send_ptr = message->send_buf;
-            rt_uint16_t * recv_ptr = message->recv_buf;
-            rt_uint32_t size = message->length;
-
-            while(size--)
-            {
-                rt_uint16_t data = 0xFF;
-
-                if(send_ptr != RT_NULL)
-                {
-                    data = *send_ptr++;
-                }
-
-                //Wait until the transmit buffer is empty
-                while(RESET == spi_i2s_flag_get(spi_periph, SPI_FLAG_TBE));
-                // Send the byte
-                spi_i2s_data_transmit(spi_periph, data);
-
-                //Wait until a data is received
-                while(RESET == spi_i2s_flag_get(spi_periph, SPI_FLAG_RBNE));
-                // Get the received data
-                data = spi_i2s_data_receive(spi_periph);
-
-                if(recv_ptr != RT_NULL)
-                {
-                    *recv_ptr++ = data;
-                }
-            }
+            spi_exchange(device, message);
+        }
+    }
+    else if (message->send_buf)
+    {
+        if (spi_device->spi_dma_flag & SPI_USING_TX_DMA_FLAG)
+        {
+            spi_dma_exchange(device, message);
+        }
+        else
+        {
+            spi_exchange(device, message);
+        }
+    }
+    else
+    {
+        if (spi_device->spi_dma_flag & SPI_USING_RX_DMA_FLAG)
+        {
+            spi_dma_exchange(device, message);
+        }
+        else
+        {
+            spi_exchange(device, message);
         }
     }
 
@@ -419,6 +960,8 @@ int rt_hw_spi_init(void)
 {
     int result = 0;
     int i;
+
+    stm32_get_dma_info();
 
     for (i = 0; i < sizeof(spi_bus_obj) / sizeof(spi_bus_obj[0]); i++)
     {
