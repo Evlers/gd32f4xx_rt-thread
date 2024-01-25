@@ -1,26 +1,16 @@
 /*
- * Copyright (c) 2006-2023, RT-Thread Development Team
+ * Copyright (c) 2006-2023, Evlers Developers
  *
  * SPDX-License-Identifier: Apache-2.0
  *
  * Change Logs:
- * Date           Author       Notes
- * 2021-08-20     BruceOu      first implementation
- * 2023-03-05     yuanzihao    change the LED pins
+ * Date         Author      Notes
+ * 2024-01-11   Evlers      first implementation
  */
 
 #include <stdio.h>
 #include <rtthread.h>
-#include <rtdevice.h>
 #include <board.h>
-
-#include "fal.h"
-#include "dfs_fs.h"
-#include "easyflash.h"
-
-#define DBG_TAG             "main"
-#define DBG_LVL             DBG_INFO
-#include "rtdbg.h"
 
 /* defined the LED_R pin: PE7 */
 #define LED1_PIN GET_PIN(E, 7)
