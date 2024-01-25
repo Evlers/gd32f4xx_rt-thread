@@ -6,7 +6,7 @@
 
 /* RT-Thread Kernel */
 
-#define RT_NAME_MAX 8
+#define RT_NAME_MAX 16
 #define RT_ALIGN_SIZE 8
 #define RT_THREAD_PRIORITY_32
 #define RT_THREAD_PRIORITY_MAX 32
@@ -47,7 +47,7 @@
 #define RT_USING_DEVICE
 #define RT_USING_CONSOLE
 #define RT_CONSOLEBUF_SIZE 128
-#define RT_CONSOLE_DEVICE_NAME "uart2"
+#define RT_CONSOLE_DEVICE_NAME "uart0"
 #define RT_VER_NUM 0x50000
 
 /* RT-Thread Components */
@@ -110,6 +110,12 @@
 #define RT_USING_PIN
 #define RT_USING_MTD_NOR
 #define RT_USING_RTC
+#define RT_USING_SDIO
+#define RT_SDIO_STACK_SIZE 4096
+#define RT_SDIO_THREAD_PRIORITY 15
+#define RT_MMCSD_STACK_SIZE 4096
+#define RT_MMCSD_THREAD_PREORITY 22
+#define RT_MMCSD_MAX_PARTITION 16
 #define RT_USING_SPI
 #define RT_USING_WIFI
 #define RT_WLAN_DEVICE_STA_NAME "wlan0"
@@ -122,6 +128,7 @@
 #define RT_WLAN_CONNECT_WAIT_MS 10000
 #define RT_WLAN_SCAN_SORT
 #define RT_WLAN_MSH_CMD_ENABLE
+#define RT_WLAN_JOIN_SCAN_BY_MGNT
 #define RT_WLAN_AUTO_CONNECT_ENABLE
 #define AUTO_CONNECTION_PERIOD_MS 2000
 #define RT_WLAN_CFG_ENABLE
@@ -218,6 +225,9 @@
 #define LWIP_SO_LINGER 0
 #define LWIP_NETIF_LOOPBACK 0
 #define RT_LWIP_USING_PING
+#define LWIP_USING_DHCPD
+#define DHCPD_SERVER_IP "192.168.20.1"
+#define DHCPD_USING_ROUTER
 
 /* Utilities */
 
@@ -248,10 +258,6 @@
 
 /* Wiced WiFi */
 
-#define PKG_USING_RW007
-#define PKG_USING_RW007_LATEST_VERSION
-#define RW007_NOT_USE_EXAMPLE_DRIVERS
-#define RW007_SPI_MAX_HZ 30000000
 
 /* CYW43012 WiFi */
 
@@ -398,6 +404,17 @@
 
 /* Uncategorized */
 
+/* External Libraries */
+
+#define RT_USING_WHD
+#define CY_WIFI_WHD_THREAD_PRIORITY 8
+#define CY_WIFI_WHD_THREAD_STACK_SIZE 8192
+#define WHD_USING_CHIP_CYW43438
+#define CYBSP_REG_ON_PIN 49
+#define CYBSP_HOST_WAKE_IRQ_PIN 37
+#define CYBSP_HOST_WAKE_IRQ_EVENT_FALL
+#define CYBSP_OOB_INTR_PRIORITY 2
+
 /* Hardware Drivers Config */
 
 #define SOC_SERIES_GD32F4xx
@@ -409,14 +426,11 @@
 
 #define BSP_USING_GPIO
 #define BSP_USING_UART
-#define BSP_USING_UART2
-#define BSP_USING_UART3
-#define BSP_USING_SPI
-#define BSP_USING_SPI2
+#define BSP_USING_UART0
+#define BSP_USING_SDIO
 #define BSP_USING_ON_CHIP_FLASH
 
 /* Board extended module Drivers */
 
-#define RW007_USING_POWER_MANAGE
 
 #endif
