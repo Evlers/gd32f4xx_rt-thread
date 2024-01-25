@@ -6,6 +6,7 @@
  * Change Logs:
  * Date           Author       Notes
  * 2021-08-20     BruceOu      first implementation
+ * 2024-01-25     Evlers       For GD32F427VI chip
  */
 #ifndef __BOARD_H__
 #define __BOARD_H__
@@ -17,7 +18,7 @@
 #include "gd32f4xx_exti.h"
 
 #define GD32_FLASH_START_ADRESS         ((uint32_t)0x08000000)
-#define GD32_FLASH_SIZE                 (2024 * 1024)
+#define GD32_FLASH_SIZE                 (2048 * 1024)
 #define GD32_FLASH_PAGE_SIZE            (4 * 1024)
 #define GD32_FLASH_END_ADDRESS          ((uint32_t)(GD32_FLASH_START_ADRESS + GD32_FLASH_SIZE))
 #define EXT_SDRAM_BEGIN                 (0xC0000000U) /* the begining address of external SDRAM */
