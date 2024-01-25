@@ -6,6 +6,7 @@ cwd = GetCurrentDir()
 
 # add the general drivers.
 src = Split("""
+delay.c
 """)
 
 # add pin drivers.
