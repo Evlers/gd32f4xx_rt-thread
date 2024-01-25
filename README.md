@@ -1,59 +1,9 @@
-# GD32470-LCKFB梁山派开发板BSP说明
+## GD32470VI WiFi-Host-Driver
 
-## 简介
+### 简介
+这是基于 GD32F470VIT6 的 RT-Thread 物联网程序，使用 CYWL6208 WiFi 模组(英飞凌的CYW43438芯片)
 
-GD32470Z-LCKFB梁山派是立创开发板推出的一款GD32F470系列的开发板，最高主频高达240M，该开发板具有丰富的板载资源，是基于GD32F470ZGT6的全国产化开源开发板，图片如下：
-
-![board](figures/board.png)
-
-> 2022年12月05号后立创·梁山派开发板主控从GD32F450ZGT6升级到了GD32F470ZGT6 两款芯片兼容主要差别GD32F450ZGT6主频200、SDRAM 256K，GD32F470ZGT6主频240、SDRAM 512K。
-
-该开发板常用 **板载资源** 如下：
-
-- GD32F470ZGT6，主频 240MHz，CPU内核：ARM Cortex-M4，1024KB FLASH ，512KB RAM 
-- 常用外设
-  
-  - 用户LED ：4个，LED1 (PE3），LED2（PD7），LED3（PG3），LED4（PA5）
-  - 电源指示灯：一个红色LED
-  - 按键：3个，KEY_UP（PA0），RESET(NRST)，BOOT0（PB2）
-  - General TM * 10、Advanced TM * 2、Basic TM * 2
-  - SysTick * 1
-  - 看门狗 * 2
-  - RTC * 1
-  - USART * 4、UART * 4
-  - I2C * 3、I2S * 2
-  - SPI * 6
-  - SDIO * 1
-  - CAN * 2
-  - USBFS+HS
-  - 以太网 * 1
-  - TFT-LCD
-  - EXMC/SDRAM * 1
-  - ADC * 3
-  - DAC * 2
-  - 最多支持114GPIOs
-- 调试接口：CMSIS-DAP
-- 支持RGB接口和MCU屏幕接口
-- 一路SDIO-TF卡
-- SPI Flash：W25Q64
-- SDRAM：W9825G6KH-6I
-- 一路Type-C USB
-- 调试接口引出了SWD和UART
-- 双2*20PIN 2.54排针引出了68个可编程IO
-- 开发板更多信息请查看[立创开发板官网](https://lckfb.com/)
-
-## 外设支持
-
-本 BSP 目前对外设的支持情况如下：
-
-| **片上外设** | **支持情况** | **备注**                           |
-|:-------- |:--------:|:-------------------------------- |
-| GPIO     | 支持       | PA0, PA1... ---> PIN: 0, 1...113 |
-| UART     | 支持       | UART0 - UART7                    |
-| **扩展模块** | **支持情况** | **备注**                           |
-| 暂无       | 暂不支持     | 暂不支持                             |
-
-## 使用说明
+### 使用说明
 
 使用说明分为如下两个章节：
 
@@ -88,9 +38,22 @@ GD32470Z-LCKFB梁山派是立创开发板推出的一款GD32F470系列的开发�
 ```bash
  \ | /
 - RT -     Thread Operating System
- / | \     5.0.0 build Mar  3 2023 00:43:44
+ / | \     5.0.0 build Jan 25 2024 21:25:15
  2006 - 2022 Copyright by RT-Thread team
-msh />
+lwIP-2.0.3 initialized!
+[I/sal.skt] Socket Abstraction Layer initialize success.
+[I/FAL] RT-Thread Flash Abstraction Layer initialize success.
+[I/FAL] The FAL block device (root) created successfully
+[Flash] EasyFlash V4.1.0 is initialize success.
+[Flash] You can get the latest version on https://github.com/armink/EasyFlash .
+msh />WLAN MAC Address : C0:AE:FD:00:00:C3
+WLAN Firmware    : wl0: Mar 28 2021 22:55:55 version 7.45.98.117 (dc5d9c4 CY) FWID 01-d36e8386
+WLAN CLM         : API: 12.2 Data: 9.10.39 Compiler: 1.29.4 ClmImport: 1.36.3 Creation: 2021-03-28 22:47:33
+WHD VERSION      : 3.0.0.22316 : v3.0.0 : ARM CLANG 5060960 : 2023-12-04 07:24:34 -0600
+[I/WLAN.dev] wlan init success
+[I/WLAN.lwip] eth device init ok name:w0
+[I/WLAN.dev] wlan init success
+[I/WLAN.lwip] eth device init ok name:w1
 ```
 
 ### 进阶使用
@@ -103,14 +66,5 @@ msh />
 
 3. 输入`pkgs --update`命令更新软件包。
 
-4. 输入`scons --target=mdk4/mdk5/iar` 命令重新生成工程。
+4. 输入`scons --target=mdk5/vsc` 命令重新生成工程。
 
-## 注意事项
-
-暂无
-
-## 联系人信息
-
-维护人:
-
-- [yuanzihao](https://github.com/zihao-yuan/), 邮箱：<y@yzh.email>
