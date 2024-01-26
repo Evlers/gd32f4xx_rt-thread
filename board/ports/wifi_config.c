@@ -23,7 +23,7 @@
 
 static int read_cfg(void *buff, int len)
 {
-    size_t saved_len;
+    size_t saved_len = 0;
 
     ef_get_env_blob("wlan_cfg_info", buff, len, &saved_len);
     if (saved_len == 0)
@@ -36,8 +36,8 @@ static int read_cfg(void *buff, int len)
 
 static int get_len(void)
 {
-    int len;
-    size_t saved_len;
+    int len = 0;
+    size_t saved_len = 0;
 
     ef_get_env_blob("wlan_cfg_len", &len, sizeof(len), &saved_len);
     if (saved_len == 0)
