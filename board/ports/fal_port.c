@@ -28,21 +28,22 @@ static int rt_fal_init (void)
 
 #ifdef RT_USING_DFS
     /* Create a block device using the flash abstraction layer */
-    fal_blk_device_create("root");
-
-    /* Mount the FAT file system to the root directory */
-    if (dfs_mount("root", "/", "elm", 0, 0) != 0)
+    if (fal_partition_find("root") != NULL && fal_blk_device_create("root") != NULL)
     {
-        if (!dfs_mkfs("elm", "root")) 
+        /* Mount the FAT file system to the root directory */
+        if (dfs_mount("root", "/", "elm", 0, 0) != 0)
         {
-            if (dfs_mount("root", "/", "elm", 0, 0) != 0)
+            if (!dfs_mkfs("elm", "root"))
             {
-                LOG_E("The fat file system failed to be mounted!");
+                if (dfs_mount("root", "/", "elm", 0, 0) != 0)
+                {
+                    LOG_E("The fat file system failed to be mounted!");
+                }
             }
-        }
-        else
-        {
-            LOG_E("FAT file system formatting failed!");
+            else
+            {
+                LOG_E("FAT file system formatting failed!");
+            }
         }
     }
 #endif /* RT_USING_DFS */

@@ -231,6 +231,7 @@
 
 /* Utilities */
 
+#define RT_USING_RYM
 
 /* RT-Thread online packages */
 
@@ -407,9 +408,13 @@
 /* External Libraries */
 
 #define RT_USING_WHD
-#define CY_WIFI_WHD_THREAD_PRIORITY 8
-#define CY_WIFI_WHD_THREAD_STACK_SIZE 8192
 #define WHD_USING_CHIP_CYW43438
+#define WHD_RESOURCES_IN_EXTERNAL_STORAGE
+#define WHD_RESOURCES_FIRMWARE_NAME "whd_firmware"
+#define WHD_RESOURCES_CLM_NAME "whd_clm"
+#define WHD_RESOURCES_BLOCK_SIZE 1024
+#define CY_WIFI_WHD_THREAD_PRIORITY 8
+#define CY_WIFI_WHD_THREAD_STACK_SIZE 5120
 #define CYBSP_REG_ON_PIN 49
 #define CYBSP_HOST_WAKE_IRQ_PIN 37
 #define CYBSP_HOST_WAKE_IRQ_EVENT_FALL

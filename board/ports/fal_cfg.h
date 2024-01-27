@@ -29,11 +29,13 @@ extern const struct fal_flash_dev gd32_onchip_flash;
 #ifdef FAL_PART_HAS_TABLE_CFG
 
 /* partition table */
-/*  magic_word              partition name  flash name          offset          size                */
-#define FAL_PART_TABLE                                                                              \
-{                                                                                                   \
-    {FAL_PART_MAGIC_WROD,   "root",         "onchip_flash",             0,      512 * 1024, 0},     \
-    {FAL_PART_MAGIC_WROD,   "easyflash",    "onchip_flash",    512 * 1024,      512 * 1024, 0},     \
+/*  magic_word              partition name      flash name          offset          size            reserved        */
+#define FAL_PART_TABLE                                                                                              \
+{                                                                                                                   \
+    {FAL_PART_MAGIC_WORD,   "whd_firmware",     "onchip_flash",     0,              480 * 1024,     0},             \
+    {FAL_PART_MAGIC_WORD,   "whd_clm",          "onchip_flash",     480 * 1024,     32 * 1024,      0},             \
+    {FAL_PART_MAGIC_WORD,   "easyflash",        "onchip_flash",     512 * 1024,     512 * 1024,     0},             \
+    /*{FAL_PART_MAGIC_WORD,   "root",             "spi_nor_flash",    0,              4096 * 1024,    0},*/             \
 }
 
 #endif /* FAL_PART_HAS_TABLE_CFG */
