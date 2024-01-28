@@ -12,17 +12,23 @@
 #include <rthw.h>
 #include <rtthread.h>
 #include <rtdevice.h>
-#include <string.h>
-
-#include <drv_sdio.h>
-#include "drv_sdio_crc.h"
-
-#define DBG_TAG             "drv.sdio"
-#define DBG_LVL             DBG_ERROR
-#define DBG_COLOR
-#include <rtdbg.h>
 
 #ifdef BSP_USING_SDIO
+
+#include <string.h>
+#include "drv_sdio.h"
+#include "drv_sdio_crc.h"
+
+/**
+ * When the WiFi module is hibernating, 
+ * command 52 will time out for the first time. 
+ * This is a normal phenomenon and can be ignored.
+ * So here the log level is set to the lowest (no logs are printed).
+ */
+#define DBG_TAG             "drv.sdio"
+#define DBG_LVL             -1
+#define DBG_COLOR
+#include <rtdbg.h>
 
 #define SDIO_TX_RX_COMPLETE_TIMEOUT_LOOPS       (1000000)
 
