@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2006-2021, RT-Thread Development Team
+ * Copyright (c) 2006-2023, Evlers Developers
  *
  * SPDX-License-Identifier: Apache-2.0
  *
  * Change Logs:
- * Date           Author            Notes
- * 2020-07-13     Dozingfiretruck   first version
+ * Date         Author      Notes
+ * 2024-01-27   Evlers      first implementation
  */
 
 #ifndef _FAL_CFG_H_
@@ -29,13 +29,13 @@ extern const struct fal_flash_dev gd32_onchip_flash;
 #ifdef FAL_PART_HAS_TABLE_CFG
 
 /* partition table */
-/*  magic_word              partition name      flash name          offset          size            reserved        */
+/*      magic_word          partition name      flash name          offset          size            reserved        */
 #define FAL_PART_TABLE                                                                                              \
 {                                                                                                                   \
-    {FAL_PART_MAGIC_WORD,   "whd_firmware",     "onchip_flash",     0,              480 * 1024,     0},             \
-    {FAL_PART_MAGIC_WORD,   "whd_clm",          "onchip_flash",     480 * 1024,     32 * 1024,      0},             \
-    {FAL_PART_MAGIC_WORD,   "easyflash",        "onchip_flash",     512 * 1024,     512 * 1024,     0},             \
-    /*{FAL_PART_MAGIC_WORD,   "root",             "spi_nor_flash",    0,              4096 * 1024,    0},*/             \
+    { FAL_PART_MAGIC_WORD,  "whd_firmware",     "onchip_flash",     0,              448 * 1024,         0 },        \
+    { FAL_PART_MAGIC_WORD,  "whd_clm",          "onchip_flash",     448 * 1024,     32 * 1024,          0 },        \
+    { FAL_PART_MAGIC_WORD,  "easyflash",        "onchip_flash",     480 * 1024,     32 * 1024,          0 },        \
+    { FAL_PART_MAGIC_WORD,  "filesystem",       "onchip_flash",     512 * 1024,     512 * 1024,         0 },        \
 }
 
 #endif /* FAL_PART_HAS_TABLE_CFG */
