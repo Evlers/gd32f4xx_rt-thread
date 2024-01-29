@@ -6,6 +6,7 @@
  * Change Logs:
  * Date           Author            Notes
  * 2023-12-11     Evlers            first version
+ * 2024-01-29     Evlers            add interrupt critical section
  */
 
 #include "board.h"
@@ -77,14 +78,19 @@ int gd32_flash_write(rt_uint32_t addr, const rt_uint8_t *buf, size_t size)
 
 	for (uint32_t i = 0; i < size; i ++)
     {
+        rt_base_t level;
+
 		/* clear pending flags */
 		fmc_flag_clear(FMC_FLAG_END | FMC_FLAG_OPERR | FMC_FLAG_WPERR | FMC_FLAG_PGMERR | FMC_FLAG_PGSERR);
 
 		/* write byte to the corresponding address */
+        level = rt_hw_interrupt_disable();
 		fmc_state = fmc_byte_program(addr, buf[i]);
+        rt_hw_interrupt_enable(level);
 		
 		if (fmc_state != FMC_READY)
         {
+            LOG_E("Write error of the flash, addr: 0x%08X, size: 0x%X, offset: %u, state: %u", addr, size, i, fmc_state);
             result = -RT_ERROR;
             break;
         }
@@ -115,6 +121,9 @@ int gd32_flash_write(rt_uint32_t addr, const rt_uint8_t *buf, size_t size)
  */
 int gd32_flash_erase(rt_uint32_t addr, size_t size)
 {
+    rt_err_t result = RT_EOK;
+    fmc_state_enum fmc_state = FMC_READY;
+
     if ((addr + size) > GD32_FLASH_END_ADDRESS)
     {
         LOG_E("ERROR: erase outrange flash size! addr is (0x%p)", (void*)(addr + size));
@@ -122,19 +131,35 @@ int gd32_flash_erase(rt_uint32_t addr, size_t size)
     }
 
     /* unlock the flash program erase controller */
-	fmc_unlock(); 
-
-	/* clear pending flags */
-	fmc_flag_clear(FMC_FLAG_END | FMC_FLAG_OPERR | FMC_FLAG_WPERR | FMC_FLAG_PGMERR | FMC_FLAG_PGSERR);
+	fmc_unlock();
 
     for (uint32_t i = 0; i < size; i += GD32_FLASH_PAGE_SIZE)
     {
-        /* wait the erase operation complete*/
-	    fmc_page_erase(addr + i);
+        rt_base_t level;
+
+        /* clear pending flags */
+	    fmc_flag_clear(FMC_FLAG_END | FMC_FLAG_OPERR | FMC_FLAG_WPERR | FMC_FLAG_PGMERR | FMC_FLAG_PGSERR);
+
+        /* wait the erase operation complete */
+        level = rt_hw_interrupt_disable();
+        fmc_state = fmc_page_erase(addr + i);
+        rt_hw_interrupt_enable(level);
+
+	    if (fmc_state != FMC_READY)
+        {
+            LOG_E("Erase error of the flash, addr: 0x%08X, size: 0x%X, offset: %u, state: %u", addr, size, i, fmc_state);
+            result = -RT_ERROR;
+            break;
+        }
     }
 	
 	/* lock the flash program erase controller */
 	fmc_lock();
+
+    if (result != RT_EOK)
+    {
+        return result;
+    }
 
     return size;
 }
