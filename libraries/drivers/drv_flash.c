@@ -78,13 +78,12 @@ int gd32_flash_write(rt_uint32_t addr, const rt_uint8_t *buf, size_t size)
 
 	for (uint32_t i = 0; i < size; i ++)
     {
-        rt_base_t level;
+        rt_base_t level = rt_hw_interrupt_disable();
 
 		/* clear pending flags */
 		fmc_flag_clear(FMC_FLAG_END | FMC_FLAG_OPERR | FMC_FLAG_WPERR | FMC_FLAG_PGMERR | FMC_FLAG_PGSERR);
 
 		/* write byte to the corresponding address */
-        level = rt_hw_interrupt_disable();
 		fmc_state = fmc_byte_program(addr, buf[i]);
         rt_hw_interrupt_enable(level);
 		
@@ -135,13 +134,12 @@ int gd32_flash_erase(rt_uint32_t addr, size_t size)
 
     for (uint32_t i = 0; i < size; i += GD32_FLASH_PAGE_SIZE)
     {
-        rt_base_t level;
+        rt_base_t level = rt_hw_interrupt_disable();
 
         /* clear pending flags */
 	    fmc_flag_clear(FMC_FLAG_END | FMC_FLAG_OPERR | FMC_FLAG_WPERR | FMC_FLAG_PGMERR | FMC_FLAG_PGSERR);
 
         /* wait the erase operation complete */
-        level = rt_hw_interrupt_disable();
         fmc_state = fmc_page_erase(addr + i);
         rt_hw_interrupt_enable(level);
 
