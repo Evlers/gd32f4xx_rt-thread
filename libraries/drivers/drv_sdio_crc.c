@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2006-2023, RT-Thread Development Team
+ * Copyright (c) 2006-2024, Evlers Developers
  *
  * SPDX-License-Identifier: Apache-2.0
  *
  * Change Logs:
  * Date             Author          Notes
- * 2024-01-20       Evlers          first version
+ * 2024-02-02       Evlers          first version
  */
 
 #include "stdint.h"

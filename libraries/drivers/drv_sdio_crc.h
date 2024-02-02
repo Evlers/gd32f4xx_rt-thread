@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2006-2024, Evlers Developers
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Change Logs:
+ * Date             Author          Notes
+ * 2024-02-02       Evlers          first version
+ */
+
 #ifndef _DRV_SDIO_CRC_H_
 #define _DRV_SDIO_CRC_H_
 
