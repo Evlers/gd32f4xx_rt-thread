@@ -313,9 +313,9 @@ def MDK4Project(target, script):
         os.unlink(project_uvopt)
 
     # copy uvopt file
-    if os.path.exists('template.uvopt'):
+    if os.path.exists(os.path.join(PROJECTS_PATH, 'template.uvopt')):
         import shutil
-        shutil.copy2('template.uvopt', 'project.uvopt')
+        shutil.copy2(os.path.join(PROJECTS_PATH, 'template.uvopt'), os.path.join(PROJECTS_PATH, 'project.uvopt'))
 
 def MDK5Project(target, script):
 
@@ -332,9 +332,9 @@ def MDK5Project(target, script):
     if os.path.isfile(project_uvopt):
         os.unlink(project_uvopt)
     # copy uvopt file
-    if os.path.exists('template.uvoptx'):
+    if os.path.exists(os.path.join(PROJECTS_PATH, 'template.uvoptx')):
         import shutil
-        shutil.copy2('template.uvoptx', 'project.uvoptx')
+        shutil.copy2(os.path.join(PROJECTS_PATH, 'template.uvoptx'), os.path.join(PROJECTS_PATH, 'project.uvoptx'))
 
 def MDK2Project(target, script):
     template = open('template.Uv2', "r")
