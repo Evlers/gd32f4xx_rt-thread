@@ -104,9 +104,8 @@
 #define RT_SYSTEM_WORKQUEUE_STACKSIZE 2048
 #define RT_SYSTEM_WORKQUEUE_PRIORITY 23
 #define RT_USING_SERIAL
-#define RT_USING_SERIAL_V1
+#define RT_USING_SERIAL_V2
 #define RT_SERIAL_USING_DMA
-#define RT_SERIAL_RB_BUFSZ 64
 #define RT_USING_PIN
 #define RT_USING_MTD_NOR
 #define RT_USING_RTC
@@ -356,13 +355,18 @@
 
 /* peripheral libraries and drivers */
 
+/* HAL & SDK Drivers */
+
+/* STM32 HAL & SDK Drivers */
+
+
+/* Kendryte SDK */
+
+
 /* sensors drivers */
 
 
 /* touch drivers */
-
-
-/* Kendryte SDK */
 
 
 /* AI packages */
@@ -444,6 +448,9 @@
 #define BSP_USING_GPIO
 #define BSP_USING_UART
 #define BSP_USING_UART0
+#define BSP_UART0_RX_USING_DMA
+#define BSP_UART0_RX_BUFSIZE 64
+#define BSP_UART0_TX_BUFSIZE 0
 #define BSP_USING_SDIO
 #define BSP_USING_ON_CHIP_FLASH
 
