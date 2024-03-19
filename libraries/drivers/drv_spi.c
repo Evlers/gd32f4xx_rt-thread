@@ -20,6 +20,24 @@
 
 #include <rtdbg.h>
 
+enum {
+#ifdef BSP_USING_SPI0
+    SPI0_INDEX,
+#endif
+#ifdef BSP_USING_SPI1
+    SPI1_INDEX,
+#endif
+#ifdef BSP_USING_SPI2
+    SPI2_INDEX,
+#endif
+#ifdef BSP_USING_SPI3
+    SPI3_INDEX,
+#endif
+#ifdef BSP_USING_SPI4
+    SPI4_INDEX,
+#endif
+};
+
 #ifdef BSP_USING_SPI0
 static struct rt_spi_bus spi_bus0;
 #endif
@@ -53,24 +71,10 @@ static struct gd32_spi spi_bus_obj[] = {
         GPIO_PIN_6,
         GPIO_PIN_7,
 #ifdef BSP_SPI0_RX_USING_DMA
-        .dma.rx =
-        {
-            .periph = DMA1,
-            .channel = DMA_CH2,
-            .rcu = RCU_DMA1,
-            .subperiph = DMA_SUBPERI3,
-            .irq = DMA1_Channel2_IRQn,
-        },
+        .dma.rx = DRV_DMA_CONFIG(1, 2, 3),
 #endif
 #ifdef BSP_SPI0_TX_USING_DMA
-        .dma.tx =
-        {
-            .periph = DMA1,
-            .channel = DMA_CH3,
-            .rcu = RCU_DMA1,
-            .subperiph = DMA_SUBPERI3,
-            .irq = DMA1_Channel3_IRQn,
-        },
+        .dma.tx = DRV_DMA_CONFIG(1, 3, 3),
 #endif
     },
 #endif /* BSP_USING_SPI0 */
@@ -90,24 +94,10 @@ static struct gd32_spi spi_bus_obj[] = {
         GPIO_PIN_14,
         GPIO_PIN_15,
 #ifdef BSP_SPI1_RX_USING_DMA
-        .dma.rx =
-        {
-            .periph = DMA0,
-            .channel = DMA_CH3,
-            .rcu = RCU_DMA0,
-            .subperiph = DMA_SUBPERI0,
-            .irq = DMA0_Channel3_IRQn,
-        },
+        .dma.rx = DRV_DMA_CONFIG(0, 3, 0),
 #endif
 #ifdef BSP_SPI1_TX_USING_DMA
-        .dma.tx =
-        {
-            .periph = DMA0,
-            .channel = DMA_CH4,
-            .rcu = RCU_DMA0,
-            .subperiph = DMA_SUBPERI0,
-            .irq = DMA0_Channel4_IRQn,
-        },
+        .dma.tx = DRV_DMA_CONFIG(0, 4, 0),
 #endif
     },
 #endif /* BSP_USING_SPI1 */
@@ -127,24 +117,10 @@ static struct gd32_spi spi_bus_obj[] = {
         GPIO_PIN_4,
         GPIO_PIN_5,
 #ifdef BSP_SPI2_RX_USING_DMA
-        .dma.rx =
-        {
-            .periph = DMA0,
-            .channel = DMA_CH0,
-            .rcu = RCU_DMA0,
-            .subperiph = DMA_SUBPERI0,
-            .irq = DMA0_Channel0_IRQn,
-        },
+        .dma.rx = DRV_DMA_CONFIG(0, 0, 0),
 #endif
 #ifdef BSP_SPI2_TX_USING_DMA
-        .dma.tx =
-        {
-            .periph = DMA0,
-            .channel = DMA_CH5,
-            .rcu = RCU_DMA0,
-            .subperiph = DMA_SUBPERI0,
-            .irq = DMA0_Channel5_IRQn,
-        },
+        .dma.tx = DRV_DMA_CONFIG(0, 5, 0),
 #endif
     },
 #endif /* BSP_USING_SPI2 */
@@ -164,24 +140,10 @@ static struct gd32_spi spi_bus_obj[] = {
         GPIO_PIN_5,
         GPIO_PIN_6,
 #ifdef BSP_SPI3_RX_USING_DMA
-        .dma.rx =
-        {
-            .periph = DMA1,
-            .channel = DMA_CH0,
-            .rcu = RCU_DMA1,
-            .subperiph = DMA_SUBPERI4,
-            .irq = DMA1_Channel0_IRQn,
-        },
+        .dma.rx = DRV_DMA_CONFIG(1, 0, 4),
 #endif
 #ifdef BSP_SPI3_TX_USING_DMA
-        .dma.tx =
-        {
-            .periph = DMA1,
-            .channel = DMA_CH1,
-            .rcu = RCU_DMA1,
-            .subperiph = DMA_SUBPERI4,
-            .irq = DMA1_Channel1_IRQn,
-        },
+        .dma.tx = DRV_DMA_CONFIG(1, 1, 4),
 #endif
     },
 #endif /* BSP_USING_SPI3 */
@@ -201,24 +163,10 @@ static struct gd32_spi spi_bus_obj[] = {
         GPIO_PIN_8,
         GPIO_PIN_9,
 #ifdef BSP_SPI4_RX_USING_DMA
-        .dma.rx =
-        {
-            .periph = DMA1,
-            .channel = DMA_CH5,
-            .rcu = RCU_DMA1,
-            .subperiph = DMA_SUBPERI7,
-            .irq = DMA1_Channel5_IRQn,
-        },
+        .dma.rx = DRV_DMA_CONFIG(1, 5, 7),
 #endif
 #ifdef BSP_SPI4_TX_USING_DMA
-        .dma.tx =
-        {
-            .periph = DMA1,
-            .channel = DMA_CH6,
-            .rcu = RCU_DMA1,
-            .subperiph = DMA_SUBPERI7,
-            .irq = DMA1_Channel6_IRQn,
-        },
+        .dma.tx = DRV_DMA_CONFIG(1, 6, 7),
 #endif
     }
 #endif /* BSP_USING_SPI4 */
@@ -234,164 +182,168 @@ static struct rt_spi_ops gd32_spi_ops =
     .xfer = spixfer,
 };
 
-static void stm32_get_dma_info(void)
+static void gd32_get_dma_info(void)
 {
 #ifdef BSP_SPI0_RX_USING_DMA
-    spi_bus_obj[0].spi_dma_flag |= SPI_USING_RX_DMA_FLAG;
+    spi_bus_obj[SPI0_INDEX].spi_dma_flag |= SPI_USING_RX_DMA_FLAG;
 #endif
 
 #ifdef BSP_SPI0_TX_USING_DMA
-    spi_bus_obj[0].spi_dma_flag |= SPI_USING_TX_DMA_FLAG;
+    spi_bus_obj[SPI0_INDEX].spi_dma_flag |= SPI_USING_TX_DMA_FLAG;
 #endif
 
 #ifdef BSP_SPI1_RX_USING_DMA
-    spi_bus_obj[1].spi_dma_flag |= SPI_USING_RX_DMA_FLAG;
+    spi_bus_obj[SPI1_INDEX].spi_dma_flag |= SPI_USING_RX_DMA_FLAG;
 #endif
 
 #ifdef BSP_SPI1_TX_USING_DMA
-    spi_bus_obj[1].spi_dma_flag |= SPI_USING_TX_DMA_FLAG;
+    spi_bus_obj[SPI1_INDEX].spi_dma_flag |= SPI_USING_TX_DMA_FLAG;
 #endif
 
 #ifdef BSP_SPI2_RX_USING_DMA
-    spi_bus_obj[2].spi_dma_flag |= SPI_USING_RX_DMA_FLAG;
+    spi_bus_obj[SPI2_INDEX].spi_dma_flag |= SPI_USING_RX_DMA_FLAG;
 #endif
 
 #ifdef BSP_SPI2_TX_USING_DMA
-    spi_bus_obj[2].spi_dma_flag |= SPI_USING_TX_DMA_FLAG;
+    spi_bus_obj[SPI2_INDEX].spi_dma_flag |= SPI_USING_TX_DMA_FLAG;
 #endif
 
 #ifdef BSP_SPI3_RX_USING_DMA
-    spi_bus_obj[3].spi_dma_flag |= SPI_USING_RX_DMA_FLAG;
+    spi_bus_obj[SPI3_INDEX].spi_dma_flag |= SPI_USING_RX_DMA_FLAG;
 #endif
 
 #ifdef BSP_SPI3_TX_USING_DMA
-    spi_bus_obj[3].spi_dma_flag |= SPI_USING_TX_DMA_FLAG;
+    spi_bus_obj[SPI3_INDEX].spi_dma_flag |= SPI_USING_TX_DMA_FLAG;
 #endif
 
 #ifdef BSP_SPI4_RX_USING_DMA
-    spi_bus_obj[4].spi_dma_flag |= SPI_USING_RX_DMA_FLAG;
+    spi_bus_obj[SPI4_INDEX].spi_dma_flag |= SPI_USING_RX_DMA_FLAG;
 #endif
 
 #ifdef BSP_SPI4_TX_USING_DMA
-    spi_bus_obj[4].spi_dma_flag |= SPI_USING_TX_DMA_FLAG;
+    spi_bus_obj[SPI4_INDEX].spi_dma_flag |= SPI_USING_TX_DMA_FLAG;
 #endif
 }
 
-#if defined(BSP_SPI0_RX_USING_DMA) || defined(BSP_SPI0_TX_USING_DMA) || \
-    defined(BSP_SPI1_RX_USING_DMA) || defined(BSP_SPI1_TX_USING_DMA) || \
-    defined(BSP_SPI2_RX_USING_DMA) || defined(BSP_SPI2_TX_USING_DMA) || \
-    defined(BSP_SPI3_RX_USING_DMA) || defined(BSP_SPI3_TX_USING_DMA) || \
-    defined(BSP_SPI4_RX_USING_DMA) || defined(BSP_SPI4_TX_USING_DMA)
-static void dma_interrupt (uint32_t periph, dma_channel_enum channel)
-{
-    for (int i = 0; i < (sizeof(spi_bus_obj) / sizeof(spi_bus_obj[0])); i ++)
-    {
-        if (spi_bus_obj[i].dma.rx.periph == periph && spi_bus_obj[i].dma.rx.channel == channel)
-        {
-            if (dma_interrupt_flag_get(spi_bus_obj[i].dma.rx.periph, spi_bus_obj[i].dma.rx.channel, DMA_INT_FLAG_FTF))
-            {
-                dma_interrupt_flag_clear(spi_bus_obj[i].dma.rx.periph, spi_bus_obj[i].dma.rx.channel, DMA_INT_FLAG_FTF);
-                if (spi_bus_obj[i].dma.rx.sem_ftf != NULL)
-                {
-                    /* If in half-duplex mode, stop the Rx clock */
-                    if (spi_bus_obj[i].trans_mode == SPI_TRANSMODE_BDTRANSMIT)
-                    {
-                        /* Set Tx mode to stop the Rx clock */
-                        spi_bidirectional_transfer_config(spi_bus_obj[i].spi_periph, SPI_BIDIRECTIONAL_TRANSMIT);
-                    }
-                    rt_interrupt_enter();
-                    rt_sem_release(spi_bus_obj[i].dma.rx.sem_ftf);
-                    rt_interrupt_leave();
-                    return ;
-                }
-            }
-        }
+#if defined(BSP_SPI0_RX_USING_DMA) || \
+    defined(BSP_SPI1_RX_USING_DMA) || \
+    defined(BSP_SPI2_RX_USING_DMA) || \
+    defined(BSP_SPI3_RX_USING_DMA) || \
+    defined(BSP_SPI4_RX_USING_DMA)
 
-        if (spi_bus_obj[i].dma.tx.periph == periph && spi_bus_obj[i].dma.tx.channel == channel)
+static void dma_rx_isr (struct gd32_spi *spi_bus)
+{
+    if (dma_interrupt_flag_get(spi_bus->dma.rx.periph, spi_bus->dma.rx.channel, DMA_INT_FLAG_FTF))
+    {
+        dma_interrupt_flag_clear(spi_bus->dma.rx.periph, spi_bus->dma.rx.channel, DMA_INT_FLAG_FTF);
+        if (spi_bus->dma.rx_sem_ftf != NULL)
         {
-            if (dma_interrupt_flag_get(spi_bus_obj[i].dma.tx.periph, spi_bus_obj[i].dma.tx.channel, DMA_INT_FLAG_FTF))
+            /* If in half-duplex mode, stop the Rx clock */
+            if (spi_bus->trans_mode == SPI_TRANSMODE_BDTRANSMIT)
             {
-                dma_interrupt_flag_clear(spi_bus_obj[i].dma.tx.periph, spi_bus_obj[i].dma.tx.channel, DMA_INT_FLAG_FTF);
-                if (spi_bus_obj[i].dma.tx.sem_ftf != NULL)
-                {
-                    rt_interrupt_enter();
-                    rt_sem_release(spi_bus_obj[i].dma.tx.sem_ftf);
-                    rt_interrupt_leave();
-                    return ;
-                }
+                /* Set Tx mode to stop the Rx clock */
+                spi_bidirectional_transfer_config(spi_bus->spi_periph, SPI_BIDIRECTIONAL_TRANSMIT);
             }
+            rt_interrupt_enter();
+            rt_sem_release(spi_bus->dma.rx_sem_ftf);
+            rt_interrupt_leave();
+            return ;
         }
     }
 }
+
 #endif
 
-#ifdef BSP_SPI2_RX_USING_DMA
-void DMA0_Channel0_IRQHandler (void)
-{
-    dma_interrupt(DMA0, DMA_CH0);
-}
-#endif
+#if defined(BSP_SPI0_TX_USING_DMA) || \
+    defined(BSP_SPI1_TX_USING_DMA) || \
+    defined(BSP_SPI2_TX_USING_DMA) || \
+    defined(BSP_SPI3_TX_USING_DMA) || \
+    defined(BSP_SPI4_TX_USING_DMA)
 
-#ifdef BSP_SPI1_RX_USING_DMA
-void DMA0_Channel3_IRQHandler (void)
+static void dma_tx_isr (struct gd32_spi *spi_bus)
 {
-    dma_interrupt(DMA0, DMA_CH3);
+    if (dma_interrupt_flag_get(spi_bus->dma.tx.periph, spi_bus->dma.tx.channel, DMA_INT_FLAG_FTF))
+    {
+        dma_interrupt_flag_clear(spi_bus->dma.tx.periph, spi_bus->dma.tx.channel, DMA_INT_FLAG_FTF);
+        if (spi_bus->dma.tx_sem_ftf != NULL)
+        {
+            rt_interrupt_enter();
+            rt_sem_release(spi_bus->dma.tx_sem_ftf);
+            rt_interrupt_leave();
+            return ;
+        }
+    }
 }
-#endif
 
-#ifdef BSP_SPI1_TX_USING_DMA
-void DMA0_Channel4_IRQHandler (void)
-{
-    dma_interrupt(DMA0, DMA_CH4);
-}
-#endif
-
-#ifdef BSP_SPI2_TX_USING_DMA
-void DMA0_Channel5_IRQHandler (void)
-{
-    dma_interrupt(DMA0, DMA_CH5);
-}
-#endif
-
-#ifdef BSP_SPI3_RX_USING_DMA
-void DMA1_Channel0_IRQHandler (void)
-{
-    dma_interrupt(DMA1, DMA_CH0);
-}
-#endif
-
-#ifdef BSP_SPI3_TX_USING_DMA
-void DMA1_Channel1_IRQHandler (void)
-{
-    dma_interrupt(DMA1, DMA_CH1);
-}
 #endif
 
 #ifdef BSP_SPI0_RX_USING_DMA
 void DMA1_Channel2_IRQHandler (void)
 {
-    dma_interrupt(DMA1, DMA_CH2);
+    dma_rx_isr(&spi_bus_obj[SPI0_INDEX]);
 }
 #endif
 
 #ifdef BSP_SPI0_TX_USING_DMA
 void DMA1_Channel3_IRQHandler (void)
 {
-    dma_interrupt(DMA1, DMA_CH3);
+    dma_tx_isr(&spi_bus_obj[SPI0_INDEX]);
+}
+#endif
+
+#ifdef BSP_SPI1_RX_USING_DMA
+void DMA0_Channel3_IRQHandler (void)
+{
+    dma_rx_isr(&spi_bus_obj[SPI1_INDEX]);
+}
+#endif
+
+#ifdef BSP_SPI1_TX_USING_DMA
+void DMA0_Channel4_IRQHandler (void)
+{
+    dma_tx_isr(&spi_bus_obj[SPI1_INDEX]);
+}
+#endif
+
+#ifdef BSP_SPI2_RX_USING_DMA
+void DMA0_Channel0_IRQHandler (void)
+{
+    dma_rx_isr(&spi_bus_obj[SPI2_INDEX]);
+}
+#endif
+
+#ifdef BSP_SPI2_TX_USING_DMA
+void DMA0_Channel5_IRQHandler (void)
+{
+    dma_tx_isr(&spi_bus_obj[SPI2_INDEX]);
+}
+#endif
+
+#ifdef BSP_SPI3_RX_USING_DMA
+void DMA1_Channel0_IRQHandler (void)
+{
+    dma_rx_isr(&spi_bus_obj[SPI3_INDEX]);
+}
+#endif
+
+#ifdef BSP_SPI3_TX_USING_DMA
+void DMA1_Channel1_IRQHandler (void)
+{
+    dma_tx_isr(&spi_bus_obj[SPI3_INDEX]);
 }
 #endif
 
 #ifdef BSP_SPI4_RX_USING_DMA
 void DMA1_Channel5_IRQHandler (void)
 {
-    dma_interrupt(DMA1, DMA_CH5);
+    dma_rx_isr(&spi_bus_obj[SPI4_INDEX]);
 }
 #endif
 
 #ifdef BSP_SPI4_TX_USING_DMA
 void DMA1_Channel6_IRQHandler (void)
 {
-    dma_interrupt(DMA1, DMA_CH6);
+    dma_tx_isr(&spi_bus_obj[SPI4_INDEX]);
 }
 #endif
 
@@ -433,10 +385,10 @@ static void gd32_spi_dma_config (struct gd32_spi *gd32_spi, rt_uint8_t data_widt
 
         dma_channel_disable(gd32_spi->dma.rx.periph, gd32_spi->dma.rx.channel);
 
-        if (gd32_spi->dma.rx.sem_ftf == NULL)
+        if (gd32_spi->dma.rx_sem_ftf == NULL)
         {
-            gd32_spi->dma.rx.sem_ftf = rt_sem_create("spi dma rx", 0, RT_IPC_FLAG_PRIO);
-            RT_ASSERT(gd32_spi->dma.rx.sem_ftf);
+            gd32_spi->dma.rx_sem_ftf = rt_sem_create("spi dma rx", 0, RT_IPC_FLAG_PRIO);
+            RT_ASSERT(gd32_spi->dma.rx_sem_ftf);
         }
     }
     
@@ -468,10 +420,10 @@ static void gd32_spi_dma_config (struct gd32_spi *gd32_spi, rt_uint8_t data_widt
 
         dma_channel_disable(gd32_spi->dma.tx.periph, gd32_spi->dma.tx.channel);
 
-        if (gd32_spi->dma.tx.sem_ftf == NULL)
+        if (gd32_spi->dma.tx_sem_ftf == NULL)
         {
-            gd32_spi->dma.tx.sem_ftf = rt_sem_create("spi dma tx", 0, RT_IPC_FLAG_PRIO);
-            RT_ASSERT(gd32_spi->dma.tx.sem_ftf);
+            gd32_spi->dma.tx_sem_ftf = rt_sem_create("spi dma tx", 0, RT_IPC_FLAG_PRIO);
+            RT_ASSERT(gd32_spi->dma.tx_sem_ftf);
         }
     }
 }
@@ -498,8 +450,8 @@ static void spi_dma_exchange(struct rt_spi_device* device, struct rt_spi_message
         spi_dma_enable(spi_device->spi_periph, SPI_DMA_TRANSMIT);
 
         /* Wait for transmission to complete */
-        rt_sem_take(spi_device->dma.rx.sem_ftf, rt_tick_from_millisecond(SPI_DMA_TIMEOUT_TIME));
-        rt_sem_take(spi_device->dma.tx.sem_ftf, rt_tick_from_millisecond(SPI_DMA_TIMEOUT_TIME));
+        rt_sem_take(spi_device->dma.rx_sem_ftf, rt_tick_from_millisecond(SPI_DMA_TIMEOUT_TIME));
+        rt_sem_take(spi_device->dma.tx_sem_ftf, rt_tick_from_millisecond(SPI_DMA_TIMEOUT_TIME));
 
         /* Disable dma and spi */
         dma_channel_disable(spi_device->dma.rx.periph, spi_device->dma.rx.channel);
@@ -518,7 +470,7 @@ static void spi_dma_exchange(struct rt_spi_device* device, struct rt_spi_message
         spi_dma_enable(spi_device->spi_periph, SPI_DMA_TRANSMIT);
 
         /* Wait for transmission to complete */
-        rt_sem_take(spi_device->dma.tx.sem_ftf, rt_tick_from_millisecond(SPI_DMA_TIMEOUT_TIME));
+        rt_sem_take(spi_device->dma.tx_sem_ftf, rt_tick_from_millisecond(SPI_DMA_TIMEOUT_TIME));
 
         /* Wait for the last data transfer to complete */
         while (RESET != spi_i2s_flag_get(spi_device->spi_periph, SPI_FLAG_TRANS));
@@ -552,7 +504,7 @@ static void spi_dma_exchange(struct rt_spi_device* device, struct rt_spi_message
             spi_dma_enable(spi_device->spi_periph, SPI_DMA_TRANSMIT);
 
             /* Wait for receive to complete */
-            rt_sem_take(spi_device->dma.tx.sem_ftf, rt_tick_from_millisecond(SPI_DMA_TIMEOUT_TIME));
+            rt_sem_take(spi_device->dma.tx_sem_ftf, rt_tick_from_millisecond(SPI_DMA_TIMEOUT_TIME));
         }
         else if (spi_device->trans_mode == SPI_TRANSMODE_BDTRANSMIT)
         {
@@ -561,7 +513,7 @@ static void spi_dma_exchange(struct rt_spi_device* device, struct rt_spi_message
         }
 
         /* Wait for transmission to complete */
-        rt_sem_take(spi_device->dma.rx.sem_ftf, rt_tick_from_millisecond(SPI_DMA_TIMEOUT_TIME));
+        rt_sem_take(spi_device->dma.rx_sem_ftf, rt_tick_from_millisecond(SPI_DMA_TIMEOUT_TIME));
 
         /* Disable dma and spi */
         dma_channel_disable(spi_device->dma.rx.periph, spi_device->dma.rx.channel);
@@ -961,7 +913,7 @@ int rt_hw_spi_init(void)
     int result = 0;
     int i;
 
-    stm32_get_dma_info();
+    gd32_get_dma_info();
 
     for (i = 0; i < sizeof(spi_bus_obj) / sizeof(spi_bus_obj[0]); i++)
     {

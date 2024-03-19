@@ -15,6 +15,7 @@
 #include <rthw.h>
 #include <rtthread.h>
 #include <board.h>
+#include "drv_dma.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -24,16 +25,6 @@ extern "C" {
 #define SPI_USING_RX_DMA_FLAG           (1<<0)
 #define SPI_USING_TX_DMA_FLAG           (1<<1)
 
-struct gd32_spi_dma
-{
-    uint32_t periph;
-    rcu_periph_enum rcu;
-	dma_channel_enum channel;
-	dma_subperipheral_enum subperiph;
-	uint8_t irq;
-
-	rt_sem_t sem_ftf;
-};
 
 /* gd32 spi dirver class */
 struct gd32_spi
@@ -54,8 +45,10 @@ struct gd32_spi
     rt_uint8_t spi_dma_flag;
     struct
     {
-        struct gd32_spi_dma rx;
-        struct gd32_spi_dma tx;
+        struct dma_config rx;
+        struct dma_config tx;
+        rt_sem_t rx_sem_ftf;
+        rt_sem_t tx_sem_ftf;
     } dma;
 
     /* Save the spi transfer mode configured */
