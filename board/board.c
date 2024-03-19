@@ -12,6 +12,10 @@
 #include <rtthread.h>
 #include <board.h>
 
+#ifdef RT_USING_SERIAL
+#include "drv_usart.h"
+#endif
+
 /**
   * @brief  This function is executed in case of error occurrence.
   * @param  None
@@ -67,18 +71,27 @@ void rt_hw_board_init()
 
     SystemClock_Config();
 
-#ifdef RT_USING_COMPONENTS_INIT
-    rt_components_board_init();
-#endif
-
-#ifdef RT_USING_CONSOLE
-    rt_console_set_device(RT_CONSOLE_DEVICE_NAME);
-#endif
-
 #ifdef BSP_USING_SDRAM
     rt_system_heap_init((void *)EXT_SDRAM_BEGIN, (void *)EXT_SDRAM_END);
 #else
     rt_system_heap_init((void *)HEAP_BEGIN, (void *)HEAP_END);
+#endif
+
+#ifdef RT_USING_PIN
+    rt_hw_pin_init();
+#endif
+
+    /* usart driver initialization is open by default */
+#ifdef RT_USING_SERIAL
+    rt_hw_usart_init();
+#endif
+
+#if defined(RT_USING_CONSOLE) && defined(RT_USING_DEVICE)
+    rt_console_set_device(RT_CONSOLE_DEVICE_NAME);
+#endif
+
+#ifdef RT_USING_COMPONENTS_INIT
+    rt_components_board_init();
 #endif
 }
 

@@ -70,6 +70,8 @@ struct pin_irq_map
     IRQn_Type irqno;
 };
 
+int rt_hw_pin_init(void);
+
 #ifdef __cplusplus
 }
 #endif

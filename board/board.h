@@ -12,10 +12,13 @@
 #define __BOARD_H__
 
 #include "gd32f4xx.h"
-#include "drv_usart.h"
-#include "drv_gpio.h"
-
 #include "gd32f4xx_exti.h"
+
+#include <rtthread.h>
+
+#ifdef RT_USING_PIN
+#include "drv_gpio.h"
+#endif
 
 #define GD32_FLASH_START_ADRESS         ((uint32_t)0x08000000)
 #define GD32_FLASH_SIZE                 (2048 * 1024)

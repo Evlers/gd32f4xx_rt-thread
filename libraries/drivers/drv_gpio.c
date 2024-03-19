@@ -691,6 +691,4 @@ int rt_hw_pin_init(void)
     return result;
 }
 
-INIT_BOARD_EXPORT(rt_hw_pin_init);
-
 #endif
