@@ -6,6 +6,7 @@
  * Change Logs:
  * Date           Author       Notes
  * 2021-08-20     BruceOu      first implementation
+ * 2024-03-19     Evlers       add dma supports
  */
 
 #ifndef __DRV_USART_H__
@@ -13,39 +14,50 @@
 
 #include <rthw.h>
 #include <rtthread.h>
+#include <rtdevice.h>
 #include <board.h>
+#include "drv_dma.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#define UART_ENABLE_IRQ(n)            NVIC_EnableIRQ((n))
-#define UART_DISABLE_IRQ(n)           NVIC_DisableIRQ((n))
-
 
 /* GD32 uart driver */
-// Todo: compress uart info
 struct gd32_uart
 {
-    uint32_t uart_periph;           //Todo: 3bits
-    IRQn_Type irqn;                 //Todo: 7bits
-    rcu_periph_enum per_clk;        //Todo: 5bits
-    rcu_periph_enum tx_gpio_clk;    //Todo: 5bits
-    rcu_periph_enum rx_gpio_clk;    //Todo: 5bits
-    uint32_t tx_port;               //Todo: 4bits
-#if defined SOC_SERIES_GD32F4xx
-    uint16_t tx_af;                 //Todo: 4bits
-#endif
-    uint16_t tx_pin;                //Todo: 4bits
-    uint32_t rx_port;               //Todo: 4bits
-#if defined SOC_SERIES_GD32F4xx
-    uint16_t rx_af;                 //Todo: 4bits
-#endif
-    uint16_t rx_pin;                //Todo: 4bits
-
-    struct rt_serial_device * serial;
     char *device_name;
+    uint32_t periph;
+    IRQn_Type irqn;
+    rcu_periph_enum per_clk;
+    rcu_periph_enum tx_gpio_clk;
+    rcu_periph_enum rx_gpio_clk;
+    uint32_t tx_port;
+#if defined SOC_SERIES_GD32F4xx
+    uint16_t tx_af;
+#endif
+    uint16_t tx_pin;
+    uint32_t rx_port;
+#if defined SOC_SERIES_GD32F4xx
+    uint16_t rx_af;
+#endif
+    uint16_t rx_pin;
+
+    struct rt_serial_device serial;
+
+#ifdef RT_SERIAL_USING_DMA
+    struct
+    {
+        struct dma_config rx;
+        struct dma_config tx;
+        rt_size_t last_index;
+        rt_sem_t sem_ftf;
+    } dma;
+    rt_uint16_t uart_dma_flag;
+#endif
 };
+
+int rt_hw_usart_init(void);
 
 #ifdef __cplusplus
 }
