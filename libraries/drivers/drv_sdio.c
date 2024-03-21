@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006-2023, RT-Thread Development Team
+ * Copyright (c) 2006-2024, RT-Thread Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -7,6 +7,7 @@
  * Date             Author          Notes
  * 2023-12-30       Evlers          first version
  * 2024-01-21       Evlers          Add support for byte stream data transfer software CRC16
+ * 2024-03-20       Evlers          add driver configure
  */
 
 #include <rthw.h>
@@ -18,10 +19,12 @@
 #include <string.h>
 #include "drv_sdio.h"
 #include "drv_sdio_crc.h"
+#include "drv_dma.h"
+#include "drv_config.h"
 
 /**
- * When the WiFi module is hibernating, 
- * command 52 will time out for the first time. 
+ * When the WiFi module is hibernating,
+ * command 52 will time out for the first time.
  * This is a normal phenomenon and can be ignored.
  * So here the log level is set to the lowest (no logs are printed).
  */
@@ -35,6 +38,8 @@
 #define RTHW_SDIO_LOCK(_sdio)                   rt_mutex_take(&_sdio->mutex, RT_WAITING_FOREVER)
 #define RTHW_SDIO_UNLOCK(_sdio)                 rt_mutex_release(&_sdio->mutex);
 
+static const struct sdio_config sdio_config = SDIO_CONFIG;
+static const struct dma_config dma_config = SDIO_DMA_CONFIG;
 
 struct sdio_pkg
 {
@@ -51,13 +56,13 @@ struct rthw_sdio
     struct rt_mutex mutex;
     struct sdio_pkg *pkg;
 };
-rt_align(SDIO_ALIGN)
 
+rt_align(SDIO_ALIGN)
 static rt_uint8_t cache_buf[SDIO_BUFF_SIZE];
 
 static rt_uint32_t gd32_sdio_clk_get(uint32_t hw_sdio)
 {
-    return SDIO_CLOCK_FREQ;
+    return sdio_config.sdio_clock_freq;
 }
 
 /*!
@@ -194,13 +199,13 @@ static void rthw_sdio_transfer_by_dma(struct rthw_sdio *sdio, struct sdio_pkg *p
     size = pkg->cmd->data->blks * pkg->cmd->data->blksize;
 
     /* clear all the interrupt flags */
-    dma_flag_clear(SDIO_DMA, SDIO_DMA_CHANNEL, DMA_FLAG_FEE);
-    dma_flag_clear(SDIO_DMA, SDIO_DMA_CHANNEL, DMA_FLAG_SDE);
-    dma_flag_clear(SDIO_DMA, SDIO_DMA_CHANNEL, DMA_FLAG_TAE);
-    dma_flag_clear(SDIO_DMA, SDIO_DMA_CHANNEL, DMA_FLAG_HTF);
-    dma_flag_clear(SDIO_DMA, SDIO_DMA_CHANNEL, DMA_FLAG_FTF);
-    dma_channel_disable(SDIO_DMA, SDIO_DMA_CHANNEL);
-    dma_deinit(SDIO_DMA, SDIO_DMA_CHANNEL);
+    dma_flag_clear(dma_config.periph, dma_config.channel, DMA_FLAG_FEE);
+    dma_flag_clear(dma_config.periph, dma_config.channel, DMA_FLAG_SDE);
+    dma_flag_clear(dma_config.periph, dma_config.channel, DMA_FLAG_TAE);
+    dma_flag_clear(dma_config.periph, dma_config.channel, DMA_FLAG_HTF);
+    dma_flag_clear(dma_config.periph, dma_config.channel, DMA_FLAG_FTF);
+    dma_channel_disable(dma_config.periph, dma_config.channel);
+    dma_deinit(dma_config.periph, dma_config.channel);
 
     sdio_dma_enable();
     if (pkg->cmd->data->flags & DATA_DIR_WRITE)
@@ -232,11 +237,11 @@ static void rthw_sdio_transfer_by_dma(struct rthw_sdio *sdio, struct sdio_pkg *p
             dma_struct.memory_burst_width = DMA_MEMORY_BURST_4_BEAT;
             dma_struct.critical_value     = DMA_FIFO_4_WORD;
         }
-        dma_multi_data_mode_init(SDIO_DMA, SDIO_DMA_CHANNEL, &dma_struct);
+        dma_multi_data_mode_init(dma_config.periph, dma_config.channel, &dma_struct);
 
-        dma_flow_controller_config(SDIO_DMA, SDIO_DMA_CHANNEL, DMA_FLOW_CONTROLLER_PERI);
-        dma_channel_subperipheral_select(SDIO_DMA, SDIO_DMA_CHANNEL, SDIO_DMA_SUBPERI);
-        dma_channel_enable(SDIO_DMA, SDIO_DMA_CHANNEL);
+        dma_flow_controller_config(dma_config.periph, dma_config.channel, DMA_FLOW_CONTROLLER_PERI);
+        dma_channel_subperipheral_select(dma_config.periph, dma_config.channel, dma_config.subperiph);
+        dma_channel_enable(dma_config.periph, dma_config.channel);
     }
     else if (pkg->cmd->data->flags & DATA_DIR_READ)
     {
@@ -267,11 +272,11 @@ static void rthw_sdio_transfer_by_dma(struct rthw_sdio *sdio, struct sdio_pkg *p
             dma_struct.memory_burst_width = DMA_MEMORY_BURST_4_BEAT;
             dma_struct.critical_value     = DMA_FIFO_4_WORD;
         }
-        dma_multi_data_mode_init(SDIO_DMA, SDIO_DMA_CHANNEL, &dma_struct);
+        dma_multi_data_mode_init(dma_config.periph, dma_config.channel, &dma_struct);
 
-        dma_flow_controller_config(SDIO_DMA, SDIO_DMA_CHANNEL, DMA_FLOW_CONTROLLER_PERI);
-        dma_channel_subperipheral_select(SDIO_DMA, SDIO_DMA_CHANNEL, SDIO_DMA_SUBPERI);
-        dma_channel_enable(SDIO_DMA, SDIO_DMA_CHANNEL);
+        dma_flow_controller_config(dma_config.periph, dma_config.channel, DMA_FLOW_CONTROLLER_PERI);
+        dma_channel_subperipheral_select(dma_config.periph, dma_config.channel, dma_config.subperiph);
+        dma_channel_enable(dma_config.periph, dma_config.channel);
 
         /* enable the DSM(data state machine) for data transfer */
         sdio_dsm_enable();
@@ -337,7 +342,7 @@ static void rthw_sdio_send_command(struct rthw_sdio *sdio, struct sdio_pkg *pkg)
 
         /* sdio data configure */
         sdio_data_config(HW_SDIO_DATATIMEOUT, data->blks * data->blksize, sd_datablocksize_get(data->blksize));
-        sdio_data_transfer_config((data->flags & DATA_STREAM) ? SDIO_TRANSMODE_STREAM : SDIO_TRANSMODE_BLOCK, 
+        sdio_data_transfer_config((data->flags & DATA_STREAM) ? SDIO_TRANSMODE_STREAM : SDIO_TRANSMODE_BLOCK,
                                     (data->flags & DATA_DIR_READ) ? SDIO_TRANSDIRECTION_TOSDIO : SDIO_TRANSDIRECTION_TOCARD);
 
         sdio_operation_enable();
@@ -680,7 +685,7 @@ static struct rt_mmcsd_host *sdio_host_create(struct gd32_sdio_des *sdio_des)
     }
 
     rt_memcpy(&sdio->sdio_des, sdio_des, sizeof(struct gd32_sdio_des));
-    sdio->sdio_des.hw_sdio = (sdio_des->hw_sdio == RT_NULL ? SDIO_BASE_ADDRESS : sdio_des->hw_sdio);
+    sdio->sdio_des.hw_sdio = (sdio_des->hw_sdio == RT_NULL ? sdio_config.periph : sdio_des->hw_sdio);
     sdio->sdio_des.clk_get = (sdio_des->clk_get == RT_NULL ? gd32_sdio_clk_get : sdio_des->clk_get);
 
     rt_event_init(&sdio->event, "sdio", RT_IPC_FLAG_FIFO);
@@ -689,7 +694,7 @@ static struct rt_mmcsd_host *sdio_host_create(struct gd32_sdio_des *sdio_des)
     // set host defautl attributes
     host->ops = &ops;
     host->freq_min = 400 * 1000;
-    host->freq_max = SDIO_MAX_FREQ;
+    host->freq_max = sdio_config.sdio_max_freq;
     host->valid_ocr = VDD_32_33 | VDD_33_34;
 #ifndef SDIO_USING_1_BIT
     host->flags = MMCSD_BUSWIDTH_4 | MMCSD_MUTBLKWRITE | MMCSD_SUP_HIGHSPEED;
@@ -728,31 +733,30 @@ void SDIO_IRQHandler(void)
 */
 static void gpio_config(void)
 {
-    /* configure the SDIO_DAT0(PC8), SDIO_DAT1(PC9), SDIO_DAT2(PC10), SDIO_DAT3(PC11), SDIO_CLK(PC12) and SDIO_CMD(PD2) */
-    gpio_af_set(SDIO_CLK_PORT, GPIO_AF_12, SDIO_CLK_PIN);
-    gpio_af_set(SDIO_CMD_PORT, GPIO_AF_12, SDIO_CMD_PIN);
-    gpio_af_set(SDIO_D0_PORT,  GPIO_AF_12, SDIO_D0_PIN);
-    gpio_af_set(SDIO_D1_PORT,  GPIO_AF_12, SDIO_D1_PIN);
-    gpio_af_set(SDIO_D2_PORT,  GPIO_AF_12, SDIO_D2_PIN);
-    gpio_af_set(SDIO_D3_PORT,  GPIO_AF_12, SDIO_D3_PIN);
+    gpio_af_set(sdio_config.ckl_port, sdio_config.alt_func_num, sdio_config.ckl_pin);
+    gpio_af_set(sdio_config.cmd_port, sdio_config.alt_func_num, sdio_config.cmd_pin);
+    gpio_af_set(sdio_config.d0_port,  sdio_config.alt_func_num, sdio_config.d0_pin);
+    gpio_af_set(sdio_config.d1_port,  sdio_config.alt_func_num, sdio_config.d1_pin);
+    gpio_af_set(sdio_config.d2_port,  sdio_config.alt_func_num, sdio_config.d2_pin);
+    gpio_af_set(sdio_config.d3_port,  sdio_config.alt_func_num, sdio_config.d3_pin);
 
-    gpio_mode_set(SDIO_CLK_PORT, GPIO_MODE_AF, GPIO_PUPD_NONE, SDIO_CLK_PIN);
-    gpio_output_options_set(SDIO_CLK_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, SDIO_CLK_PIN);
+    gpio_mode_set(sdio_config.ckl_port, GPIO_MODE_AF, GPIO_PUPD_NONE, sdio_config.ckl_pin);
+    gpio_output_options_set(sdio_config.ckl_port, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, sdio_config.ckl_pin);
 
-    gpio_mode_set(SDIO_CMD_PORT, GPIO_MODE_AF, GPIO_PUPD_PULLUP, SDIO_CMD_PIN);
-    gpio_output_options_set(SDIO_CMD_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, SDIO_CMD_PIN);
+    gpio_mode_set(sdio_config.cmd_port, GPIO_MODE_AF, GPIO_PUPD_PULLUP, sdio_config.cmd_pin);
+    gpio_output_options_set(sdio_config.cmd_port, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, sdio_config.cmd_pin);
 
-    gpio_mode_set(SDIO_D0_PORT, GPIO_MODE_AF, GPIO_PUPD_PULLUP, SDIO_D0_PIN);
-    gpio_output_options_set(SDIO_D0_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, SDIO_D0_PIN);
+    gpio_mode_set(sdio_config.d0_port, GPIO_MODE_AF, GPIO_PUPD_PULLUP, sdio_config.d0_pin);
+    gpio_output_options_set(sdio_config.d0_port, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, sdio_config.d0_pin);
 
-    gpio_mode_set(SDIO_D1_PORT, GPIO_MODE_AF, GPIO_PUPD_PULLUP, SDIO_D1_PIN);
-    gpio_output_options_set(SDIO_D1_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, SDIO_D1_PIN);
+    gpio_mode_set(sdio_config.d1_port, GPIO_MODE_AF, GPIO_PUPD_PULLUP, sdio_config.d1_pin);
+    gpio_output_options_set(sdio_config.d1_port, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, sdio_config.d1_pin);
 
-    gpio_mode_set(SDIO_D2_PORT, GPIO_MODE_AF, GPIO_PUPD_PULLUP, SDIO_D2_PIN);
-    gpio_output_options_set(SDIO_D2_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, SDIO_D2_PIN);
+    gpio_mode_set(sdio_config.d2_port, GPIO_MODE_AF, GPIO_PUPD_PULLUP, sdio_config.d2_pin);
+    gpio_output_options_set(sdio_config.d2_port, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, sdio_config.d2_pin);
 
-    gpio_mode_set(SDIO_D3_PORT, GPIO_MODE_AF, GPIO_PUPD_PULLUP, SDIO_D3_PIN);
-    gpio_output_options_set(SDIO_D3_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, SDIO_D3_PIN);
+    gpio_mode_set(sdio_config.d3_port, GPIO_MODE_AF, GPIO_PUPD_PULLUP, sdio_config.d3_pin);
+    gpio_output_options_set(sdio_config.d3_port, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, sdio_config.d3_pin);
 }
 
 /*!
@@ -763,15 +767,15 @@ static void gpio_config(void)
 */
 static void rcu_config(void)
 {
-    rcu_periph_clock_enable(SDIO_GPIO_CLK);
-    rcu_periph_clock_enable(SDIO_GPIO_CMD);
-    rcu_periph_clock_enable(SDIO_GPIO_D0);
-    rcu_periph_clock_enable(SDIO_GPIO_D1);
-    rcu_periph_clock_enable(SDIO_GPIO_D2);
-    rcu_periph_clock_enable(SDIO_GPIO_D3);
+    rcu_periph_clock_enable(sdio_config.clk_port_rcu);
+    rcu_periph_clock_enable(sdio_config.cmd_port_rcu);
+    rcu_periph_clock_enable(sdio_config.d0_port_rcu);
+    rcu_periph_clock_enable(sdio_config.d1_port_rcu);
+    rcu_periph_clock_enable(sdio_config.d2_port_rcu);
+    rcu_periph_clock_enable(sdio_config.d3_port_rcu);
 
-    rcu_periph_clock_enable(SDIO_PERI_CLOCK);
-    rcu_periph_clock_enable(SDIO_DMA_CLOCK);
+    rcu_periph_clock_enable(sdio_config.sdio_rcu);
+    rcu_periph_clock_enable(dma_config.rcu);
 }
 
 int gd32_sdio_init(void)
@@ -787,7 +791,7 @@ int gd32_sdio_init(void)
     nvic_irq_enable(SDIO_IRQn, 0, 0);
 
     /* Save the sdio peripheral address */
-    sdio_des.hw_sdio = SDIO_BASE;
+    sdio_des.hw_sdio = sdio_config.periph;
 
     /* Create mmcsd host for sdio */
     host = sdio_host_create(&sdio_des);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006-2022, RT-Thread Development Team
+ * Copyright (c) 2006-2024, RT-Thread Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -7,6 +7,7 @@
  * Date           Author       Notes
  * 2021-08-20     BruceOu      first implementation
  * 2024-03-19     Evlers       add dma supports
+ * 2024-03-20     Evlers       add driver configure
  */
 
 #ifndef __DRV_USART_H__
@@ -23,8 +24,8 @@ extern "C" {
 #endif
 
 
-/* GD32 uart driver */
-struct gd32_uart
+/* GD32 uart config class */
+struct gd32_uart_config
 {
     char *device_name;
     uint32_t periph;
@@ -42,19 +43,25 @@ struct gd32_uart
     uint16_t rx_af;
 #endif
     uint16_t rx_pin;
+};
 
-    struct rt_serial_device serial;
+/* GD32 uart driver class */
+struct gd32_uart
+{
+    const struct gd32_uart_config *config;
 
 #ifdef RT_SERIAL_USING_DMA
     struct
     {
-        struct dma_config rx;
-        struct dma_config tx;
+        const struct dma_config *rx;
+        const struct dma_config *tx;
         rt_size_t last_index;
         rt_sem_t sem_ftf;
     } dma;
     rt_uint16_t uart_dma_flag;
 #endif
+
+    struct rt_serial_device serial;
 };
 
 int rt_hw_usart_init(void);
