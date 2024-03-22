@@ -30,7 +30,7 @@ extern "C" {
 struct gd32_spi_config
 {
     char *bus_name;
-    uint32_t spi_periph;
+    uint32_t periph;
     rcu_periph_enum spi_clk;
     rcu_periph_enum gpio_clk;
     uint32_t spi_port;

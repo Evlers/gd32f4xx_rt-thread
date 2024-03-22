@@ -10,6 +10,7 @@
  * 2024-01-10     Evlers       add dma supports
  * 2024-01-22     Evlers       add support for half duplex (3-wire mode)
  * 2024-03-20     Evlers       add driver configure
+ * 2024-03-21     Evlers       add msp layer supports
  */
 
 #include "drv_spi.h"
@@ -82,7 +83,7 @@ static void dma_rx_isr (struct gd32_spi *spi_bus)
             if (spi_bus->trans_mode == SPI_TRANSMODE_BDTRANSMIT)
             {
                 /* Set Tx mode to stop the Rx clock */
-                spi_bidirectional_transfer_config(spi_bus->config->spi_periph, SPI_BIDIRECTIONAL_TRANSMIT);
+                spi_bidirectional_transfer_config(spi_bus->config->periph, SPI_BIDIRECTIONAL_TRANSMIT);
             }
             rt_interrupt_enter();
             rt_sem_release(spi_bus->dma.rx_sem_ftf);
@@ -191,7 +192,7 @@ static void gd32_spi_dma_config (struct gd32_spi *gd32_spi, rt_uint8_t data_widt
 {
     dma_single_data_parameter_struct dma_init_struct = { 0 };
 
-    dma_init_struct.periph_addr         = (uint32_t)&SPI_DATA(gd32_spi->config->spi_periph);
+    dma_init_struct.periph_addr         = (uint32_t)&SPI_DATA(gd32_spi->config->periph);
     dma_init_struct.periph_memory_width = data_width <= 8 ? DMA_PERIPH_WIDTH_8BIT : DMA_PERIPH_WIDTH_16BIT;
     dma_init_struct.periph_inc          = DMA_PERIPH_INCREASE_DISABLE;
     dma_init_struct.memory_inc          = DMA_MEMORY_INCREASE_ENABLE;
@@ -219,7 +220,7 @@ static void gd32_spi_dma_config (struct gd32_spi *gd32_spi, rt_uint8_t data_widt
 
         if (gd32_spi->dma.rx->irq != NULL)
         {
-            nvic_irq_enable(gd32_spi->dma.rx->irq, 2, 0);
+            NVIC_EnableIRQ(gd32_spi->dma.rx->irq);
             dma_interrupt_enable(gd32_spi->dma.rx->periph, gd32_spi->dma.rx->channel, DMA_CHXCTL_FTFIE);
         }
 
@@ -254,7 +255,7 @@ static void gd32_spi_dma_config (struct gd32_spi *gd32_spi, rt_uint8_t data_widt
 
         if (gd32_spi->dma.tx->irq != NULL)
         {
-            nvic_irq_enable(gd32_spi->dma.tx->irq, 2, 0);
+            NVIC_EnableIRQ(gd32_spi->dma.tx->irq);
             dma_interrupt_enable(gd32_spi->dma.tx->periph, gd32_spi->dma.tx->channel, DMA_CHXCTL_FTFIE);
         }
 
@@ -268,7 +269,7 @@ static void gd32_spi_dma_config (struct gd32_spi *gd32_spi, rt_uint8_t data_widt
     }
 }
 
-static void spi_dma_exchange(struct rt_spi_device* device, struct rt_spi_message* message)
+static void spi_dma_exchange (struct rt_spi_device* device, struct rt_spi_message* message)
 {
     struct rt_spi_bus *gd32_spi_bus = (struct rt_spi_bus *)device->bus;
     struct gd32_spi *spi_device = (struct gd32_spi *)gd32_spi_bus->parent.user_data;
@@ -286,8 +287,8 @@ static void spi_dma_exchange(struct rt_spi_device* device, struct rt_spi_message
         /* Enable DMA transfer */
         dma_channel_enable(spi_device->dma.rx->periph, spi_device->dma.rx->channel);
         dma_channel_enable(spi_device->dma.tx->periph, spi_device->dma.tx->channel);
-        spi_dma_enable(spi_device->config->spi_periph, SPI_DMA_RECEIVE);
-        spi_dma_enable(spi_device->config->spi_periph, SPI_DMA_TRANSMIT);
+        spi_dma_enable(spi_device->config->periph, SPI_DMA_RECEIVE);
+        spi_dma_enable(spi_device->config->periph, SPI_DMA_TRANSMIT);
 
         /* Wait for transmission to complete */
         rt_sem_take(spi_device->dma.rx_sem_ftf, rt_tick_from_millisecond(SPI_DMA_TIMEOUT_TIME));
@@ -296,8 +297,8 @@ static void spi_dma_exchange(struct rt_spi_device* device, struct rt_spi_message
         /* Disable dma and spi */
         dma_channel_disable(spi_device->dma.rx->periph, spi_device->dma.rx->channel);
         dma_channel_disable(spi_device->dma.tx->periph, spi_device->dma.tx->channel);
-        spi_dma_disable(spi_device->config->spi_periph, SPI_DMA_RECEIVE);
-        spi_dma_disable(spi_device->config->spi_periph, SPI_DMA_TRANSMIT);
+        spi_dma_disable(spi_device->config->periph, SPI_DMA_RECEIVE);
+        spi_dma_disable(spi_device->config->periph, SPI_DMA_TRANSMIT);
     }
     else if (message->send_buf)
     {
@@ -307,17 +308,17 @@ static void spi_dma_exchange(struct rt_spi_device* device, struct rt_spi_message
 
         /* Enable DMA transfer */
         dma_channel_enable(spi_device->dma.tx->periph, spi_device->dma.tx->channel);
-        spi_dma_enable(spi_device->config->spi_periph, SPI_DMA_TRANSMIT);
+        spi_dma_enable(spi_device->config->periph, SPI_DMA_TRANSMIT);
 
         /* Wait for transmission to complete */
         rt_sem_take(spi_device->dma.tx_sem_ftf, rt_tick_from_millisecond(SPI_DMA_TIMEOUT_TIME));
 
         /* Wait for the last data transfer to complete */
-        while (RESET != spi_i2s_flag_get(spi_device->config->spi_periph, SPI_FLAG_TRANS));
+        while (RESET != spi_i2s_flag_get(spi_device->config->periph, SPI_FLAG_TRANS));
 
         /* Disable dma and spi */
         dma_channel_disable(spi_device->dma.tx->periph, spi_device->dma.tx->channel);
-        spi_dma_disable(spi_device->config->spi_periph, SPI_DMA_TRANSMIT);
+        spi_dma_disable(spi_device->config->periph, SPI_DMA_TRANSMIT);
     }
     else
     {
@@ -329,7 +330,7 @@ static void spi_dma_exchange(struct rt_spi_device* device, struct rt_spi_message
 
         /* Enable DMA transfer */
         dma_channel_enable(spi_device->dma.rx->periph, spi_device->dma.rx->channel);
-        spi_dma_enable(spi_device->config->spi_periph, SPI_DMA_RECEIVE);
+        spi_dma_enable(spi_device->config->periph, SPI_DMA_RECEIVE);
 
         /* In full-duplex mode, you need to configure transmission dma */
         if (spi_device->trans_mode == SPI_TRANSMODE_FULLDUPLEX)
@@ -341,7 +342,7 @@ static void spi_dma_exchange(struct rt_spi_device* device, struct rt_spi_message
 
             /* Enable DMA transfer */
             dma_channel_enable(spi_device->dma.tx->periph, spi_device->dma.tx->channel);
-            spi_dma_enable(spi_device->config->spi_periph, SPI_DMA_TRANSMIT);
+            spi_dma_enable(spi_device->config->periph, SPI_DMA_TRANSMIT);
 
             /* Wait for receive to complete */
             rt_sem_take(spi_device->dma.tx_sem_ftf, rt_tick_from_millisecond(SPI_DMA_TIMEOUT_TIME));
@@ -349,7 +350,7 @@ static void spi_dma_exchange(struct rt_spi_device* device, struct rt_spi_message
         else if (spi_device->trans_mode == SPI_TRANSMODE_BDTRANSMIT)
         {
             /* Set Rx mode to start the Rx clock */
-            spi_bidirectional_transfer_config(spi_device->config->spi_periph, SPI_BIDIRECTIONAL_RECEIVE);
+            spi_bidirectional_transfer_config(spi_device->config->periph, SPI_BIDIRECTIONAL_RECEIVE);
         }
 
         /* Wait for transmission to complete */
@@ -357,12 +358,12 @@ static void spi_dma_exchange(struct rt_spi_device* device, struct rt_spi_message
 
         /* Disable dma and spi */
         dma_channel_disable(spi_device->dma.rx->periph, spi_device->dma.rx->channel);
-        spi_dma_disable(spi_device->config->spi_periph, SPI_DMA_RECEIVE);
+        spi_dma_disable(spi_device->config->periph, SPI_DMA_RECEIVE);
 
         if (spi_device->trans_mode == SPI_TRANSMODE_FULLDUPLEX)
         {
             dma_channel_disable(spi_device->dma.tx->periph, spi_device->dma.tx->channel);
-            spi_dma_disable(spi_device->config->spi_periph, SPI_DMA_TRANSMIT);
+            spi_dma_disable(spi_device->config->periph, SPI_DMA_TRANSMIT);
             dma_memory_address_generation_config(spi_device->dma.tx->periph, spi_device->dma.tx->channel, DMA_MEMORY_INCREASE_ENABLE);
         }
     }
@@ -370,12 +371,12 @@ static void spi_dma_exchange(struct rt_spi_device* device, struct rt_spi_message
     LOG_D("spi dma transfer finsh\n");
 }
 
-static void spi_exchange(struct rt_spi_device* device, struct rt_spi_message* message)
+static void spi_exchange (struct rt_spi_device* device, struct rt_spi_message* message)
 {
     struct rt_spi_bus * gd32_spi_bus = (struct rt_spi_bus *)device->bus;
     struct gd32_spi *spi_device = (struct gd32_spi *)gd32_spi_bus->parent.user_data;
     struct rt_spi_configuration * config = &device->config;
-    uint32_t spi_periph = spi_device->config->spi_periph;
+    uint32_t spi_periph = spi_device->config->periph;
 
     LOG_D("spi poll transfer start: %d\n", size);
 
@@ -402,7 +403,7 @@ static void spi_exchange(struct rt_spi_device* device, struct rt_spi_message* me
         {
             rt_uint8_t data = ~0;
 
-            if(send_ptr != RT_NULL)
+            if (send_ptr != RT_NULL)
             {
                 data = *send_ptr++;
             }
@@ -484,43 +485,53 @@ static void spi_exchange(struct rt_spi_device* device, struct rt_spi_message* me
     LOG_D("spi poll transfer finsh\n");
 }
 
-static rt_err_t spi_configure(struct rt_spi_device* device, struct rt_spi_configuration* configuration)
+/**
+ * @brief SPI MSP Initialization
+ *        This function configures the hardware resources used in this example:
+ *           - Peripheral's GPIO Configuration
+ *           - NVIC configuration for interrupt priority
+ *        This function belongs to weak function, users can rewrite this function according to different needs
+ *
+ * @param periph peripherals in gd32_spi_config
+ * @return None
+ */
+rt_weak void gd32_msp_spi_init (const uint32_t *periph)
+{
+    struct gd32_spi_config *config = rt_container_of(periph, struct gd32_spi_config, periph);
+
+    /* enable gpio clock */
+    rcu_periph_clock_enable(config->gpio_clk);
+
+    /* GPIO pin configuration */
+#if defined SOC_SERIES_GD32F4xx
+    gpio_af_set(config->spi_port, config->alt_func_num, config->sck_pin | config->mosi_pin);
+
+    gpio_mode_set(config->spi_port, GPIO_MODE_AF, GPIO_PUPD_NONE, config->sck_pin | config->mosi_pin);
+    gpio_output_options_set(config->spi_port, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, config->sck_pin | config->mosi_pin);
+
+    gpio_af_set(config->spi_port, config->alt_func_num, config->miso_pin);
+    gpio_mode_set(config->spi_port, GPIO_MODE_AF, GPIO_PUPD_NONE, config->miso_pin);
+    gpio_output_options_set(config->spi_port, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, config->miso_pin);
+#else
+    gpio_init(config->spi_port, GPIO_MODE_AF_PP, GPIO_OSPEED_MAX, config->sck_pin | config->mosi_pin);
+    gpio_init(config->spi_port, GPIO_MODE_IN_FLOATING, GPIO_OSPEED_MAX, config->miso_pin);
+#endif
+}
+
+static rt_err_t spi_configure (struct rt_spi_device* device, struct rt_spi_configuration* configuration)
 {
     struct rt_spi_bus * spi_bus = (struct rt_spi_bus *)device->bus;
     struct gd32_spi *spi_device = (struct gd32_spi *)spi_bus->parent.user_data;
     spi_parameter_struct spi_init_struct;
-    uint32_t spi_periph = spi_device->config->spi_periph;
+    uint32_t spi_periph = spi_device->config->periph;
 
     RT_ASSERT(device != RT_NULL);
     RT_ASSERT(configuration != RT_NULL);
 
-    /* enable SPI clock */
+    gd32_msp_spi_init(&spi_device->config->periph);
+
+    /* configure spi clock */
     rcu_periph_clock_enable(spi_device->config->spi_clk);
-    rcu_periph_clock_enable(spi_device->config->gpio_clk);
-
-#if defined SOC_SERIES_GD32F4xx
-    /* GPIO pin configuration */
-    gpio_af_set(spi_device->config->spi_port, spi_device->config->alt_func_num, spi_device->config->sck_pin | spi_device->config->mosi_pin);
-
-    gpio_mode_set(spi_device->config->spi_port, GPIO_MODE_AF, GPIO_PUPD_NONE, spi_device->config->sck_pin | spi_device->config->mosi_pin);
-    gpio_output_options_set(spi_device->config->spi_port, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, spi_device->config->sck_pin | spi_device->config->mosi_pin);
-
-    if (!(configuration->mode & RT_SPI_3WIRE))
-    {
-        gpio_af_set(spi_device->config->spi_port, spi_device->config->alt_func_num, spi_device->config->miso_pin);
-        gpio_mode_set(spi_device->config->spi_port, GPIO_MODE_AF, GPIO_PUPD_NONE, spi_device->config->miso_pin);
-        gpio_output_options_set(spi_device->config->spi_port, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, spi_device->config->miso_pin);
-    }
-#else
-    /* Init SPI SCK MOSI */
-    gpio_init(spi_device->spi_port, GPIO_MODE_AF_PP, GPIO_OSPEED_MAX, spi_device->sck_pin | spi_device->mosi_pin);
-
-    /* Init SPI MISO */
-    if (!(configuration->mode & RT_SPI_3WIRE))
-    {
-        gpio_init(spi_device->spi_port, GPIO_MODE_IN_FLOATING, GPIO_OSPEED_MAX, spi_device->miso_pin);
-    }
-#endif
 
     /* init DMA */
     if (spi_device->spi_dma_flag)
@@ -649,7 +660,7 @@ static rt_err_t spi_configure(struct rt_spi_device* device, struct rt_spi_config
     return RT_EOK;
 };
 
-static rt_ssize_t spixfer(struct rt_spi_device* device, struct rt_spi_message* message)
+static rt_ssize_t spixfer (struct rt_spi_device* device, struct rt_spi_message* message)
 {
     struct rt_spi_bus * gd32_spi_bus = (struct rt_spi_bus *)device->bus;
     struct gd32_spi *spi_device = (struct gd32_spi *)gd32_spi_bus->parent.user_data;
@@ -720,7 +731,7 @@ static struct rt_spi_ops gd32_spi_ops =
 /**
   * Attach the spi device to SPI bus, this function must be used after initialization.
   */
-rt_err_t rt_hw_spi_device_attach(const char *bus_name, const char *device_name, rt_base_t cs_pin)
+rt_err_t rt_hw_spi_device_attach (const char *bus_name, const char *device_name, rt_base_t cs_pin)
 {
     RT_ASSERT(bus_name != RT_NULL);
     RT_ASSERT(device_name != RT_NULL);
@@ -753,7 +764,7 @@ rt_err_t rt_hw_spi_device_attach(const char *bus_name, const char *device_name, 
     return result;
 }
 
-static void gd32_get_dma_info(void)
+static void gd32_get_dma_info (void)
 {
 #ifdef BSP_SPI0_RX_USING_DMA
     spi_bus_obj[SPI0_INDEX].spi_dma_flag |= SPI_USING_RX_DMA_FLAG;
@@ -816,7 +827,7 @@ static void gd32_get_dma_info(void)
 #endif
 }
 
-int rt_hw_spi_init(void)
+int rt_hw_spi_init (void)
 {
     int result = 0;
     int i;

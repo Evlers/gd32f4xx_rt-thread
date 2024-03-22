@@ -29,6 +29,7 @@ extern "C" {
         .sdio_clock_freq = (48U * 1000 * 1000),             \
         .sdio_max_freq = (24 * 1000 * 1000),                \
         .sdio_rcu = RCU_SDIO,                               \
+        .irqn = SDIO_IRQn,                                  \
         RCU_GPIOC, GPIOC, GPIO_PIN_12, /* CLK */            \
         RCU_GPIOD, GPIOD, GPIO_PIN_2,  /* CMD */            \
         RCU_GPIOC, GPIOC, GPIO_PIN_8,  /* D0 */             \

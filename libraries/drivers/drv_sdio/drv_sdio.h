@@ -33,13 +33,14 @@ extern "C" {
 
 typedef rt_uint32_t (*sdio_clk_get)(uint32_t hw_sdio);
 
-struct sdio_config
+struct gd32_sdio_config
 {
     uint32_t periph;
     uint32_t sdio_clock_freq;
     uint32_t sdio_max_freq;
 
     rcu_periph_enum sdio_rcu;
+    IRQn_Type irqn;
     rcu_periph_enum clk_port_rcu;
     uint32_t ckl_port;
     uint16_t ckl_pin;

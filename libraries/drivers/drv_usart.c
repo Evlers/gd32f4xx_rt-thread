@@ -8,6 +8,7 @@
  * 2021-08-20     BruceOu      first implementation
  * 2024-03-19     Evlers       add dma supports
  * 2024-03-20     Evlers       add driver configure
+ * 2024-03-21     Evlers       add msp layer supports
  */
 
 #include "drv_usart.h"
@@ -477,45 +478,46 @@ void UART7_DMA_TX_IRQHandler (void)
 #endif
 
 /**
-* @brief UART MSP Initialization
-*        This function configures the hardware resources used in this example:
-*           - Peripheral's clock enable
-*           - Peripheral's GPIO Configuration
-*           - NVIC configuration for UART interrupt request enable
-* @param huart: UART handle pointer
-* @retval None
-*/
-void gd32_uart_gpio_init (struct gd32_uart *uart)
+ * @brief UART MSP Initialization
+ *        This function configures the hardware resources used in this example:
+ *           - Peripheral's GPIO Configuration
+ *           - NVIC configuration for interrupt priority
+ *        This function belongs to weak function, users can rewrite this function according to different needs
+ *
+ * @param periph peripherals in gd32_uart_config
+ * @return None
+ */
+rt_weak void gd32_msp_usart_init (const uint32_t *periph)
 {
-    /* enable USART clock */
-    rcu_periph_clock_enable(uart->config->tx_gpio_clk);
-    rcu_periph_clock_enable(uart->config->rx_gpio_clk);
-    rcu_periph_clock_enable(uart->config->per_clk);
+    struct gd32_uart_config *config = rt_container_of(periph, struct gd32_uart_config, periph);
+
+    /* enable gpio clock */
+    rcu_periph_clock_enable(config->tx_gpio_clk);
+    rcu_periph_clock_enable(config->rx_gpio_clk);
 
 #if defined SOC_SERIES_GD32F4xx
     /* connect port to USARTx_Tx */
-    gpio_af_set(uart->config->tx_port, uart->config->tx_af, uart->config->tx_pin);
+    gpio_af_set(config->tx_port, config->tx_af, config->tx_pin);
 
     /* connect port to USARTx_Rx */
-    gpio_af_set(uart->config->rx_port, uart->config->rx_af, uart->config->rx_pin);
+    gpio_af_set(config->rx_port, config->rx_af, config->rx_pin);
 
     /* configure USART Tx as alternate function push-pull */
-    gpio_mode_set(uart->config->tx_port, GPIO_MODE_AF, GPIO_PUPD_PULLUP, uart->config->tx_pin);
-    gpio_output_options_set(uart->config->tx_port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, uart->config->tx_pin);
+    gpio_mode_set(config->tx_port, GPIO_MODE_AF, GPIO_PUPD_PULLUP, config->tx_pin);
+    gpio_output_options_set(config->tx_port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, config->tx_pin);
 
     /* configure USART Rx as alternate function push-pull */
-    gpio_mode_set(uart->config->rx_port, GPIO_MODE_AF, GPIO_PUPD_PULLUP, uart->config->rx_pin);
-    gpio_output_options_set(uart->config->rx_port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, uart->config->rx_pin);
+    gpio_mode_set(config->rx_port, GPIO_MODE_AF, GPIO_PUPD_PULLUP, config->rx_pin);
+    gpio_output_options_set(config->rx_port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, config->rx_pin);
 #else
     /* connect port to USARTx_Tx */
-    gpio_init(uart->tx_port, GPIO_MODE_AF_PP, GPIO_OSPEED_50MHZ, uart->tx_pin);
+    gpio_init(config->tx_port, GPIO_MODE_AF_PP, GPIO_OSPEED_50MHZ, config->tx_pin);
 
     /* connect port to USARTx_Rx */
-    gpio_init(uart->rx_port, GPIO_MODE_IN_FLOATING, GPIO_OSPEED_50MHZ, uart->rx_pin);
+    gpio_init(config->rx_port, GPIO_MODE_IN_FLOATING, GPIO_OSPEED_50MHZ, config->rx_pin);
 #endif
 
-    NVIC_SetPriority(uart->config->irqn, 0);
-    NVIC_EnableIRQ(uart->config->irqn);
+    NVIC_SetPriority(config->irqn, 2);
 }
 
 /**
@@ -535,7 +537,10 @@ static rt_err_t gd32_uart_configure (struct rt_serial_device *serial, struct ser
     uart->dma.last_index = serial->config.bufsz;
 #endif
 
-    gd32_uart_gpio_init(uart);
+    gd32_msp_usart_init(&uart->config->periph);
+
+    /* configure uart clock */
+    rcu_periph_clock_enable(uart->config->per_clk);
 
     usart_baudrate_set(uart->config->periph, cfg->baud_rate);
 
@@ -633,7 +638,7 @@ static void _uart_dma_receive (struct gd32_uart *uart, rt_uint8_t *buffer, rt_ui
 #endif
 
     /* enable transmit complete interrupt */
-    nvic_irq_enable(uart->dma.rx->irq, 2, 0);
+    NVIC_EnableIRQ(uart->dma.rx->irq);
     dma_interrupt_enable(uart->dma.rx->periph, uart->dma.rx->channel, DMA_CHXCTL_HTFIE);
     dma_interrupt_enable(uart->dma.rx->periph, uart->dma.rx->channel, DMA_CHXCTL_FTFIE);
 
@@ -732,7 +737,7 @@ static void gd32_dma_config (struct rt_serial_device *serial, rt_ubase_t flag)
 #endif
 
         /* enable tx dma interrupt */
-        nvic_irq_enable(uart->dma.tx->irq, 2, 0);
+        NVIC_EnableIRQ(uart->dma.tx->irq);
 
         /* enable transmit complete interrupt */
         dma_interrupt_enable(uart->dma.tx->periph, uart->dma.tx->channel, DMA_CHXCTL_FTFIE);
@@ -745,6 +750,9 @@ static void gd32_dma_config (struct rt_serial_device *serial, rt_ubase_t flag)
         /* start dma transfer */
         _uart_dma_receive(uart, rx_fifo->buffer, serial->config.bufsz);
     }
+
+    /* enable uart interrupt */
+    NVIC_EnableIRQ(uart->config->irqn);
 }
 
 #endif

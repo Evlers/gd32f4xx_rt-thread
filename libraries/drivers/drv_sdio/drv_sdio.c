@@ -8,6 +8,7 @@
  * 2023-12-30       Evlers          first version
  * 2024-01-21       Evlers          Add support for byte stream data transfer software CRC16
  * 2024-03-20       Evlers          add driver configure
+ * 2024-03-21       Evlers          add msp layer supports
  */
 
 #include <rthw.h>
@@ -38,7 +39,7 @@
 #define RTHW_SDIO_LOCK(_sdio)                   rt_mutex_take(&_sdio->mutex, RT_WAITING_FOREVER)
 #define RTHW_SDIO_UNLOCK(_sdio)                 rt_mutex_release(&_sdio->mutex);
 
-static const struct sdio_config sdio_config = SDIO_CONFIG;
+static const struct gd32_sdio_config sdio_config = SDIO_CONFIG;
 static const struct dma_config dma_config = SDIO_DMA_CONFIG;
 
 struct sdio_pkg
@@ -725,70 +726,73 @@ void SDIO_IRQHandler(void)
     rt_interrupt_leave();
 }
 
-/*!
-    \brief      configure the GPIO of SDIO interface
-    \param[in]  none
-    \param[out] none
-    \retval     none
-*/
-static void gpio_config(void)
+/**
+ * @brief SDIO MSP Initialization
+ *        This function configures the hardware resources used in this example:
+ *           - Peripheral's GPIO Configuration
+ *           - NVIC configuration for interrupt priority
+ *        This function belongs to weak function, users can rewrite this function according to different needs
+ *
+ * @param periph peripherals in gd32_sdio_config
+ * @return None
+ */
+rt_weak void gd32_msp_sdio_init (const uint32_t *periph)
 {
-    gpio_af_set(sdio_config.ckl_port, sdio_config.alt_func_num, sdio_config.ckl_pin);
-    gpio_af_set(sdio_config.cmd_port, sdio_config.alt_func_num, sdio_config.cmd_pin);
-    gpio_af_set(sdio_config.d0_port,  sdio_config.alt_func_num, sdio_config.d0_pin);
-    gpio_af_set(sdio_config.d1_port,  sdio_config.alt_func_num, sdio_config.d1_pin);
-    gpio_af_set(sdio_config.d2_port,  sdio_config.alt_func_num, sdio_config.d2_pin);
-    gpio_af_set(sdio_config.d3_port,  sdio_config.alt_func_num, sdio_config.d3_pin);
+    struct gd32_sdio_config *config = rt_container_of(periph, struct gd32_sdio_config, periph);
 
-    gpio_mode_set(sdio_config.ckl_port, GPIO_MODE_AF, GPIO_PUPD_NONE, sdio_config.ckl_pin);
-    gpio_output_options_set(sdio_config.ckl_port, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, sdio_config.ckl_pin);
+    /* configure gpio clock */
+    rcu_periph_clock_enable(config->clk_port_rcu);
+    rcu_periph_clock_enable(config->cmd_port_rcu);
+    rcu_periph_clock_enable(config->d0_port_rcu);
+    rcu_periph_clock_enable(config->d1_port_rcu);
+    rcu_periph_clock_enable(config->d2_port_rcu);
+    rcu_periph_clock_enable(config->d3_port_rcu);
 
-    gpio_mode_set(sdio_config.cmd_port, GPIO_MODE_AF, GPIO_PUPD_PULLUP, sdio_config.cmd_pin);
-    gpio_output_options_set(sdio_config.cmd_port, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, sdio_config.cmd_pin);
+    /* configure gpio */
+    gpio_af_set(config->ckl_port, config->alt_func_num, config->ckl_pin);
+    gpio_af_set(config->cmd_port, config->alt_func_num, config->cmd_pin);
+    gpio_af_set(config->d0_port,  config->alt_func_num, config->d0_pin);
+    gpio_af_set(config->d1_port,  config->alt_func_num, config->d1_pin);
+    gpio_af_set(config->d2_port,  config->alt_func_num, config->d2_pin);
+    gpio_af_set(config->d3_port,  config->alt_func_num, config->d3_pin);
 
-    gpio_mode_set(sdio_config.d0_port, GPIO_MODE_AF, GPIO_PUPD_PULLUP, sdio_config.d0_pin);
-    gpio_output_options_set(sdio_config.d0_port, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, sdio_config.d0_pin);
+    gpio_mode_set(config->ckl_port, GPIO_MODE_AF, GPIO_PUPD_NONE, config->ckl_pin);
+    gpio_output_options_set(config->ckl_port, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, config->ckl_pin);
 
-    gpio_mode_set(sdio_config.d1_port, GPIO_MODE_AF, GPIO_PUPD_PULLUP, sdio_config.d1_pin);
-    gpio_output_options_set(sdio_config.d1_port, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, sdio_config.d1_pin);
+    gpio_mode_set(config->cmd_port, GPIO_MODE_AF, GPIO_PUPD_PULLUP, config->cmd_pin);
+    gpio_output_options_set(config->cmd_port, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, config->cmd_pin);
 
-    gpio_mode_set(sdio_config.d2_port, GPIO_MODE_AF, GPIO_PUPD_PULLUP, sdio_config.d2_pin);
-    gpio_output_options_set(sdio_config.d2_port, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, sdio_config.d2_pin);
+    gpio_mode_set(config->d0_port, GPIO_MODE_AF, GPIO_PUPD_PULLUP, config->d0_pin);
+    gpio_output_options_set(config->d0_port, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, config->d0_pin);
 
-    gpio_mode_set(sdio_config.d3_port, GPIO_MODE_AF, GPIO_PUPD_PULLUP, sdio_config.d3_pin);
-    gpio_output_options_set(sdio_config.d3_port, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, sdio_config.d3_pin);
+    gpio_mode_set(config->d1_port, GPIO_MODE_AF, GPIO_PUPD_PULLUP, config->d1_pin);
+    gpio_output_options_set(config->d1_port, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, config->d1_pin);
+
+    gpio_mode_set(config->d2_port, GPIO_MODE_AF, GPIO_PUPD_PULLUP, config->d2_pin);
+    gpio_output_options_set(config->d2_port, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, config->d2_pin);
+
+    gpio_mode_set(config->d3_port, GPIO_MODE_AF, GPIO_PUPD_PULLUP, config->d3_pin);
+    gpio_output_options_set(config->d3_port, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, config->d3_pin);
+
+    /* configure the sdio interrupt */
+    NVIC_SetPriority(config->irqn, 0);
 }
 
-/*!
-    \brief      configure the RCU of SDIO and DMA
-    \param[in]  none
-    \param[out] none
-    \retval     none
-*/
-static void rcu_config(void)
-{
-    rcu_periph_clock_enable(sdio_config.clk_port_rcu);
-    rcu_periph_clock_enable(sdio_config.cmd_port_rcu);
-    rcu_periph_clock_enable(sdio_config.d0_port_rcu);
-    rcu_periph_clock_enable(sdio_config.d1_port_rcu);
-    rcu_periph_clock_enable(sdio_config.d2_port_rcu);
-    rcu_periph_clock_enable(sdio_config.d3_port_rcu);
-
-    rcu_periph_clock_enable(sdio_config.sdio_rcu);
-    rcu_periph_clock_enable(dma_config.rcu);
-}
-
-int gd32_sdio_init(void)
+int gd32_sdio_init (void)
 {
     struct gd32_sdio_des sdio_des;
 
-    /* configure the RCU and GPIO, deinitialize the SDIO */
-    rcu_config();
-    gpio_config();
+    gd32_msp_sdio_init(&sdio_config.periph);
+
+    /* deinit sdio */
     sdio_deinit();
 
     /* configure the sdio interrupt */
-    nvic_irq_enable(SDIO_IRQn, 0, 0);
+    NVIC_EnableIRQ(sdio_config.irqn);
+
+    /* enable sdio and dma clock */
+    rcu_periph_clock_enable(sdio_config.sdio_rcu);
+    rcu_periph_clock_enable(dma_config.rcu);
 
     /* Save the sdio peripheral address */
     sdio_des.hw_sdio = sdio_config.periph;

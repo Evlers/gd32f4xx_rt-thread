@@ -51,8 +51,8 @@ if GetDepend('RT_USING_ADC'):
 
 # add sdio drivers.
 if GetDepend('RT_USING_SDIO'):
-    src += ['drv_sdio.c']
-    src += ['drv_sdio_crc.c']
+    src += ['drv_sdio/drv_sdio.c']
+    src += ['drv_sdio/drv_sdio_crc.c']
     
 # add pwm drivers.
 if GetDepend('RT_USING_PWM'):
@@ -68,6 +68,7 @@ if GetDepend(['BSP_USING_ON_CHIP_FLASH']):
 
 path = [cwd]
 path += [os.path.join(cwd, 'config')]
+path += [os.path.join(cwd, 'drv_sdio')]
 
 group = DefineGroup('Drivers', src, depend = [''], CPPPATH = path)
 
