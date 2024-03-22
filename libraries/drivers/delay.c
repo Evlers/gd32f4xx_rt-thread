@@ -21,13 +21,13 @@
 int delay_init (void)
 {
     DEM_CR |= (uint32_t)DEM_CR_TRCENA;      // Enable DWT
-    DWT_CYCCNT = (uint32_t)0u;              // DWT CYCCNT clean 
+    DWT_CYCCNT = (uint32_t)0u;              // DWT CYCCNT clean
     DWT_CR |= (uint32_t)DWT_CR_CYCCNTENA;   // Enable DWT CYCCNT
     return 1;
 }
 INIT_BOARD_EXPORT(delay_init);
 
-rt_inline uint32_t get_cpu_tick (void)
+uint32_t get_cpu_tick (void)
 {
     return ((uint32_t)DWT_CYCCNT);
 }

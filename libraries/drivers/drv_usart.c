@@ -1031,7 +1031,7 @@ int rt_hw_usart_init (void)
 {
     int i;
     int result;
-	struct serial_configure config = RT_SERIAL_CONFIG_DEFAULT;
+    struct serial_configure config = RT_SERIAL_CONFIG_DEFAULT;
 
     gd32_get_dma_info();
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006-2022, RT-Thread Development Team
+ * Copyright (c) 2006-2024, RT-Thread Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -36,7 +36,7 @@ static time_t get_rtc_timestamp(void)
     rtc_parameter_struct rtc_initpara;
 
     rtc_current_time_get(&rtc_initpara);
-    
+
     t.tm_year = (((rtc_initpara.year & 0xF0) >> 4) * 10) + (rtc_initpara.year & 0x0F) + 100;
     t.tm_mon = rtc_initpara.month;
     t.tm_mday = (((rtc_initpara.date & 0xF0) >> 4) * 10) + (rtc_initpara.date & 0x0F);
@@ -169,7 +169,7 @@ static int rt_hw_rtc_init(void)
 
     rcu_periph_clock_enable(RCU_PMU);
     pmu_backup_write_enable();
-    
+
     rtc_pre_config();
 
     /* get RTC clock entry selection */
@@ -178,7 +178,7 @@ static int rt_hw_rtc_init(void)
     /* check if RTC has aready been configured */
     if ((0xAA55 != RTC_BKP0) || (0x00 == RTCSRC_FLAG)) {
         /* backup data register value is not correct or not yet programmed
-        or RTC clock source is not configured (when the first time the program 
+        or RTC clock source is not configured (when the first time the program
         is executed or data in RCU_BDCTL is lost due to Vbat feeding) */
         rtc_configuration();
 

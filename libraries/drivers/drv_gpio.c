@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006-2022, RT-Thread Development Team
+ * Copyright (c) 2006-2024, RT-Thread Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -385,13 +385,15 @@ static rt_int8_t gd32_pin_read(rt_device_t dev, rt_base_t pin)
 rt_inline rt_int32_t bit2bitno(rt_uint32_t bit)
 {
     rt_uint8_t i;
+
     for (i = 0; i < 32; i++)
     {
-        if ((0x01 << i) == bit)
+        if ((((uint32_t)0x01) << i) == bit)
         {
             return i;
         }
     }
+
     return -1;
 }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006-2023, RT-Thread Development Team
+ * Copyright (c) 2006-2024, RT-Thread Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -40,10 +40,10 @@ int gd32_flash_read(rt_uint32_t addr, rt_uint8_t *buf, size_t size)
         LOG_E("read outrange flash size! addr is (0x%p)", (void*)(addr + size));
         return -RT_EINVAL;
     }
-		
+
     memcpy(buf, ((const void*)addr), size);
 
-	return size;
+    return size;
 }
 
 /**
@@ -62,7 +62,7 @@ int gd32_flash_write(rt_uint32_t addr, const rt_uint8_t *buf, size_t size)
     rt_err_t result = RT_EOK;
     fmc_state_enum fmc_state = FMC_READY;
 
-	if ((addr + size) > GD32_FLASH_END_ADDRESS)
+    if ((addr + size) > GD32_FLASH_END_ADDRESS)
     {
         LOG_E("write outrange flash size! addr is (0x%p)", (void*)(addr + size));
         return -RT_EINVAL;
@@ -73,32 +73,32 @@ int gd32_flash_write(rt_uint32_t addr, const rt_uint8_t *buf, size_t size)
         return -RT_EINVAL;
     }
 
-	/* unlock the flash program erase controller */
-	fmc_unlock();
+    /* unlock the flash program erase controller */
+    fmc_unlock();
 
-	for (uint32_t i = 0; i < size; i ++)
+    for (uint32_t i = 0; i < size; i ++)
     {
         rt_base_t level = rt_hw_interrupt_disable();
 
-		/* clear pending flags */
-		fmc_flag_clear(FMC_FLAG_END | FMC_FLAG_OPERR | FMC_FLAG_WPERR | FMC_FLAG_PGMERR | FMC_FLAG_PGSERR);
+        /* clear pending flags */
+        fmc_flag_clear(FMC_FLAG_END | FMC_FLAG_OPERR | FMC_FLAG_WPERR | FMC_FLAG_PGMERR | FMC_FLAG_PGSERR);
 
-		/* write byte to the corresponding address */
-		fmc_state = fmc_byte_program(addr, buf[i]);
+        /* write byte to the corresponding address */
+        fmc_state = fmc_byte_program(addr, buf[i]);
         rt_hw_interrupt_enable(level);
-		
-		if (fmc_state != FMC_READY)
+
+        if (fmc_state != FMC_READY)
         {
             LOG_E("Write error of the flash, addr: 0x%08X, size: 0x%X, offset: %u, state: %u", addr, size, i, fmc_state);
             result = -RT_ERROR;
             break;
         }
 
-		addr += sizeof(buf[0]);
-	}
+        addr += sizeof(buf[0]);
+    }
 
-	/* lock the flash program erase controller */
-	fmc_lock();
+    /* lock the flash program erase controller */
+    fmc_lock();
 
     if (result != RT_EOK)
     {
@@ -130,29 +130,29 @@ int gd32_flash_erase(rt_uint32_t addr, size_t size)
     }
 
     /* unlock the flash program erase controller */
-	fmc_unlock();
+    fmc_unlock();
 
     for (uint32_t i = 0; i < size; i += GD32_FLASH_PAGE_SIZE)
     {
         rt_base_t level = rt_hw_interrupt_disable();
 
         /* clear pending flags */
-	    fmc_flag_clear(FMC_FLAG_END | FMC_FLAG_OPERR | FMC_FLAG_WPERR | FMC_FLAG_PGMERR | FMC_FLAG_PGSERR);
+        fmc_flag_clear(FMC_FLAG_END | FMC_FLAG_OPERR | FMC_FLAG_WPERR | FMC_FLAG_PGMERR | FMC_FLAG_PGSERR);
 
         /* wait the erase operation complete */
         fmc_state = fmc_page_erase(addr + i);
         rt_hw_interrupt_enable(level);
 
-	    if (fmc_state != FMC_READY)
+        if (fmc_state != FMC_READY)
         {
             LOG_E("Erase error of the flash, addr: 0x%08X, size: 0x%X, offset: %u, state: %u", addr, size, i, fmc_state);
             result = -RT_ERROR;
             break;
         }
     }
-	
-	/* lock the flash program erase controller */
-	fmc_lock();
+
+    /* lock the flash program erase controller */
+    fmc_lock();
 
     if (result != RT_EOK)
     {
@@ -168,7 +168,7 @@ static int fal_flash_read(long offset, rt_uint8_t *buf, size_t size);
 static int fal_flash_write(long offset, const rt_uint8_t *buf, size_t size);
 static int fal_flash_erase(long offset, size_t size);
 
-const struct fal_flash_dev gd32_onchip_flash = 
+const struct fal_flash_dev gd32_onchip_flash =
 {
     "onchip_flash",
     GD32_ONCHIP_FLASH_ADDR,

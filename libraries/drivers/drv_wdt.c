@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006-2022, RT-Thread Development Team
+ * Copyright (c) 2006-2024, RT-Thread Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -92,8 +92,6 @@ static struct rt_watchdog_ops g_wdt_ops = {
 
 static int rt_hw_wdt_init(void)
 {
-    rt_err_t ret;
-
     g_wdt_dev.wdt.ops = &g_wdt_ops;
     /* register watchdog device */
     if (rt_hw_watchdog_register(&g_wdt_dev.wdt, "wdt", \
@@ -104,7 +102,7 @@ static int rt_hw_wdt_init(void)
     }
     LOG_D("wdt device register success.");
 
-    return ret;
+    return RT_EOK;
 }
 INIT_PREV_EXPORT(rt_hw_wdt_init);
 #endif
