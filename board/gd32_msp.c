@@ -44,6 +44,22 @@ void gd32_msp_usart_init (const uint32_t *periph)
     }
 #endif /* BSP_USING_UART0 */
 
+#ifdef BSP_USING_UART2
+    if (*periph == USART2)
+    {
+        /* configure gpio clock */
+        rcu_periph_clock_enable(RCU_GPIOB);
+
+        /* configure gpio */
+        gpio_af_set(GPIOB, GPIO_AF_7, GPIO_PIN_10 | GPIO_PIN_11);
+        gpio_mode_set(GPIOB, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_10 | GPIO_PIN_11);
+        gpio_output_options_set(GPIOB, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_10 | GPIO_PIN_11);
+
+        /* configure interrupt priority */
+        NVIC_SetPriority(USART2_IRQn, 2);
+    }
+#endif /* BSP_USING_UART3 */
+
 #ifdef BSP_USING_UART3
     if (*periph == UART3)
     {
@@ -59,6 +75,22 @@ void gd32_msp_usart_init (const uint32_t *periph)
         NVIC_SetPriority(UART3_IRQn, 2);
     }
 #endif /* BSP_USING_UART3 */
+
+#ifdef BSP_USING_UART6
+    if (*periph == UART6)
+    {
+        /* configure gpio clock */
+        rcu_periph_clock_enable(RCU_GPIOE);
+
+        /* configure gpio */
+        gpio_af_set(GPIOE, GPIO_AF_8, GPIO_PIN_7 | GPIO_PIN_8);
+        gpio_mode_set(GPIOE, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_7 | GPIO_PIN_8);
+        gpio_output_options_set(GPIOE, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_7 | GPIO_PIN_8);
+
+        /* configure interrupt priority */
+        NVIC_SetPriority(UART6_IRQn, 2);
+    }
+#endif /* BSP_USING_UART6 */
 
 }
 #endif /* BSP_USING_UART */
