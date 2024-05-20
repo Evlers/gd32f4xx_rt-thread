@@ -4,6 +4,8 @@
 /* Automatically generated file; DO NOT EDIT. */
 /* RT-Thread Configuration */
 
+#define OFFLINE_PKGS_DIR "offline-packages"
+
 /* RT-Thread Kernel */
 
 #define RT_NAME_MAX 16
@@ -47,7 +49,7 @@
 #define RT_USING_DEVICE
 #define RT_USING_CONSOLE
 #define RT_CONSOLEBUF_SIZE 128
-#define RT_CONSOLE_DEVICE_NAME "uart0"
+#define RT_CONSOLE_DEVICE_NAME "uart2"
 #define RT_VER_NUM 0x50000
 
 /* RT-Thread Components */
@@ -106,6 +108,7 @@
 #define RT_USING_SERIAL
 #define RT_USING_SERIAL_V2
 #define RT_SERIAL_USING_DMA
+#define RT_USING_HWTIMER
 #define RT_USING_PIN
 #define RT_USING_MTD_NOR
 #define RT_USING_RTC
@@ -201,6 +204,8 @@
 #define RT_LWIP_UDP
 #define RT_LWIP_TCP
 #define RT_LWIP_RAW
+#define RT_LWIP_PPP
+#define RT_LWIP_PPPOS
 #define RT_MEMP_NUM_NETCONN 8
 #define RT_LWIP_PBUF_NUM 16
 #define RT_LWIP_RAW_PCB_NUM 4
@@ -211,7 +216,7 @@
 #define RT_LWIP_TCP_WND 8196
 #define RT_LWIP_TCPTHREAD_PRIORITY 10
 #define RT_LWIP_TCPTHREAD_MBOX_SIZE 8
-#define RT_LWIP_TCPTHREAD_STACKSIZE 1024
+#define RT_LWIP_TCPTHREAD_STACKSIZE 2048
 #define RT_LWIP_ETHTHREAD_PRIORITY 12
 #define RT_LWIP_ETHTHREAD_STACKSIZE 1024
 #define RT_LWIP_ETHTHREAD_MBOX_SIZE 8
@@ -228,12 +233,17 @@
 #define LWIP_USING_DHCPD
 #define DHCPD_SERVER_IP "192.168.20.1"
 #define DHCPD_USING_ROUTER
+#define RT_USING_AT
+#define AT_USING_CLIENT
+#define AT_CLIENT_NUM_MAX 1
+#define AT_USING_CLI
+#define AT_SW_VERSION_NUM 0x10301
 
 /* Utilities */
 
 #define RT_USING_RYM
 
-/* RT-Thread online packages */
+/* RT-Thread offline packages */
 
 /* IoT - internet of things */
 
@@ -251,29 +261,13 @@
 #define WEBCLIENT_USING_MBED_TLS
 #define PKG_USING_WEBCLIENT_LATEST_VERSION
 #define PKG_WEBCLIENT_VER_NUM 0x99999
-
-/* Wi-Fi */
-
-/* Marvell WiFi */
-
-
-/* Wiced WiFi */
-
-
-/* CYW43012 WiFi */
-
-
-/* BL808 WiFi */
-
-
-/* CYW43439 WiFi */
-
 #define PKG_USING_NOPOLL
 #define PKG_USING_NOPOLL_EXAMPLE
 #define PKG_USING_NOPOLL_LATEST_VERSION
 #define PKG_USING_NETUTILS
 #define PKG_NETUTILS_TFTP
 #define PKG_NETUTILS_IPERF
+#define IPERF_THREAD_STACK_SIZE 2048
 #define PKG_NETUTILS_NETIO
 #define PKG_NETUTILS_NTP
 #define NTP_USING_AUTO_SYNC
@@ -288,9 +282,13 @@
 #define PKG_NETUTILS_TCPDUMP_DBG
 #define PKG_USING_NETUTILS_LATEST_VERSION
 #define PKG_NETUTILS_VER_NUM 0x99999
-
-/* IoT Cloud */
-
+#define OPKG_USING_PPP_DEVICE
+#define PPP_LCP_LINK_DETECT
+#define LCP_ECHOINTERVAL 10
+#define CFG_PPP_USING_PUBLIC_APN
+#define CFG_PPP_APN_CTCC
+#define CFG_PPP_DEVICE_USING_EC600X
+#define PPP_CLIENT_NAME "uart6"
 
 /* security packages */
 
@@ -316,17 +314,8 @@
 
 /* JSON: JavaScript Object Notation, a lightweight data-interchange format */
 
-
-/* XML: Extensible Markup Language */
-
-
-/* multimedia packages */
-
-/* LVGL: powerful and easy-to-use embedded GUI library */
-
-
-/* u8g2: a monochrome graphic library */
-
+#define PKG_USING_CJSON
+#define PKG_USING_CJSON_V1717
 
 /* tools packages */
 
@@ -339,102 +328,13 @@
 #define PKG_USING_EASYFLASH_V410
 #define PKG_EASYFLASH_VER_NUM 0x40100
 
-/* system packages */
-
-/* enhanced kernel services */
-
-
-/* acceleration: Assembly language or algorithmic acceleration packages */
-
-
-/* CMSIS: ARM Cortex-M Microcontroller Software Interface Standard */
-
-
-/* Micrium: Micrium software products porting for RT-Thread */
-
-
-/* peripheral libraries and drivers */
-
-/* HAL & SDK Drivers */
-
-/* STM32 HAL & SDK Drivers */
-
-
-/* Kendryte SDK */
-
-
-/* sensors drivers */
-
-
-/* touch drivers */
-
-
-/* AI packages */
-
-
-/* Signal Processing and Control Algorithm Packages */
-
-
 /* miscellaneous packages */
 
-/* project laboratory */
-
-/* samples: kernel and components samples */
-
-
-/* entertainment: terminal games and other interesting software packages */
-
 #define PKG_USING_OPTPARSE
-#define PKG_USING_OPTPARSE_V100
-
-/* Arduino libraries */
-
-
-/* Projects and Demos */
-
-
-/* Sensors */
-
-
-/* Display */
-
-
-/* Timing */
-
-
-/* Data Processing */
-
-
-/* Data Storage */
-
-/* Communication */
-
-
-/* Device Control */
-
-
-/* Other */
-
-
-/* Signal IO */
-
-
-/* Uncategorized */
+#define PKG_USING_OPTPARSE_LATEST_VERSION
 
 /* External Libraries */
 
-#define RT_USING_WHD
-#define WHD_USING_CHIP_CYW43438
-#define WHD_RESOURCES_IN_EXTERNAL_STORAGE
-#define WHD_RESOURCES_FIRMWARE_NAME "whd_firmware"
-#define WHD_RESOURCES_CLM_NAME "whd_clm"
-#define WHD_RESOURCES_BLOCK_SIZE 1024
-#define CY_WIFI_WHD_THREAD_PRIORITY 8
-#define CY_WIFI_WHD_THREAD_STACK_SIZE 5120
-#define CYBSP_REG_ON_PIN 49
-#define CYBSP_HOST_WAKE_IRQ_PIN 37
-#define CYBSP_HOST_WAKE_IRQ_EVENT_FALL
-#define CYBSP_OOB_INTR_PRIORITY 2
 
 /* Hardware Drivers Config */
 
@@ -447,14 +347,23 @@
 
 #define BSP_USING_GPIO
 #define BSP_USING_UART
-#define BSP_USING_UART0
-#define BSP_UART0_RX_USING_DMA
-#define BSP_UART0_RX_BUFSIZE 64
-#define BSP_UART0_TX_BUFSIZE 0
+#define BSP_USING_UART2
+#define BSP_UART2_RX_USING_DMA
+#define BSP_UART2_RX_BUFSIZE 64
+#define BSP_UART2_TX_BUFSIZE 0
+#define BSP_USING_UART6
+#define BSP_UART6_RX_USING_DMA
+#define BSP_UART6_RX_BUFSIZE 1024
+#define BSP_UART6_TX_BUFSIZE 0
+#define BSP_USING_HWTIMER
+#define BSP_USING_HWTIMER3
 #define BSP_USING_SDIO
 #define BSP_USING_ON_CHIP_FLASH
 
 /* Board extended module Drivers */
 
+/* Quectel EC600X Cellular Module */
+
+#define EC600X_POWER_PIN 18
 
 #endif

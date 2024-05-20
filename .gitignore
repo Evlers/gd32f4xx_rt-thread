@@ -29,10 +29,8 @@ documentation/html
 *.su
 *.scvd
 
-#packages
-packages/pkgs_error.json
-packages/packages.dbsqlite
-packages/pkgs.json
+#online packages
+packages/
 
 #certificate
 tls_certificate.c
