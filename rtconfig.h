@@ -26,7 +26,8 @@
 /* kservice optimization */
 
 #define RT_KSERVICE_USING_STDLIB
-#define RT_DEBUG
+#define RT_USING_DEBUG
+#define RT_DEBUGING_CONTEXT
 
 /* Inter-Thread communication */
 
@@ -38,7 +39,6 @@
 
 /* Memory Management */
 
-#define RT_PAGE_MAX_ORDER 11
 #define RT_USING_MEMPOOL
 #define RT_USING_SMALL_MEM
 #define RT_USING_SMALL_MEM_AS_HEAP
@@ -50,7 +50,12 @@
 #define RT_USING_CONSOLE
 #define RT_CONSOLEBUF_SIZE 128
 #define RT_CONSOLE_DEVICE_NAME "uart2"
-#define RT_VER_NUM 0x50000
+#define RT_VER_NUM 0x50002
+#define RT_USING_HW_ATOMIC
+#define RT_USING_CPU_FFS
+#define ARCH_ARM
+#define ARCH_ARM_CORTEX_M
+#define ARCH_ARM_CORTEX_M4
 
 /* RT-Thread Components */
 
@@ -71,13 +76,17 @@
 #define MSH_USING_BUILT_IN_COMMANDS
 #define FINSH_USING_DESCRIPTION
 #define FINSH_ARG_MAX 10
-#define FINSH_USING_SMART_COMPLETE
+#define FINSH_USING_OPTION_COMPLETION
+
+/* DFS: device virtual file system */
+
 #define RT_USING_DFS
 #define DFS_USING_POSIX
 #define DFS_USING_WORKDIR
+#define DFS_FD_MAX 16
+#define RT_USING_DFS_V1
 #define DFS_FILESYSTEMS_MAX 4
 #define DFS_FILESYSTEM_TYPES_MAX 4
-#define DFS_FD_MAX 16
 #define RT_USING_DFS_ELMFAT
 
 /* elm-chan's FatFs, Generic FAT Filesystem Module */
@@ -151,7 +160,14 @@
 
 /* C/C++ and POSIX layer */
 
-#define RT_LIBC_DEFAULT_TIMEZONE 8
+/* ISO-ANSI C layer */
+
+/* Timezone and Daylight Saving Time */
+
+#define RT_LIBC_USING_LIGHT_TZ_DST
+#define RT_LIBC_TZ_DEFAULT_HOUR 8
+#define RT_LIBC_TZ_DEFAULT_MIN 0
+#define RT_LIBC_TZ_DEFAULT_SEC 0
 
 /* POSIX (Portable Operating System Interface) layer */
 
@@ -204,8 +220,6 @@
 #define RT_LWIP_UDP
 #define RT_LWIP_TCP
 #define RT_LWIP_RAW
-#define RT_LWIP_PPP
-#define RT_LWIP_PPPOS
 #define RT_MEMP_NUM_NETCONN 8
 #define RT_LWIP_PBUF_NUM 16
 #define RT_LWIP_RAW_PCB_NUM 4
@@ -233,37 +247,24 @@
 #define LWIP_USING_DHCPD
 #define DHCPD_SERVER_IP "192.168.20.1"
 #define DHCPD_USING_ROUTER
-#define RT_USING_AT
-#define AT_USING_CLIENT
-#define AT_CLIENT_NUM_MAX 1
-#define AT_USING_CLI
-#define AT_SW_VERSION_NUM 0x10301
 
 /* Utilities */
 
 #define RT_USING_RYM
+#define RT_USING_RESOURCE_ID
+
+/* RT-Thread Utestcases */
+
 
 /* RT-Thread offline packages */
 
 /* IoT - internet of things */
 
-#define PKG_USING_PAHOMQTT
-#define PAHOMQTT_PIPE_MODE
-#define PKG_USING_PAHOMQTT_EXAMPLE
-#define PKG_USING_PAHOMQTT_TEST
-#define MQTT_USING_TLS
-#define RT_PKG_MQTT_THREAD_STACK_SIZE 8192
-#define PKG_PAHOMQTT_SUBSCRIBE_HANDLERS 8
-#define MQTT_DEBUG
-#define PKG_USING_PAHOMQTT_LATEST
 #define PKG_USING_WEBCLIENT
 #define WEBCLIENT_USING_FILE_DOWMLOAD
 #define WEBCLIENT_USING_MBED_TLS
 #define PKG_USING_WEBCLIENT_LATEST_VERSION
 #define PKG_WEBCLIENT_VER_NUM 0x99999
-#define PKG_USING_NOPOLL
-#define PKG_USING_NOPOLL_EXAMPLE
-#define PKG_USING_NOPOLL_LATEST_VERSION
 #define PKG_USING_NETUTILS
 #define PKG_NETUTILS_TFTP
 #define PKG_NETUTILS_IPERF
@@ -282,13 +283,6 @@
 #define PKG_NETUTILS_TCPDUMP_DBG
 #define PKG_USING_NETUTILS_LATEST_VERSION
 #define PKG_NETUTILS_VER_NUM 0x99999
-#define OPKG_USING_PPP_DEVICE
-#define PPP_LCP_LINK_DETECT
-#define LCP_ECHOINTERVAL 10
-#define CFG_PPP_USING_PUBLIC_APN
-#define CFG_PPP_APN_CTCC
-#define CFG_PPP_DEVICE_USING_EC600X
-#define PPP_CLIENT_NAME "uart6"
 
 /* security packages */
 
@@ -301,21 +295,11 @@
 #define MBEDTLS_ECP_WINDOW_SIZE 2
 #define MBEDTLS_SSL_MAX_CONTENT_LEN 16384
 #define PKG_USING_MBEDTLS_LATEST_VERSION
-#define PKG_USING_TINYCRYPT
-#define PKG_USING_TINYCRYPT_LATEST_VERSION
-#define TINY_CRYPT_MD5
-#define TINY_CRYPT_BASE64
-#define TINY_CRYPT_AES
-#define TINY_CRYPT_AES_ROM_TABLES
-#define TINY_CRYPT_SHA1
-#define TINY_CRYPT_SHA256
 
 /* language packages */
 
 /* JSON: JavaScript Object Notation, a lightweight data-interchange format */
 
-#define PKG_USING_CJSON
-#define PKG_USING_CJSON_V1717
 
 /* tools packages */
 
@@ -332,13 +316,27 @@
 
 #define PKG_USING_OPTPARSE
 #define PKG_USING_OPTPARSE_LATEST_VERSION
+#define SOC_FAMILY_GD32
+#define SOC_SERIES_GD32F4xx
 
 /* External Libraries */
 
+#define PKG_USING_WIFI_HOST_DRIVER
+#define WHD_USING_CHIP_CYW43438
+#define WHD_RESOURCES_IN_EXTERNAL_STORAGE
+#define WHD_RESOURCES_FIRMWARE_NAME "whd_firmware"
+#define WHD_RESOURCES_CLM_NAME "whd_clm"
+#define WHD_RESOURCES_BLOCK_SIZE 1024
+#define CY_WIFI_WHD_THREAD_PRIORITY 8
+#define CY_WIFI_WHD_THREAD_STACK_SIZE 5120
+#define CYBSP_REG_ON_PIN 55
+#define CYBSP_HOST_WAKE_IRQ_PIN 54
+#define CYBSP_HOST_WAKE_IRQ_EVENT_FALL
+#define CYBSP_OOB_INTR_PRIORITY 2
+#define CY_WIFI_MMCSD_WAIT_TIME 500
 
 /* Hardware Drivers Config */
 
-#define SOC_SERIES_GD32F4xx
 #define SOC_GD32470Z
 
 /* Onboard Peripheral Drivers */
@@ -362,8 +360,5 @@
 
 /* Board extended module Drivers */
 
-/* Quectel EC600X Cellular Module */
-
-#define EC600X_POWER_PIN 18
 
 #endif
