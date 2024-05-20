@@ -39,8 +39,8 @@ extern "C" {
         USART1,                                             \
         USART1_IRQn,                                        \
         RCU_USART1, RCU_GPIOA, RCU_GPIOA,                   \
-        GPIOB, GPIO_AF_7, GPIO_PIN_10,                      \
-        GPIOB, GPIO_AF_7, GPIO_PIN_11,                      \
+        GPIOA, GPIO_AF_7, GPIO_PIN_2,                       \
+        GPIOA, GPIO_AF_7, GPIO_PIN_3,                       \
     }
 #endif /* UART1_CONFIG */
 #endif /* BSP_USING_UART1 */
