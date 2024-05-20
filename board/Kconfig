@@ -368,22 +368,20 @@ menu "On-chip Peripheral Drivers"
                 default n
         endif
 
-    menuconfig BSP_USING_TIM
-        bool "Enable timer"
+    menuconfig BSP_USING_HWTIMER
+        bool "Enable HWTIMER"
         default n
         select RT_USING_HWTIMER
-        if BSP_USING_TIM
-            config BSP_USING_TIM10
-                bool "Enable TIM10"
-                default n
-
-            config BSP_USING_TIM11
-                bool "Enable TIM11"
-                default n
-
-            config BSP_USING_TIM12
-                bool "Enable TIM13"
-                default n
+        if BSP_USING_HWTIMER
+        config BSP_USING_HWTIMER3
+            bool "Enable hardware timer3"
+            default n
+        config BSP_USING_HWTIMER4
+            bool "Enable hardware timer4"
+            default n
+        config BSP_USING_HWTIMER5
+            bool "Enable hardware timer5"
+            default n
         endif
 
     menuconfig BSP_USING_ONCHIP_RTC

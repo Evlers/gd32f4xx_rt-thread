@@ -169,7 +169,6 @@ static rt_err_t gd32_hwtimer_control(struct rt_hwtimer_device *timer, rt_uint32_
 {
     int ret = RT_EOK;
     rt_int32_t freq;
-    rt_hwtimer_mode_t mode;
 
     switch (cmd)
     {
