@@ -249,8 +249,7 @@ void sdio_crc16_calc_1bit_bus (uint8_t crc[2], uint8_t *ptr, uint16_t len)
  */
 void sdio_crc16_calc_4bit_bus (uint8_t crc[8], uint8_t *ptr, uint16_t len)
 {
-    const int data_wire_buf_len = DRV_SDIO_CRC16_4BIT_BUS_DATA_MAX_LEN / 8 / 4;
-    uint8_t data_wire[4][data_wire_buf_len] = { 0 };
+    uint8_t data_wire[4][DRV_SDIO_CRC16_4BIT_BUS_DATA_MAX_LEN / 8 / 4] = { 0 };
     uint8_t *each_data_wire[4] = { data_wire[0], data_wire[1], data_wire[2], data_wire[3] };
     uint8_t crc_buff[8] = { 0 };
 
