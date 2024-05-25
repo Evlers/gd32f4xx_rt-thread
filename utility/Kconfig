@@ -1,0 +1,16 @@
+menu "Utility Config"
+
+    config UTILITY_USING_I2CDETECT
+        bool "Enable the i2cdetect command"
+        select RT_USING_I2C
+        default n
+
+    config UTILITY_USING_RANDOM
+        bool "Enable the random supports"
+        default n
+
+    config UTILITY_USING_REBOOT
+        bool "Enable the reboot command"
+        default n
+
+endmenu

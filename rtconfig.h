@@ -118,6 +118,8 @@
 #define RT_USING_SERIAL_V2
 #define RT_SERIAL_USING_DMA
 #define RT_USING_HWTIMER
+#define RT_USING_I2C
+#define RT_USING_I2C_BITOPS
 #define RT_USING_PIN
 #define RT_USING_MTD_NOR
 #define RT_USING_RTC
@@ -360,5 +362,10 @@
 
 /* Board extended module Drivers */
 
+/* Utility Config */
+
+#define UTILITY_USING_I2CDETECT
+#define UTILITY_USING_RANDOM
+#define UTILITY_USING_REBOOT
 
 #endif

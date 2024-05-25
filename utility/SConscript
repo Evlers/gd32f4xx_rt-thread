@@ -1,0 +1,24 @@
+Import('RTT_ROOT')
+Import('rtconfig')
+from building import *
+
+cwd = GetCurrentDir()
+
+# add the general drivers.
+src = Split("""
+utility.c
+""")
+
+# add i2cdetect command
+if GetDepend('UTILITY_USING_I2CDETECT'):
+    src += ['i2cdetect.c']
+
+# add random supports
+if GetDepend('UTILITY_USING_RANDOM'):
+    src += ['i2cdetect.c']
+
+path = [cwd]
+
+group = DefineGroup('utility', src, depend = [''], CPPPATH = path)
+
+Return('group')
