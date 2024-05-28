@@ -15,7 +15,7 @@ if GetDepend('UTILITY_USING_I2CDETECT'):
 
 # add random supports
 if GetDepend('UTILITY_USING_RANDOM'):
-    src += ['i2cdetect.c']
+    src += ['random.c']
 
 path = [cwd]
 
