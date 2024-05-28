@@ -6,6 +6,7 @@
  * Change Logs:
  * Date           Author            Notes
  * 2021-08-20     BruceOu           the first version
+ * 2024-05-28     Evlers            add gd32_pin_get supports
  */
 
 #include <rtdevice.h>
@@ -223,6 +224,49 @@ struct rt_pin_irq_hdr pin_irq_hdr_tab[] =
 };
 
 #define ITEM_NUM(items) sizeof(items) / sizeof(items[0])
+
+/* e.g. PA.0 */
+static rt_base_t gd32_pin_get(const char *name)
+{
+    rt_base_t pin = 0;
+    int hw_port_num, hw_pin_num = 0;
+    int i, name_len;
+
+    name_len = rt_strlen(name);
+
+    if ((name_len < 4) || (name_len >= 6))
+    {
+        goto out;
+    }
+    if ((name[0] != 'P') || (name[2] != '.'))
+    {
+        goto out;
+    }
+
+    if ((name[1] >= 'A') && (name[1] <= 'Z'))
+    {
+        hw_port_num = (int)(name[1] - 'A');
+    }
+    else
+    {
+        goto out;
+    }
+
+    for (i = 3; i < name_len; i++)
+    {
+        hw_pin_num *= 10;
+        hw_pin_num += name[i] - '0';
+    }
+
+    #define PIN_NUM(port, no) (((((port)&0xFu) << 4) | ((no)&0xFu)))
+    pin = PIN_NUM(hw_port_num, hw_pin_num);
+
+    return pin;
+
+out:
+    rt_kprintf("Px.y  x:A~Z  y:0-15, e.g. PA.0\n");
+    return -RT_EINVAL;
+}
 
 /**
   * @brief  get pin
@@ -596,7 +640,7 @@ const static struct rt_pin_ops gd32_pin_ops =
     .pin_attach_irq = gd32_pin_attach_irq,
     .pin_detach_irq= gd32_pin_detach_irq,
     .pin_irq_enable = gd32_pin_irq_enable,
-    RT_NULL,
+    .pin_get = gd32_pin_get,
 };
 
 /**
