@@ -11,6 +11,8 @@
  * 2024-01-22     Evlers       add support for half duplex (3-wire mode)
  * 2024-03-20     Evlers       add driver configure
  * 2024-03-21     Evlers       add msp layer supports
+ * 2024-06-04     Evlers       use the new cs pin specification
+ * 2024-06-05     Evlers       fix an issue where unknown data was received when dma rx was used only
  */
 
 #include "drv_spi.h"
@@ -323,6 +325,9 @@ static void spi_dma_exchange (struct rt_spi_device* device, struct rt_spi_messag
     else
     {
         uint16_t data = ~0;
+
+        /* Clean rx buffer */
+        spi_i2s_data_receive(spi_device->config->periph);
 
         /* Set the data length and data pointer */
         DMA_CHM0ADDR(spi_device->dma.rx->periph, spi_device->dma.rx->channel) = (uint32_t)message->recv_buf;
@@ -671,7 +676,7 @@ static rt_ssize_t spixfer (struct rt_spi_device* device, struct rt_spi_message* 
     /* take CS */
     if(message->cs_take)
     {
-        rt_pin_write((rt_base_t)device->parent.user_data, PIN_LOW);
+        rt_pin_write(device->cs_pin, PIN_LOW);
         LOG_D("spi take cs\n");
     }
 
@@ -715,7 +720,7 @@ static rt_ssize_t spixfer (struct rt_spi_device* device, struct rt_spi_message* 
     /* release CS */
     if(message->cs_release)
     {
-        rt_pin_write((rt_base_t)device->parent.user_data, PIN_HIGH);
+        rt_pin_write(device->cs_pin, PIN_HIGH);
         LOG_D("spi release cs\n");
     }
 
@@ -750,7 +755,7 @@ rt_err_t rt_hw_spi_device_attach (const char *bus_name, const char *device_name,
         rt_pin_write(cs_pin, PIN_HIGH);
     }
 
-    result = rt_spi_bus_attach_device(spi_device, device_name, bus_name, (void *)cs_pin);
+    result = rt_spi_bus_attach_device_cspin(spi_device, device_name, bus_name, cs_pin, NULL);
 
     if (result != RT_EOK)
     {
