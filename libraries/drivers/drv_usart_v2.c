@@ -8,6 +8,7 @@
  * 2024-03-19   Evlers      first implementation
  * 2024-03-20   Evlers      add driver configure
  * 2024-03-21   Evlers      add msp layer supports
+ * 2024-06-08   Evlers      fixed an exception caused by nested calls to dma_recv_isr functions by interrupt
  */
 
 #include "drv_usart_v2.h"
@@ -94,11 +95,13 @@ static void dma_recv_isr (struct rt_serial_device *serial)
 {
     struct gd32_uart *uart;
     rt_size_t recv_len, counter;
+    rt_base_t level;
 
     RT_ASSERT(serial != RT_NULL);
     uart = rt_container_of(serial, struct gd32_uart, serial);
 
     recv_len = 0;
+    level = rt_hw_interrupt_disable();
     counter = dma_transfer_number_get(uart->dma.rx->periph, uart->dma.rx->channel);
 
     if (counter <= uart->dma.last_index)
@@ -110,9 +113,11 @@ static void dma_recv_isr (struct rt_serial_device *serial)
         recv_len = serial->config.rx_bufsz + uart->dma.last_index - counter;
     }
 
+    uart->dma.last_index = counter;
+    rt_hw_interrupt_enable(level);
+
     if (recv_len)
     {
-        uart->dma.last_index = counter;
         rt_hw_serial_isr(serial, RT_SERIAL_EVENT_RX_DMADONE | (recv_len << 8));
     }
 }
@@ -236,6 +241,9 @@ static void dma_rx_isr (struct rt_serial_device *serial)
 {
     struct gd32_uart *uart;
 
+    /* enter interrupt */
+    rt_interrupt_enter();
+
     RT_ASSERT(serial != RT_NULL);
     uart = rt_container_of(serial, struct gd32_uart, serial);
 
@@ -248,6 +256,9 @@ static void dma_rx_isr (struct rt_serial_device *serial)
         dma_interrupt_flag_clear(uart->dma.rx->periph, uart->dma.rx->channel, DMA_INT_FLAG_HTF);
         dma_interrupt_flag_clear(uart->dma.rx->periph, uart->dma.rx->channel, DMA_INT_FLAG_FTF);
     }
+
+    /* leave interrupt */
+    rt_interrupt_leave();
 }
 #endif
 
