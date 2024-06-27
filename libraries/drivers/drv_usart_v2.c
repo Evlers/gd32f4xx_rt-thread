@@ -1146,7 +1146,7 @@ int rt_hw_usart_init (void)
         RT_ASSERT(result == RT_EOK);
     }
 
-    return result;
+    return RT_EOK;
 }
 
 #endif
