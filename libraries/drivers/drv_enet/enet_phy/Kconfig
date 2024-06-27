@@ -1,0 +1,38 @@
+
+menuconfig BSP_USING_PHY
+    bool "Enable PHY drivers"
+    select RT_USING_PHY
+    default n
+
+    if BSP_USING_PHY
+
+        choice
+            prompt "Choose PHY chips"
+            default BSP_USING_ENET_PHY_RTL8201
+
+                config BSP_USING_ENET_PHY_RTL8201
+                    bool "RTL8201"
+
+                config BSP_USING_ENET_PHY_RTL8211
+                    bool "RTL8211"
+
+                config BSP_USING_ENET_PHY_LAN8720
+                    bool "LAN8720"
+
+                config BSP_USING_ENET_PHY_DP83867
+                    bool "DP83867"
+
+                config BSP_USING_ENET_PHY_DP83848
+                    bool "DP83848"
+        endchoice
+
+        config BSP_USING_ENET_PHY_ADDR
+            int "Set the address for phy chips"
+            default 1
+            range 0 30
+
+        config PHY_RESET_PIN_NAME
+            string "Set the phy reset pin name"
+            default "PA.0"
+
+    endif

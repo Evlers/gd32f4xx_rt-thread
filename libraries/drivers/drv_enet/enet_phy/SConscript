@@ -1,0 +1,39 @@
+from building import *
+import os
+
+cwd = GetCurrentDir()
+# add the phy drivers.
+src = Split("""
+drv_enet_phy.c
+""")
+path = [cwd]
+
+# add eth phy chips.
+if GetDepend('BSP_USING_ENET_PHY_DP83848'):
+    src += ['dp83848/dp83848.c']
+    path += [os.path.join(cwd, 'dp83848')]
+
+if GetDepend('BSP_USING_ENET_PHY_DP83867'):
+    src += ['dp83867/dp83867.c']
+    path += [os.path.join(cwd, 'dp83867')]
+
+if GetDepend('BSP_USING_ENET_PHY_LAN8720'):
+    src += ['lan8720/lan8720.c']
+    path += [os.path.join(cwd, 'lan8720')]
+
+if GetDepend('BSP_USING_ENET_PHY_RTL8201'):
+    src += ['rtl8201/rtl8201.c']
+    path += [os.path.join(cwd, 'rtl8201')]
+
+if GetDepend('BSP_USING_ENET_PHY_RTL8211'):
+    src += ['rtl8211/rtl8211.c']
+    path += [os.path.join(cwd, 'rtl8211')]
+
+group = DefineGroup('Drivers', src, depend = ['BSP_USING_PHY'], CPPPATH = path)
+
+list = os.listdir(cwd)
+for item in list:
+    if os.path.isfile(os.path.join(cwd, item, 'SConscript')):
+        group = group + SConscript(os.path.join(item, 'SConscript'))
+
+Return('group')
