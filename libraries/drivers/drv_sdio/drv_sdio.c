@@ -9,6 +9,7 @@
  * 2024-01-21       Evlers          Add support for byte stream data transfer software CRC16
  * 2024-03-20       Evlers          add driver configure
  * 2024-03-21       Evlers          add msp layer supports
+ * 2024-06-28       Evlers          fix wild pointer in clk_get
  */
 
 #include <rthw.h>
@@ -780,7 +781,7 @@ rt_weak void gd32_msp_sdio_init (const uint32_t *periph)
 
 int gd32_sdio_init (void)
 {
-    struct gd32_sdio_des sdio_des;
+    struct gd32_sdio_des sdio_des = { 0 };
 
     gd32_msp_sdio_init(&sdio_config.periph);
 
