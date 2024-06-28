@@ -54,7 +54,7 @@ static struct frame rx_frame;
 /* interface address info, hw address */
 static rt_uint8_t mac_addr[NETIF_MAX_HWADDR_LEN];
 
-#ifdef BSP_ETH_CHECKSUM_BY_HARDWARE
+#ifdef RT_LWIP_USING_HW_CHECKSUM
 static rt_uint32_t rx_err_cnt;
 #endif
 
@@ -223,7 +223,7 @@ static void enet_default_init (void)
     reg_value = ENET_DMA_BCTL;
     reg_value &= DMA_BCTL_MASK;
     reg_value = ENET_ADDRESS_ALIGN_ENABLE | ENET_ARBITRATION_RXTX_2_1 \
-                | ENET_RXDP_1BEAT | ENET_PGBL_1BEAT | ENET_RXTX_DIFFERENT_PGBL \
+                | ENET_RXDP_32BEAT | ENET_PGBL_32BEAT | ENET_RXTX_DIFFERENT_PGBL \
                 | ENET_FIXED_BURST_ENABLE | ENET_MIXED_BURST_DISABLE \
                 | ENET_NORMAL_DESCRIPTOR;
     ENET_DMA_BCTL = reg_value;
@@ -285,7 +285,7 @@ static rt_err_t rt_gd32_eth_init (rt_device_t dev)
     enet_default_init();
 
     /* configure checksum */
-#ifdef BSP_ETH_CHECKSUM_BY_HARDWARE
+#ifdef RT_LWIP_USING_HW_CHECKSUM
     /* enabled the hardware check function, but the data is not discarded and only set the status error flag */
     config_checksum(ENET_AUTOCHECKSUM_ACCEPT_FAILFRAMES, ENET_BROADCAST_FRAMES_PASS);
 #else
@@ -308,7 +308,7 @@ static rt_err_t rt_gd32_eth_init (rt_device_t dev)
         enet_rx_desc_immediate_receive_complete_interrupt(&rxdesc_tab[i]);
     }
 
-#ifdef BSP_ETH_CHECKSUM_BY_HARDWARE
+#ifdef RT_LWIP_USING_HW_CHECKSUM
     /* enable the TCP, UDP and ICMP checksum insertion for the Tx frames */
     for (int i = 0; i < ENET_TXBUF_NUM; i ++)
     {
@@ -573,7 +573,7 @@ rt_err_t rt_gd32_eth_tx (rt_device_t dev, struct pbuf *p)
 /* rxpkt chainmode */
 static rt_err_t rxpkt_chainmode (void)
 {
-#ifdef BSP_ETH_CHECKSUM_BY_HARDWARE
+#ifdef RT_LWIP_USING_HW_CHECKSUM
     /* using ENET_AUTOCHECKSUM_ACCEPT_FAILFRAMES checksum config */
     if ((dma_current_rxdesc->status & ENET_RDES0_ERRS) != RESET)
     {
@@ -819,7 +819,7 @@ static void eth_msc_print (void)
 }
 MSH_CMD_EXPORT(eth_msc_print, print mac statistics counters);
 
-#ifdef BSP_ETH_CHECKSUM_BY_HARDWARE
+#ifdef RT_LWIP_USING_HW_CHECKSUM
 static void eth_rx_err_print (void)
 {
     rt_kprintf("receive error frame count: %u\n", rx_err_cnt);
@@ -831,6 +831,6 @@ static void eth_dma_status (void)
 {
     rt_kprintf("0x%08X\n", ENET_DMA_STAT);
 }
-MSH_CMD_EXPORT(eth_dma_status, test);
+MSH_CMD_EXPORT(eth_dma_status, print ENET_DMA_STAT register);
 
 #endif /* BSP_ETH_COMMAND_LINE_DEBUG */

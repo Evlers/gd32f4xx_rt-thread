@@ -433,10 +433,6 @@ menuconfig BSP_USING_ETH
             int "Set the number of dma transfer buffers"
             default 5
 
-        config BSP_ETH_CHECKSUM_BY_HARDWARE
-            bool "Enable hardware checksum"
-            default y
-
         config BSP_ETH_COMMAND_LINE_DEBUG
             bool "Enable command line debugging"
             default n
