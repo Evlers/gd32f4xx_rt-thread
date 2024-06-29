@@ -84,6 +84,12 @@ rt_weak rt_phy_status phy_init (void *object, rt_uint32_t phy_addr, rt_uint32_t 
 
     eth_phy_handle.phy_dev->phy.bus = mdio_bus;
 
+    /* initialize the mdio */
+    if (!mdio_bus->ops->init(mdio_bus, src_clock_hz))
+    {
+        return PHY_STATUS_FAIL;
+    }
+
 #if defined(BSP_USING_ENET_PHY_DP83848)
     dp83848_config_t phy_config;
 
@@ -261,7 +267,7 @@ static void phy_init_thread_entry (void *args)
     /* hardware reset phy */
     phy_reset((uint32_t *)&eth_phy_handle->periph);
 
-    LOG_D("init mdio\n");
+    LOG_D("initialize the phy\n");
     if (eth_phy_handle->phy_dev->phy.ops->init((void *)eth_phy_handle->periph, 0, rcu_clock_freq_get(CK_AHB)) != PHY_STATUS_OK)
     {
         LOG_E("no any PHY device is detected! Please check your hardware!\n");

@@ -22,26 +22,22 @@
 
 static rt_bool_t rt_hw_mdio_init (void *bus, rt_uint32_t src_clock_hz)
 {
-    uint32_t ahbclk;
     uint32_t reg;
 
     /* clear the previous MDC clock */
     reg = ENET_MAC_PHY_CTL;
     reg &= ~ENET_MAC_PHY_CTL_CLR;
 
-    /* get the HCLK frequency */
-    ahbclk = rcu_clock_freq_get(CK_AHB);
-
     /* configure MDC clock according to HCLK frequency range */
-    if (ENET_RANGE(ahbclk, 20000000U, 35000000U)) {
+    if (ENET_RANGE(src_clock_hz, 20000000U, 35000000U)) {
         reg |= ENET_MDC_HCLK_DIV16;
-    } else if (ENET_RANGE(ahbclk, 35000000U, 60000000U)) {
+    } else if (ENET_RANGE(src_clock_hz, 35000000U, 60000000U)) {
         reg |= ENET_MDC_HCLK_DIV26;
-    } else if (ENET_RANGE(ahbclk, 60000000U, 100000000U)) {
+    } else if (ENET_RANGE(src_clock_hz, 60000000U, 100000000U)) {
         reg |= ENET_MDC_HCLK_DIV42;
-    } else if (ENET_RANGE(ahbclk, 100000000U, 150000000U)) {
+    } else if (ENET_RANGE(src_clock_hz, 100000000U, 150000000U)) {
         reg |= ENET_MDC_HCLK_DIV62;
-    } else if ((ENET_RANGE(ahbclk, 150000000U, 240000000U)) || (240000000U == ahbclk)) {
+    } else if ((ENET_RANGE(src_clock_hz, 150000000U, 240000000U)) || (240000000U == src_clock_hz)) {
         reg |= ENET_MDC_HCLK_DIV102;
     } else {
         return -RT_ERROR;
