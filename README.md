@@ -3,7 +3,7 @@
 ### 简介
 该仓库是对 GD32F470ZIT6 开发板的 WiFi 开源驱动支持包，也可作为物联网开发使用的软件SDK，可以更简单方便的开发物联网程序。
 
-## 开发板介绍
+### 开发板介绍
 
 <img src="documents/figures/board.jpg" alt="image-20201009181905422" style="zoom:80%;" />
 
