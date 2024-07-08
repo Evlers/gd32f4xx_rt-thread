@@ -64,12 +64,12 @@ void gd32_msp_usart_init (const uint32_t *periph)
     if (*periph == UART3)
     {
         /* configure gpio clock */
-        rcu_periph_clock_enable(RCU_GPIOC);
+        rcu_periph_clock_enable(RCU_GPIOA);
 
         /* configure gpio */
-        gpio_af_set(GPIOC, GPIO_AF_8, GPIO_PIN_10 | GPIO_PIN_11);
-        gpio_mode_set(GPIOC, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_10 | GPIO_PIN_11);
-        gpio_output_options_set(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_10 | GPIO_PIN_11);
+        gpio_af_set(GPIOA, GPIO_AF_8, GPIO_PIN_0 | GPIO_PIN_1);
+        gpio_mode_set(GPIOA, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_0 | GPIO_PIN_1);
+        gpio_output_options_set(GPIOA, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_0 | GPIO_PIN_1);
 
         /* configure interrupt priority */
         NVIC_SetPriority(UART3_IRQn, 2);

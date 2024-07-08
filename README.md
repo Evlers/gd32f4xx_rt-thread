@@ -1,7 +1,27 @@
 ## GD32470VI WiFi-Host-Driver
 
 ### 简介
-这是基于 GD32F470VIT6 的 RT-Thread 物联网程序，使用 CYWL6208 WiFi 模组(英飞凌的CYW43438芯片)
+该仓库是对 GD32F470ZIT6 开发板的 WiFi 开源驱动支持包，也可作为物联网开发使用的软件SDK，可以更简单方便的开发物联网程序。
+
+## 开发板介绍
+
+<img src="documents/figures/board.jpg" alt="image-20201009181905422" style="zoom:80%;" />
+
+该开发板常用 **板载资源** 如下：
+
+- GD32F470ZIT6
+- On-board USB To UART(CH340)
+- USB OTG with Type-C connector
+- SDIO TF Card slot
+- RGB565 FPC connector
+- I8080 FPC connector
+- SPI LCD FPC connector
+- 32Mbytes SDRAM
+- 16Mbytes SPI FLASH
+- 256bytes EEPROM
+- Power LED(blue) for 3.3 v power-on
+- Two user LED1(RED), LED2 (Green)
+- Three push-buttons (user and wake and reset)
 
 ### 使用说明
 
@@ -21,13 +41,13 @@
 
 #### 硬件连接
 
-使用调试器连接开发板到 PC，使用USB2TTL连接USART0，并给开发板供电。
+使用调试器连接开发板到 PC，使用USB2TTL连接UART3(PA0&PA1)，并给开发板供电。<br>
+不建议使用板载的USB2TTL，因为板载的CH340连接了RTS到MCU的NRST引脚，使用引脚流控会复位芯片。
 
 #### 编译下载
 
+一定要在打开MDK5工程之前先通过`scons --target=mdk5`命令重新生成工程文件。<br>
 双击 project.uvprojx 文件，打开 MDK5 工程，编译并下载程序到开发板。
-
-> 工程默认配置使用 CMSIS-DAP 仿真器下载程序，在通过 CMSIS-DAP  连接开发板的基础上，点击下载按钮即可下载程序到开发板
 
 #### 运行结果
 
@@ -38,18 +58,20 @@
 ```bash
  \ | /
 - RT -     Thread Operating System
- / | \     5.0.0 build Jan 25 2024 21:25:15
+ / | \     5.0.2 build Jul  8 2024 21:57:48
  2006 - 2022 Copyright by RT-Thread team
 lwIP-2.0.3 initialized!
-[I/sal.skt] Socket Abstraction Layer initialize success.
 [I/FAL] RT-Thread Flash Abstraction Layer initialize success.
-[I/FAL] The FAL block device (root) created successfully
 [Flash] EasyFlash V4.1.0 is initialize success.
 [Flash] You can get the latest version on https://github.com/armink/EasyFlash .
-msh />WLAN MAC Address : C0:AE:FD:00:00:C3
-WLAN Firmware    : wl0: Mar 28 2021 22:55:55 version 7.45.98.117 (dc5d9c4 CY) FWID 01-d36e8386
-WLAN CLM         : API: 12.2 Data: 9.10.39 Compiler: 1.29.4 ClmImport: 1.36.3 Creation: 2021-03-28 22:47:33
-WHD VERSION      : 3.0.0.22316 : v3.0.0 : ARM CLANG 5060960 : 2023-12-04 07:24:34 -0600
+[I/sal.skt] Socket Abstraction Layer initialize success.
+[I/FAL] The FAL block device (filesystem) created successfully
+msh />RT-Thread WiFi Host Drivers (WHD)
+You can get the latest version on https://github.com/Evlers/rt-thread_wifi-host-driver
+WLAN MAC Address : C0:AE:FD:00:10:4B
+WLAN Firmware    : wl0: Jul 31 2023 06:07:24 version 13.10.271.305 (f2b5c53 CY) FWID 01-e6b954e
+WLAN CLM         : API: 18.2 Data: 9.10.0 Compiler: 1.36.1 ClmImport: 1.34.1 Creation: 2022-08-16 03:35:21
+WHD VERSION      : 3.1.0.23284 : v3.1.0 : ARM CLANG 5060960 : 2024-03-21 22:57:11 +0800
 [I/WLAN.dev] wlan init success
 [I/WLAN.lwip] eth device init ok name:w0
 [I/WLAN.dev] wlan init success

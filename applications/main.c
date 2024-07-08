@@ -12,8 +12,8 @@
 #include <rtthread.h>
 #include <board.h>
 
-/* defined the LED_R pin: PE7 */
-#define LED1_PIN GET_PIN(E, 7)
+/* defined the LED pin: PA2 */
+#define LED1_PIN GET_PIN(A, 2)
 
 int main(void)
 {
