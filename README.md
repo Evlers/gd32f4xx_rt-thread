@@ -1,7 +1,7 @@
 ## GD32470VI WiFi-Host-Driver
 
 ### 简介
-该仓库是对 GD32F470ZIT6 开发板的 WiFi 开源驱动支持包，也可作为物联网开发使用的软件SDK，可以更简单方便的开发物联网程序。
+该仓库是基于`GD32F470ZIT6`开发板的[WiFi-Host-Driver](https://github.com/Evlers/rt-thread_wifi-host-driver)测试项目，也可作为物联网开发使用的模板，可以更简单方便的开发物联网程序。
 
 ### 开发板介绍
 
@@ -25,29 +25,21 @@
 
 ### 使用说明
 
-使用说明分为如下两个章节：
+由于该项目中的`rt-thread`目录为`submodule`，需要在`clone`的时候加上`--recurse-submodules`选项。
 
-- 快速上手
-  
-  本章节是为刚接触 RT-Thread 的新手准备的使用说明，遵循简单的步骤即可将 RT-Thread 操作系统运行在该开发板上，看到实验效果 。
-
-- 进阶使用
-  
-  本章节是为需要在 RT-Thread 操作系统上使用更多开发板资源的开发者准备的。通过使用 ENV 工具对 BSP 进行配置，可以开启更多板载资源，实现更多高级功能。
-
-### 快速上手
-
-本 BSP 为开发者提供 MDK5工程，支持 GCC 开发环境，也可使用RT-Thread Studio开发。下面以 MDK5 开发环境为例，介绍如何将系统运行起来。
 
 #### 硬件连接
 
-使用调试器连接开发板到 PC，使用USB2TTL连接UART3(PA0&PA1)，并给开发板供电。<br>
-不建议使用板载的USB2TTL，因为板载的CH340连接了RTS到MCU的NRST引脚，使用引脚流控会复位芯片。
+- 使用调试器连接开发板到 PC，使用USB2TTL连接UART3(PA0&PA1)，并给开发板供电。
+- 不建议使用板载的USB2TTL，因为板载的CH340连接了RTS到MCU的NRST引脚，使用引脚流控会复位芯片。
+- 将`英飞凌模组TF板卡`插入到开发板的TF卡接口，并将板卡的`WL_REG_ON`连接到`PC4`引脚，以及板卡的`WL_HOST_WAKE`连接到`PC5`引脚。
 
 #### 编译下载
 
-一定要在打开MDK5工程之前先通过`scons --target=mdk5`命令重新生成工程文件。<br>
-双击 project.uvprojx 文件，打开 MDK5 工程，编译并下载程序到开发板。
+- 建议在打开MDK5工程之前先通过`scons --target=mdk5`命令重新生成工程文件。<br>
+- 双击 projects 目录中的 project.uvprojx 文件，打开 MDK5 工程，编译并下载程序到开发板。
+
+**注意：该项目使用的是FAL方式加载WiFi资源文件，请参考[WiFi-Host-Driver](https://github.com/Evlers/rt-thread_wifi-host-driver)中的`README.md`文件下载资源文件到开发板**
 
 #### 运行结果
 
@@ -79,14 +71,24 @@ WHD VERSION      : 3.1.0.23284 : v3.1.0 : ARM CLANG 5060960 : 2024-03-21 22:57:1
 ```
 
 ### 进阶使用
+本项目使用的是离线包的方式。<br>
+为防止在线包与离线包的配置产生冲突，该工程已经在根目录的`Kconfig`文件中注释了在线包配置的加载。<br>
+如果需要下载在线软件包，则需要先将`source "$PKGS_DIR/Kconfig"`的注释取消，然后开始下载线上软件包操作。<br>
 
-此 BSP 默认只开启了 GPIO 和 串口1的功能，如果需使用高级功能，需要利用 ENV 工具对BSP 进行配置，步骤如下：
+**制作离线软件包**
+- 先将根目录`Kconfig`文件中的`source "$PKGS_DIR/Kconfig"`注释取消，使用在线包的`Kconfig`文件。
+- 注释掉根目录`Kconfig`文件中的`source "$OFFLINE_PKGS_DIR/Kconfig"`，防止与在线包的配置冲突。
+- 在根目录下打开`env`工具，输入`menuconfig`命令配置工程，选中了需要的在线包之后保存退出。
+- 输入`pkgs --update`命令下载刚刚选中的在线软件包。
+- 将下载的`软件包`移动到 `offlin-package` 目录中，并删除软件包内的 `.git` 文件夹。
+- 复制`env`工具里面的`packages`目录下对应包的`Kconfig`文件到软件包中，并在上一级目录加入该软件包的`Kconfig`路径。
+- 完成离线包制作后，再次注释根目录下`Kconfig`文件的`source "$PKGS_DIR/Kconfig"`防止配置冲突。
+- 再次取消根目录下`Kconfig`文件的`source "$OFFLINE_PKGS_DIR/Kconfig"`注释，使用离线包的`Kconfig`文件。
+- 删除项目中的`packages`目录，防止加载重复的软件包。
 
-1. 在 bsp 下打开 env 工具。
-
-2. 输入`menuconfig`命令配置工程，配置好之后保存退出。
-
-3. 输入`pkgs --update`命令更新软件包。
-
-4. 输入`scons --target=mdk5/vsc` 命令重新生成工程。
+**离线包使用**
+- 在根目录下打开`env`工具。
+- 输入`menuconfig`命令配置工程。
+- 进入`RT-Thread offline packages`中配置离线软件包，配置好之后保存退出。
+- 输入`scons --target=vsc/mdk5` 命令重新生成工程。
 
