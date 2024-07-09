@@ -1,4 +1,4 @@
-## GD32470VI WiFi-Host-Driver
+## GD324xx RT-Thread
 
 ### 简介
 该仓库是基于`GD32F470ZIT6`开发板的[WiFi-Host-Driver](https://github.com/Evlers/rt-thread_wifi-host-driver)测试项目，也可作为物联网开发使用的模板，可以更简单方便的开发物联网程序。
