@@ -24,8 +24,6 @@
 #define GD32_FLASH_SIZE                 (2048 * 1024)
 #define GD32_FLASH_PAGE_SIZE            (4 * 1024)
 #define GD32_FLASH_END_ADDRESS          ((uint32_t)(GD32_FLASH_START_ADRESS + GD32_FLASH_SIZE))
-#define EXT_SDRAM_BEGIN                 (0xC0000000U) /* the begining address of external SDRAM */
-#define EXT_SDRAM_END                   (EXT_SDRAM_BEGIN + (32U * 1024 * 1024)) /* the end address of external SDRAM */
 
 // <o> Internal SRAM memory size[Kbytes] <8-512>
 //  <i>Default: 704

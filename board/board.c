@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  *
  * Change Logs:
- * Date           Author       Notes
- * 2021-08-20     BruceOu      first implementation
+ * Date         Author      Notes
+ * 2024-07-10   Evlers      first implementation
  */
+
 #include <stdint.h>
 #include <rthw.h>
 #include <rtthread.h>
@@ -71,9 +72,7 @@ void rt_hw_board_init()
 
     SystemClock_Config();
 
-#ifdef BSP_USING_SDRAM
-    rt_system_heap_init((void *)EXT_SDRAM_BEGIN, (void *)EXT_SDRAM_END);
-#else
+#ifdef RT_USING_HEAP
     rt_system_heap_init((void *)HEAP_BEGIN, (void *)HEAP_END);
 #endif
 
