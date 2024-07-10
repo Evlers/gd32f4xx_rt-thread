@@ -189,6 +189,33 @@ void gd32_msp_spi_init (const uint32_t *periph)
 #endif
     }
 #endif /* BSP_USING_SPI2 */
+
+#ifdef BSP_USING_SPI4
+    if (*periph == SPI4)
+    {
+        /* configure gpio clock */
+        rcu_periph_clock_enable(RCU_GPIOF);
+
+        /* configure gpio */
+        gpio_af_set(GPIOF, GPIO_AF_5, GPIO_PIN_7 | GPIO_PIN_8 | GPIO_PIN_9);
+
+        gpio_mode_set(GPIOF, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO_PIN_7 | GPIO_PIN_9);
+        gpio_output_options_set(GPIOF, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, GPIO_PIN_7 | GPIO_PIN_9);
+
+        gpio_mode_set(GPIOF, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO_PIN_8);
+        gpio_output_options_set(GPIOF, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, GPIO_PIN_8);
+
+        /* configure interrupt priority */
+#ifdef BSP_SPI4_RX_USING_DMA
+        struct dma_config spi4_dma_rx = SPI4_RX_DMA_CONFIG;
+        NVIC_SetPriority(spi4_dma_rx.irq, 0);
+#endif
+#ifdef BSP_SPI4_TX_USING_DMA
+        struct dma_config spi4_dma_tx = SPI4_TX_DMA_CONFIG;
+        NVIC_SetPriority(spi4_dma_tx.irq, 0);
+#endif
+    }
+#endif /* BSP_USING_SPI4 */
 }
 #endif /* BSP_USING_SPI */
 

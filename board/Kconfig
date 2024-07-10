@@ -13,6 +13,29 @@ config SOC_GD32470Z
 
 menu "Onboard Peripheral Drivers"
 
+    menuconfig BSP_USING_SPI_FLASH
+        bool "Enable SPI FLASH"
+        select BSP_USING_SPI
+        select RT_USING_FAL
+        select RT_USING_SFUD
+        default n
+
+        if BSP_USING_SPI_FLASH
+
+            config SPI_FLASH_BLK_DEVICE_NAME
+                string "Set name for flash block devices"
+                default "norflash0"
+
+            config SPI_FLASH_BUS_NAME
+                string "Set name for spi bus"
+                default "spi1"
+
+            config SPI_FLASH_CS_PIN_NAME
+                string "Set the spi cs pin name"
+                default "PA.0"
+
+        endif
+
 endmenu
 
 menu "On-chip Peripheral Drivers"

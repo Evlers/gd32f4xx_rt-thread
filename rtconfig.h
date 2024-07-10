@@ -134,6 +134,10 @@
 #define RT_MMCSD_THREAD_PREORITY 22
 #define RT_MMCSD_MAX_PARTITION 16
 #define RT_USING_SPI
+#define RT_USING_SFUD
+#define RT_SFUD_USING_SFDP
+#define RT_SFUD_USING_FLASH_INFO_TABLE
+#define RT_SFUD_SPI_MAX_HZ 100000000
 #define RT_USING_WIFI
 #define RT_WLAN_DEVICE_STA_NAME "wlan0"
 #define RT_WLAN_DEVICE_AP_NAME "wlan1"
@@ -357,6 +361,11 @@
 
 /* Onboard Peripheral Drivers */
 
+#define BSP_USING_SPI_FLASH
+#define SPI_FLASH_BLK_DEVICE_NAME "norflash"
+#define SPI_FLASH_BUS_NAME "spi4"
+#define SPI_FLASH_CS_PIN_NAME "PF.6"
+
 /* On-chip Peripheral Drivers */
 
 #define BSP_USING_GPIO
@@ -365,6 +374,10 @@
 #define BSP_UART3_RX_USING_DMA
 #define BSP_UART3_RX_BUFSIZE 64
 #define BSP_UART3_TX_BUFSIZE 0
+#define BSP_USING_SPI
+#define BSP_USING_SPI4
+#define BSP_SPI4_TX_USING_DMA
+#define BSP_SPI4_RX_USING_DMA
 #define BSP_USING_SDRAM
 #define BSP_USING_SDIO
 #define BSP_USING_ON_CHIP_FLASH
