@@ -408,6 +408,10 @@ menuconfig BSP_USING_RTC
         endchoice
     endif
 
+config BSP_USING_SDRAM
+        bool "Enable SDRAM"
+        default n
+
 config BSP_USING_WDT
     bool "Enable Watchdog Timer"
     select RT_USING_WDT

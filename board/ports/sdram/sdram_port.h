@@ -1,12 +1,11 @@
 /*
- * Copyright (c) 2006-2024, RT-Thread Development Team
+ * Copyright (c) 2006-2023, Evlers Developers
  *
  * SPDX-License-Identifier: Apache-2.0
  *
  * Change Logs:
- * Date           Author       Notes
- * 2018-12-04     zylx         The first version for STM32F4xx
- * 2023-08-20     yuanzihao    adapter gd32f4xx
+ * Date         Author      Notes
+ * 2024-07-10   Evlers      first implementation
  */
 
 #ifndef __SDRAM_PORT_H__
