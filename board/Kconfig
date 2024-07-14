@@ -13,6 +13,30 @@ config SOC_GD32470Z
 
 menu "Onboard Peripheral Drivers"
 
+    menuconfig BSP_USING_SDCARD_FS
+        bool "Enable SDCARD filesystem"
+        select BSP_USING_SDIO
+        select RT_USING_DFS_ELMFAT
+        default n
+
+        if BSP_USING_SDCARD_FS
+            config SDCARD_FS_BLK_DEV_NAME
+                string "Set name for block device"
+                default "sd0"
+        endif
+
+    menuconfig BSP_USING_SPI_FLASH_FS
+        bool "Enable SPI FLASH filesystem"
+        select BSP_USING_SPI_FLASH
+        select RT_USING_MTD_NOR
+        default n
+
+        if BSP_USING_SPI_FLASH_FS
+            config SPI_FLASH_FS_PART_NAME
+                string "Set name for fal partition"
+                default "filesystem"
+        endif
+
     menuconfig BSP_USING_SPI_FLASH
         bool "Enable SPI FLASH"
         select BSP_USING_SPI

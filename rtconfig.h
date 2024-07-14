@@ -106,6 +106,7 @@
 #define RT_DFS_ELM_REENTRANT
 #define RT_DFS_ELM_MUTEX_TIMEOUT 3000
 #define RT_USING_DFS_DEVFS
+#define RT_USING_DFS_ROMFS
 #define RT_USING_FAL
 #define FAL_DEBUG 0
 #define FAL_PART_HAS_TABLE_CFG
@@ -361,6 +362,10 @@
 
 /* Onboard Peripheral Drivers */
 
+#define BSP_USING_SDCARD_FS
+#define SDCARD_FS_BLK_DEV_NAME "sd0"
+#define BSP_USING_SPI_FLASH_FS
+#define SPI_FLASH_FS_PART_NAME "filesystem"
 #define BSP_USING_SPI_FLASH
 #define SPI_FLASH_BLK_DEVICE_NAME "norflash"
 #define SPI_FLASH_BUS_NAME "spi4"
