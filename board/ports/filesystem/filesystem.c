@@ -57,12 +57,12 @@ static void mount_romfs (void)
 static void sd_mount(void *parameter)
 {
     char *path = parameter;
-    rt_device_t device = RT_NULL;
 
     mmcsd_wait_cd_changed(RT_WAITING_FOREVER);
-    if ((device = rt_device_find(SDCARD_FS_BLK_DEV_NAME)) == RT_NULL)
+    if (rt_device_find(SDCARD_FS_BLK_DEV_NAME) == RT_NULL)
     {
         LOG_W("No block device found for '%s'", SDCARD_FS_BLK_DEV_NAME);
+        return;
     }
 
     if (dfs_mount(SDCARD_FS_BLK_DEV_NAME, path, "elm", 0, 0) == RT_EOK)
