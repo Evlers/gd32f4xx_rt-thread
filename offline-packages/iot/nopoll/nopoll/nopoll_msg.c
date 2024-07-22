@@ -1,6 +1,6 @@
 /*
  *  LibNoPoll: A websocket library
- *  Copyright (C) 2015 Advanced Software Production Line, S.L.
+ *  Copyright (C) 2022 Advanced Software Production Line, S.L.
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public License
@@ -28,9 +28,8 @@
  *          
  *      Postal address:
  *         Advanced Software Production Line, S.L.
- *         Edificio Alius A, Oficina 102,
- *         C/ Antonio Suarez Nº 10,
- *         Alcalá de Henares 28802 Madrid
+ *         Av. Juan Carlos I, Nº13, 2ºC
+ *         Alcalá de Henares 28806 Madrid
  *         Spain
  *
  *      Email address:
@@ -180,7 +179,7 @@ nopoll_bool  nopoll_msg_is_final (noPollMsg * msg)
 	if (msg == NULL)
 		return nopoll_false;
 
-	return msg->has_fin;
+	return msg->remain_bytes == 0 && msg->has_fin;
 }
 
 /** 

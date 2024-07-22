@@ -1,6 +1,6 @@
 /*
  *  LibNoPoll: A websocket library
- *  Copyright (C) 2015 Advanced Software Production Line, S.L.
+ *  Copyright (C) 2022 Advanced Software Production Line, S.L.
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public License
@@ -28,9 +28,8 @@
  *          
  *      Postal address:
  *         Advanced Software Production Line, S.L.
- *         Edificio Alius A, Oficina 102,
- *         C/ Antonio Suarez Nº 10,
- *         Alcalá de Henares 28802 Madrid
+ *         Av. Juan Carlos I, Nº13, 2ºC
+ *         Alcalá de Henares 28806 Madrid
  *         Spain
  *
  *      Email address:
@@ -144,11 +143,16 @@ nopoll_bool  nopoll_io_wait_select_add_to (int               fds,
 {
 	noPollSelect * select = (noPollSelect *) __fd_set;
 
-	if (fds < 0) {
+	if (fds < 0 || fds >= FD_SETSIZE) {
 		nopoll_log (ctx, NOPOLL_LEVEL_CRITICAL,
 			    "received a non valid socket (%d), unable to add to the set", fds);
 		return nopoll_false;
 	}
+	if ((select->length - 1) > FD_SETSIZE) {
+		nopoll_log (ctx, NOPOLL_LEVEL_CRITICAL,
+			    "Unable to add requested socket (%d), reached max FD_SETSIZE=%d (select->length=%d)", fds, FD_SETSIZE, select->length);
+		return nopoll_false;
+	} /* end if */	
 
 	/* set the value */
 	FD_SET (fds, &(select->set));
@@ -180,6 +184,12 @@ nopoll_bool      nopoll_io_wait_select_is_set (noPollCtx   * ctx,
 {
 	noPollSelect * select = (noPollSelect *) __fd_set;
 	
+	if (fds < 0 || fds >= FD_SETSIZE) {
+		nopoll_log (ctx, NOPOLL_LEVEL_CRITICAL,
+			    "received a non valid socket (%d), unable to test in the set", fds);
+		return nopoll_false;
+	}
+
 	return FD_ISSET (fds, &(select->set));
 }
 
@@ -206,8 +216,8 @@ noPollIoEngine * nopoll_io_get_engine (noPollCtx * ctx, noPollIoEngineType engin
 	engine->destroy = nopoll_io_wait_select_destroy;
 	engine->clear   = nopoll_io_wait_select_clear;
 	engine->wait    = nopoll_io_wait_select_wait;
-	engine->addto   = nopoll_io_wait_select_add_to;
-	engine->isset   = nopoll_io_wait_select_is_set;
+	engine->add_to  = nopoll_io_wait_select_add_to;
+	engine->is_set  = nopoll_io_wait_select_is_set;
 
 	/* call to create the object */
 	engine->ctx       = ctx;

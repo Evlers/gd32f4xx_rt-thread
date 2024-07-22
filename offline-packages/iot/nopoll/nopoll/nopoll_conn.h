@@ -1,6 +1,6 @@
 /*
  *  LibNoPoll: A websocket library
- *  Copyright (C) 2015 Advanced Software Production Line, S.L.
+ *  Copyright (C) 2022 Advanced Software Production Line, S.L.
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public License
@@ -28,9 +28,8 @@
  *          
  *      Postal address:
  *         Advanced Software Production Line, S.L.
- *         Edificio Alius A, Oficina 102,
- *         C/ Antonio Suarez Nº 10,
- *         Alcalá de Henares 28802 Madrid
+ *         Av. Juan Carlos I, Nº13, 2ºC
+ *         Alcalá de Henares 28806 Madrid
  *         Spain
  *
  *      Email address:
@@ -191,7 +190,8 @@ int           nopoll_conn_pending_write_bytes    (noPollConn * conn);
 int           nopoll_conn_flush_writes           (noPollConn * conn, long timeout, int previous_result);
 
 int           nopoll_conn_read (noPollConn * conn, char * buffer, int bytes, nopoll_bool block, long int timeout);
-int           aispeech_nopoll_conn_read (noPollConn * conn, char * buffer, int bytes, nopoll_bool block, long int timeout);
+
+int           nopoll_conn_read_pending (noPollConn * conn);
 
 noPollConn  * nopoll_conn_get_listener (noPollConn * conn);
 

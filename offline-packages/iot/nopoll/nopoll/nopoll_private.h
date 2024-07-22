@@ -1,6 +1,6 @@
 /*
  *  LibNoPoll: A websocket library
- *  Copyright (C) 2015 Advanced Software Production Line, S.L.
+ *  Copyright (C) 2022 Advanced Software Production Line, S.L.
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public License
@@ -28,9 +28,8 @@
  *          
  *      Postal address:
  *         Advanced Software Production Line, S.L.
- *         Edificio Alius A, Oficina 102,
- *         C/ Antonio Suarez Nº 10,
- *         Alcalá de Henares 28802 Madrid
+ *         Av. Juan Carlos I, Nº13, 2ºC
+ *         Alcalá de Henares 28806 Madrid
  *         Spain
  *
  *      Email address:
@@ -277,6 +276,13 @@ struct _noPollConn {
 	 */
 	nopoll_bool   pending_ssl_accept;
 
+    /**
+     * @internal Flag that indicates that the provided session
+     * is in the process of doing a TLS handshake and must not
+     * be read or written to by any other function than SSL_Connect()
+     */
+    nopoll_bool   pending_ssl_connect;
+
 	/* SSL support */
 	SSL_CTX        * ssl_ctx;
 	SSL            * ssl;
@@ -297,9 +303,10 @@ struct _noPollConn {
 	noPollPtr             hook;
 
 	/** 
-	 * @internal Mutex 
+	 * @internal Mutexes
 	 */
 	noPollPtr             ref_mutex;
+	noPollPtr             handshake_mutex;
 
 	/** 
 	 * @internal Variable to track pending bytes from previous
@@ -313,6 +320,7 @@ struct _noPollConn {
 	char                * pending_write;
 	int                   pending_write_bytes;
 	int                   pending_write_desp;
+    int                   pending_write_added_header;
 
 	/** 
 	 * @internal Internal reference to the connection options.
@@ -344,8 +352,8 @@ struct _noPollIoEngine {
 	noPollIoMechDestroy    destroy;
 	noPollIoMechClear      clear;
 	noPollIoMechWait       wait;
-	noPollIoMechAddTo      addto;
-	noPollIoMechIsSet      isset;
+	noPollIoMechAddTo      add_to;
+	noPollIoMechIsSet      is_set;
 };
 
 struct _noPollMsg {
@@ -413,6 +421,10 @@ struct _noPollConnOpts {
 
 	/* extra HTTP headers to send during the connection */
 	char * extra_headers;
+
+	/* control whether origin header is added or not (see
+	 * nopoll_conn_opts_add_origin_header) */
+	nopoll_bool add_origin_header;
 };
 
 #endif

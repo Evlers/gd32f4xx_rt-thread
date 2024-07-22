@@ -1,6 +1,6 @@
 /*
  *  LibNoPoll: A websocket library
- *  Copyright (C) 2015 Advanced Software Production Line, S.L.
+ *  Copyright (C) 2022 Advanced Software Production Line, S.L.
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public License
@@ -28,9 +28,8 @@
  *          
  *      Postal address:
  *         Advanced Software Production Line, S.L.
- *         Edificio Alius A, Oficina 102,
- *         C/ Antonio Suarez Nº 10,
- *         Alcalá de Henares 28802 Madrid
+ *         Av. Juan Carlos I, Nº13, 2ºC
+ *         Alcalá de Henares 28806 Madrid
  *         Spain
  *
  *      Email address:
@@ -63,13 +62,23 @@ noPollConnOpts * nopoll_conn_opts_new (void)
 		return NULL;
 
 	result->reuse        = nopoll_false; /* this is not needed, just to clearly state defaults */
+#if defined(NOPOLL_HAVE_TLS_FLEXIBLE_ENABLED)
+	result->ssl_protocol = NOPOLL_METHOD_TLS_FLEXIBLE;
+#elif defined(NOPOLL_HAVE_TLSv12_ENABLED)
+	result->ssl_protocol = NOPOLL_METHOD_TLSV1_2;
+#elif defined(NOPOLL_HAVE_TLSv11_ENABLED)
+	result->ssl_protocol = NOPOLL_METHOD_TLSV1_1;
+#elif defined(NOPOLL_HAVE_TLSv10_ENABLED)
 	result->ssl_protocol = NOPOLL_METHOD_TLSV1;
+#endif	  
 
 	result->mutex        = nopoll_mutex_create ();
 	result->refs         = 1;
 
 	/* by default, disable ssl peer verification */
 	result->disable_ssl_verify = nopoll_true;
+	/* by default, add origin header */
+	result->add_origin_header  = nopoll_true;
 
 	return result;
 }
@@ -246,6 +255,39 @@ void        nopoll_conn_opts_skip_origin_check (noPollConnOpts * opts, nopoll_bo
 	if (opts) 
 		opts->skip_origin_header_check = skip_check;
 
+	return;
+}
+
+/** 
+ * @brief Allows to configure if origin header is added to client init
+ * transation in case it is not defined.
+ *
+ * Providing a nopoll_false will make client init to skip adding
+ * Origin header. Doing so is highly not recommended because the
+ * Origin header must be provided by all WebSocket clients so the the
+ * server side can check it.
+ *
+ * In most environments not doing so will make the connection to not
+ * succeed.
+ *
+ * Use this option just in development environment.
+ *
+ * @param opts The connection options to configure.
+ *
+ * @param add nopoll_bool Adds Origin header (either provided by user
+ * or interred by the library). In case nopoll_false is provided, no
+ * Origin header will be added.
+ *
+ * By default this configuration option is set to nopoll_true. You do
+ * not have to call this API to add origin header because this setting
+ * is enabled by default.
+ *
+ */
+void        nopoll_conn_opts_add_origin_header (noPollConnOpts * opts, nopoll_bool add)
+{
+	/* configure add origin header */
+	if (opts) 
+		opts->add_origin_header = add;
 	return;
 }
 

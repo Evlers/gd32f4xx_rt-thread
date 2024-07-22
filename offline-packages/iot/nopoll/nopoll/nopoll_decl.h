@@ -1,6 +1,6 @@
 /*
  *  LibNoPoll: A websocket library
- *  Copyright (C) 2015 Advanced Software Production Line, S.L.
+ *  Copyright (C) 2022 Advanced Software Production Line, S.L.
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public License
@@ -28,9 +28,8 @@
  *          
  *      Postal address:
  *         Advanced Software Production Line, S.L.
- *         Edificio Alius A, Oficina 102,
- *         C/ Antonio Suarez Nº 10,
- *         Alcalá de Henares 28802 Madrid
+ *         Av. Juan Carlos I, Nº13, 2ºC
+ *         Alcalá de Henares 28806 Madrid
  *         Spain
  *
  *      Email address:
@@ -78,7 +77,7 @@
  *
  * \code
  *   // define in your code new limit
- *   #define FD_SETSIZE 1024
+ *   #define FD_SETSIZE 8192
  *   // then include nopoll.h  (you need to recompile noPoll)
  *   #include <nopoll.n>
  * \endcode
@@ -162,9 +161,9 @@
 #include <rtthread.h>
 
 /** let's have support for R_OK if it is not defined **/
-#  ifndef R_OK
-#   define R_OK        4
-#  endif
+# ifndef R_OK
+#define R_OK      	4
+# endif
 
 /* Portable definitions while using noPoll Library */
 #define NOPOLL_EINTR           EINTR
@@ -180,7 +179,7 @@
 #define NOPOLL_SOCKET_ERROR    -1
 #define nopoll_close_socket(s) do {if ( s >= 0) {closesocket (s);}} while (0)
 
-#endif /* end defined(AXL_OS_UNIX) */
+#endif /* end defined(NOPOLL_OS_RTTHREAD) */
 
 #if defined(NOPOLL_OS_WIN32)
 
@@ -566,20 +565,18 @@ typedef enum {
 	 * established with this method will only understand this
 	 * method.
 	 */
-	NOPOLL_METHOD_TLSV1_1     = 5
+	NOPOLL_METHOD_TLSV1_1     = 5,
 #endif
 #if defined(NOPOLL_HAVE_TLSv12_ENABLED)
-	,
 	/** 
 	 * @brief Allows to define TLSv1.2 as SSL protocol used by the
 	 * client or server connection. A connection/listener
 	 * established with this method will only understand this
 	 * method.
 	 */
-	NOPOLL_METHOD_TLSV1_2     = 6
+	NOPOLL_METHOD_TLSV1_2     = 6,
 #endif
 #if defined(NOPOLL_HAVE_TLS_FLEXIBLE_ENABLED)
-	,
 	/** 
 	 * @brief Allows to define TLS flexible negotiation where the
 	 * highest version available will be negotiated by both

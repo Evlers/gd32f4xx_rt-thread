@@ -1,6 +1,6 @@
 /*
  *  LibNoPoll: A websocket library
- *  Copyright (C) 2015 Advanced Software Production Line, S.L.
+ *  Copyright (C) 2022 Advanced Software Production Line, S.L.
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public License
@@ -28,9 +28,8 @@
  *          
  *      Postal address:
  *         Advanced Software Production Line, S.L.
- *         Edificio Alius A, Oficina 102,
- *         C/ Antonio Suarez Nº 10,
- *         Alcalá de Henares 28802 Madrid
+ *         Av. Juan Carlos I, Nº13, 2ºC
+ *         Alcalá de Henares 28806 Madrid
  *         Spain
  *
  *      Email address:
@@ -67,13 +66,17 @@ void __nopoll_ctx_sigpipe_do_nothing (int _signal)
  * @brief Creates an empty Nopoll context. 
  */
 noPollCtx * nopoll_ctx_new (void) {
-	noPollCtx * result = nopoll_new (noPollCtx, 1);
+	noPollCtx * result;
+
+	/* call to create context after checkign WinSock */
+	result = nopoll_new (noPollCtx, 1);
 	if (result == NULL)
 		return NULL;
 
 #if defined(NOPOLL_OS_WIN32)
-	if (! nopoll_win32_init (result))
+	if (! nopoll_win32_init (result)) {
 		return NULL;
+	} /* end if */
 #endif
 
 	/* set initial reference */
@@ -335,7 +338,7 @@ void           nopoll_ctx_unregister_conn (noPollCtx  * ctx,
 			/* acquire a reference to the conection */
 			nopoll_conn_unref (conn);
 
-			break;
+			return; 
 		} /* end if */
 		
 		iterator++;
