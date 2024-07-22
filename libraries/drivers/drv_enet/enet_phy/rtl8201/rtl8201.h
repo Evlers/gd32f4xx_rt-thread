@@ -6,6 +6,7 @@
  * Change Logs:
  * Date         Author      Notes
  * 2024-06-25   Evlers      first implementation
+ * 2024-07-22   Evlers      add traditional LED Function Selection
  */
 
 #ifndef _RTL8201_H_
@@ -37,6 +38,7 @@ typedef struct {
     bool auto_negotiation;
     uint8_t duplex;
     bool txc_input;
+    uint8_t led_sel;
 } rtl8201_config_t;
 
 #if defined(__cplusplus)

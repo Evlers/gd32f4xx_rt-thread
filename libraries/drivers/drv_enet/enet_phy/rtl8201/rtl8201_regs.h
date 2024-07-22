@@ -6,6 +6,7 @@
  * Change Logs:
  * Date         Author      Notes
  * 2024-06-25   Evlers      first implementation
+ * 2024-07-22   Evlers      add WOL Enable, and LEDs Function register
  */
 
 #ifndef _RTL8201_REGS_H_
@@ -17,6 +18,7 @@ typedef enum {
     RTL8201_PHYID1                      = 2,   /* 0x2: PHY Identifier Register 1 */
     RTL8201_PHYID2                      = 3,   /* 0x3: PHY Identifier Register 2 */
     RTL8201_RMSR_P7                     = 16,  /* 0x10: RMII Mode Setting Register */
+    RTL8201_LED_P7                      = 19,  /* 0x13: WOL Enable, and LEDs Function Registers */
     RTL8201_PAGESEL                     = 31,  /* 0x1F: Page Select Register */
 } RTL8201_REG_Type;
 
@@ -403,7 +405,18 @@ typedef enum {
 #define RTL8201_PAGESEL_PAGE_SEL_SET(x) (((uint16_t)(x) << RTL8201_PAGESEL_PAGE_SEL_SHIFT) & RTL8201_PAGESEL_PAGE_SEL_MASK)
 #define RTL8201_PAGESEL_PAGE_SEL_GET(x) (((uint16_t)(x) & RTL8201_PAGESEL_PAGE_SEL_MASK) >> RTL8201_PAGESEL_PAGE_SEL_SHIFT)
 
-
+/*
+ * LED_sel[1:0]
+ *
+ * 00: LED0:ACT(ALL) LED1:LINK(100)
+ * 01: LED0:LINK(ALL)/ACT(ALL) LED1:LINK(100)
+ * 10: LED0:LINK(10)/ACT(ALL) LED1:LINK(100)
+ * 11: LED0:LINK(10)/ACT(10) LED1:LINK(100)/ATC(100)
+ */
+#define RTL8201_LED_P7_RG_LED_SEL_MASK (0x30U)
+#define RTL8201_LED_P7_RG_LED_SEL_SHIFT (4U)
+#define RTL8201_LED_P7_RG_LED_SEL_SET(x) (((uint16_t)(x) << RTL8201_LED_P7_RG_LED_SEL_SHIFT) & RTL8201_LED_P7_RG_LED_SEL_MASK)
+#define RTL8201_LED_P7_RG_LED_SEL_GET(x) (((uint16_t)(x) & RTL8201_LED_P7_RG_LED_SEL_MASK) >> RTL8201_LED_P7_RG_LED_SEL_SHIFT)
 
 
 #endif /* _RTL8201_REGS_H_ */

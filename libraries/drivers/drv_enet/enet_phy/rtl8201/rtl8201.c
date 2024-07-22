@@ -6,6 +6,7 @@
  * Change Logs:
  * Date         Author      Notes
  * 2024-06-25   Evlers      first implementation
+ * 2024-07-22   Evlers      add configure for led
  */
 
 /*---------------------------------------------------------------------
@@ -68,6 +69,7 @@ void rtl8201_basic_mode_default_config(rt_phy_t *phy, rtl8201_config_t *config)
     config->auto_negotiation = true;                         /* Enable Auto-Negotiation */
     #endif
     config->txc_input        = false;                        /* Set TXC as output mode */
+    config->led_sel          = 1;                            /* LED0:LINK(ALL)/ACT(ALL) LED1:LINK(100) */
 }
 
 bool rtl8201_basic_mode_init(rt_phy_t *phy, rtl8201_config_t *config)
@@ -103,6 +105,12 @@ bool rtl8201_basic_mode_init(rt_phy_t *phy, rtl8201_config_t *config)
     data &= ~RTL8201_RMSR_P7_RG_RMII_CLKDIR_MASK;
     data |= RTL8201_RMSR_P7_RG_RMII_CLKDIR_SET(config->txc_input);
     phy->bus->ops->write(phy->bus, phy->addr, RTL8201_RMSR_P7, &data, sizeof(data));
+
+    /* set led function */
+    phy->bus->ops->read(phy->bus, phy->addr, RTL8201_LED_P7, &data, sizeof(data));
+    data &= ~RTL8201_LED_P7_RG_LED_SEL_MASK;
+    data |= RTL8201_LED_P7_RG_LED_SEL_SET(config->led_sel);
+    phy->bus->ops->write(phy->bus, phy->addr, RTL8201_LED_P7, &data, sizeof(data));
 
     return true;
 }
