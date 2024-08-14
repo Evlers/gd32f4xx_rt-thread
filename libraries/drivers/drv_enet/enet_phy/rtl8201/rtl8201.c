@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006-2024, RT-Thread Development Team
+ * Copyright (c) 2006-2024 RT-Thread Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -33,9 +33,12 @@ static bool rtl8201_check_id(rt_phy_t *phy)
     phy->bus->ops->read(phy->bus, phy->addr, RTL8201_PHYID1, &id1, sizeof(id1));
     phy->bus->ops->read(phy->bus, phy->addr, RTL8201_PHYID2, &id2, sizeof(id2));
 
-    if (RTL8201_PHYID1_OUI_MSB_GET(id1) == RTL8201_ID1 && RTL8201_PHYID2_OUI_LSB_GET(id2) == RTL8201_ID2) {
+    if (RTL8201_PHYID1_OUI_MSB_GET(id1) == RTL8201_ID1 && RTL8201_PHYID2_OUI_LSB_GET(id2) == RTL8201_ID2)
+    {
         return true;
-    } else {
+    }
+    else
+    {
         return false;
     }
 }
@@ -84,13 +87,15 @@ bool rtl8201_basic_mode_init(rt_phy_t *phy, rtl8201_config_t *config)
          |  RTL8201_BMCR_RESTART_AN_SET(0)                   /* Normal operation (ignored when Auto-Negotiation is disabled) */
          |  RTL8201_BMCR_COLLISION_TEST_SET(0);              /* Normal operation */
 
-    if (config->auto_negotiation == 0) {
+    if (config->auto_negotiation == 0)
+    {
         data |= RTL8201_BMCR_SPEED0_SET(config->speed);      /* Set port speed */
         data |= RTL8201_BMCR_DUPLEX_SET(config->duplex);     /* Set duplex mode */
     }
 
     /* check the id of rtl8201 */
-    if (rtl8201_check_id(phy) == false) {
+    if (rtl8201_check_id(phy) == false)
+    {
         return false;
     }
 

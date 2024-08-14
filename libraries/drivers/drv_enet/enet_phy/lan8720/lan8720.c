@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006-2024, RT-Thread Development Team
+ * Copyright (c) 2006-2024 RT-Thread Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -32,9 +32,12 @@ static bool lan8720_check_id(rt_phy_t *phy)
     phy->bus->ops->read(phy->bus, phy->addr, LAN8720_PHYID1, &id1, sizeof(id1));
     phy->bus->ops->read(phy->bus, phy->addr, LAN8720_PHYID2, &id2, sizeof(id2));
 
-    if (LAN8720_PHYID1_OUI_MSB_GET(id1) == LAN8720_ID1 && LAN8720_PHYID2_OUI_LSB_GET(id2) == LAN8720_ID2) {
+    if (LAN8720_PHYID1_OUI_MSB_GET(id1) == LAN8720_ID1 && LAN8720_PHYID2_OUI_LSB_GET(id2) == LAN8720_ID2)
+    {
         return true;
-    } else {
+    }
+    else
+    {
         return false;
     }
 }
@@ -80,13 +83,15 @@ bool lan8720_basic_mode_init(rt_phy_t *phy, lan8720_config_t *config)
          |  LAN8720_BMCR_ISOLATE_SET(0)                      /* Normal operation */
          |  LAN8720_BMCR_RESTART_AN_SET(0);                  /* Normal operation (ignored when Auto-Negotiation is disabled) */
 
-    if (config->auto_negotiation == 0) {
+    if (config->auto_negotiation == 0)
+    {
         data |= LAN8720_BMCR_SPEED_SET(config->speed);      /* Set port speed */
         data |= LAN8720_BMCR_DUPLEX_SET(config->duplex);     /* Set duplex mode */
     }
 
     /* check the id of lan8720 */
-    if (lan8720_check_id(phy) == false) {
+    if (lan8720_check_id(phy) == false)
+    {
         return false;
     }
 

@@ -425,7 +425,6 @@ config BSP_USING_SDIO
 
 menuconfig BSP_USING_ETH
     bool "Enable Ethernet"
-    select RT_USING_ETH
     default n
 
     if BSP_USING_ETH

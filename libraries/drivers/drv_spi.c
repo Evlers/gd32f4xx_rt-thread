@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006-2024, RT-Thread Development Team
+ * Copyright (c) 2006-2024 RT-Thread Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -220,11 +220,8 @@ static void gd32_spi_dma_config (struct gd32_spi *gd32_spi, rt_uint8_t data_widt
         dma_single_data_mode_init(gd32_spi->dma.rx->periph, gd32_spi->dma.rx->channel, &dma_init_struct);
         dma_channel_subperipheral_select(gd32_spi->dma.rx->periph, gd32_spi->dma.rx->channel, gd32_spi->dma.rx->subperiph);
 
-        if (gd32_spi->dma.rx->irq != NULL)
-        {
-            NVIC_EnableIRQ(gd32_spi->dma.rx->irq);
-            dma_interrupt_enable(gd32_spi->dma.rx->periph, gd32_spi->dma.rx->channel, DMA_CHXCTL_FTFIE);
-        }
+        NVIC_EnableIRQ(gd32_spi->dma.rx->irq);
+        dma_interrupt_enable(gd32_spi->dma.rx->periph, gd32_spi->dma.rx->channel, DMA_CHXCTL_FTFIE);
 
         dma_channel_disable(gd32_spi->dma.rx->periph, gd32_spi->dma.rx->channel);
 
@@ -255,11 +252,8 @@ static void gd32_spi_dma_config (struct gd32_spi *gd32_spi, rt_uint8_t data_widt
         dma_single_data_mode_init(gd32_spi->dma.tx->periph, gd32_spi->dma.tx->channel, &dma_init_struct);
         dma_channel_subperipheral_select(gd32_spi->dma.tx->periph, gd32_spi->dma.tx->channel, gd32_spi->dma.tx->subperiph);
 
-        if (gd32_spi->dma.tx->irq != NULL)
-        {
-            NVIC_EnableIRQ(gd32_spi->dma.tx->irq);
-            dma_interrupt_enable(gd32_spi->dma.tx->periph, gd32_spi->dma.tx->channel, DMA_CHXCTL_FTFIE);
-        }
+        NVIC_EnableIRQ(gd32_spi->dma.tx->irq);
+        dma_interrupt_enable(gd32_spi->dma.tx->periph, gd32_spi->dma.tx->channel, DMA_CHXCTL_FTFIE);
 
         dma_channel_disable(gd32_spi->dma.tx->periph, gd32_spi->dma.tx->channel);
 

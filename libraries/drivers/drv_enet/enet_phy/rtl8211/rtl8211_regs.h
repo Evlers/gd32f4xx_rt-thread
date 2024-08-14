@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006-2024, RT-Thread Development Team
+ * Copyright (c) 2006-2024 RT-Thread Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -349,7 +349,7 @@ typedef enum {
 /*
  * MODEL_NUMBER (RO)
  *
- * Manufacture’s Model Number
+ * Manufacture's Model Number
  */
 #define RTL8211_PHYID2_MODEL_NUMBER_MASK (0x3F0U)
 #define RTL8211_PHYID2_MODEL_NUMBER_SHIFT (4U)

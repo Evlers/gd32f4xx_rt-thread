@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006-2024, RT-Thread Development Team
+ * Copyright (c) 2006-2024 RT-Thread Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -93,7 +93,8 @@ static uint32_t sd_datablocksize_get(uint16_t bytesnumber)
 {
     uint8_t exp_val = 0;
     /* calculate the exponent of 2 */
-    while(1 != bytesnumber){
+    while(1 != bytesnumber)
+    {
         bytesnumber >>= 1;
         ++exp_val;
     }
@@ -777,7 +778,7 @@ rt_weak void gd32_msp_sdio_init (const uint32_t *periph)
     gpio_output_options_set(config->d3_port, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, config->d3_pin);
 
     /* configure the sdio interrupt */
-    NVIC_SetPriority(config->irqn, 0);
+    NVIC_SetPriority(config->irqn, 2);
 }
 
 int gd32_sdio_init (void)

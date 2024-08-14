@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006-2024, RT-Thread Development Team
+ * Copyright (c) 2006-2024 RT-Thread Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -532,7 +532,7 @@ static int rt_hwtimer_init(void)
         g_gd32_hwtimer[i].hwtimer_dev.info = &g_gd32_hwtimer[i].hwtimer_info;
 
         rcu_periph_clock_enable(g_gd32_hwtimer[i].hw_data.rcu);
-        NVIC_SetPriority(g_gd32_hwtimer[i].hw_data.irqn, 0);
+        NVIC_SetPriority(g_gd32_hwtimer[i].hw_data.irqn, 2);
         NVIC_EnableIRQ(g_gd32_hwtimer[i].hw_data.irqn);
         timer_interrupt_enable(g_gd32_hwtimer[i].hw_data.reg_base, TIMER_INT_UP);
         ret = rt_device_hwtimer_register(&g_gd32_hwtimer[i].hwtimer_dev, \

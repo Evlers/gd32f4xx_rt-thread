@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006-2024, RT-Thread Development Team
+ * Copyright (c) 2006-2024 RT-Thread Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -144,10 +144,12 @@ static rt_err_t SDRAM_Initialization_Sequence(exmc_sdram_parameter_struct *hsdra
     sdram_command_init_struct.auto_refresh_number = EXMC_SDRAM_AUTO_REFLESH_2_SDCLK;
     sdram_command_init_struct.mode_register_content = 0;
     /* wait until the SDRAM controller is ready */
-    while((exmc_flag_get(sdram_device, EXMC_SDRAM_FLAG_NREADY) != RESET) && (timeout > 0)) {
+    while((exmc_flag_get(sdram_device, EXMC_SDRAM_FLAG_NREADY) != RESET) && (timeout > 0))
+    {
         timeout--;
     }
-    if(0 == timeout) {
+    if(0 == timeout)
+    {
         return RT_ERROR;
     }
     /* send the command */
@@ -163,10 +165,12 @@ static rt_err_t SDRAM_Initialization_Sequence(exmc_sdram_parameter_struct *hsdra
     sdram_command_init_struct.mode_register_content = 0;
     /* wait until the SDRAM controller is ready */
     timeout = SDRAM_TIMEOUT;
-    while((exmc_flag_get(sdram_device, EXMC_SDRAM_FLAG_NREADY) != RESET) && (timeout > 0)) {
+    while((exmc_flag_get(sdram_device, EXMC_SDRAM_FLAG_NREADY) != RESET) && (timeout > 0))
+    {
         timeout--;
     }
-    if(0 == timeout) {
+    if(0 == timeout)
+    {
         return RT_ERROR;
     }
     /* send the command */
@@ -179,10 +183,12 @@ static rt_err_t SDRAM_Initialization_Sequence(exmc_sdram_parameter_struct *hsdra
     sdram_command_init_struct.mode_register_content = 0;
     /* wait until the SDRAM controller is ready */
     timeout = SDRAM_TIMEOUT;
-    while((exmc_flag_get(sdram_device, EXMC_SDRAM_FLAG_NREADY) != RESET) && (timeout > 0)) {
+    while((exmc_flag_get(sdram_device, EXMC_SDRAM_FLAG_NREADY) != RESET) && (timeout > 0))
+    {
         timeout--;
     }
-    if(0 == timeout) {
+    if(0 == timeout)
+    {
         return RT_ERROR;
     }
     /* send the command */
@@ -203,10 +209,12 @@ static rt_err_t SDRAM_Initialization_Sequence(exmc_sdram_parameter_struct *hsdra
 
     /* wait until the SDRAM controller is ready */
     timeout = SDRAM_TIMEOUT;
-    while((exmc_flag_get(sdram_device, EXMC_SDRAM_FLAG_NREADY) != RESET) && (timeout > 0)) {
+    while((exmc_flag_get(sdram_device, EXMC_SDRAM_FLAG_NREADY) != RESET) && (timeout > 0))
+    {
         timeout--;
     }
-    if(0 == timeout) {
+    if(0 == timeout)
+    {
         return RT_ERROR;
     }
     /* send the command */
@@ -220,10 +228,12 @@ static rt_err_t SDRAM_Initialization_Sequence(exmc_sdram_parameter_struct *hsdra
 
     /* wait until the SDRAM controller is ready */
     timeout = SDRAM_TIMEOUT;
-    while((exmc_flag_get(sdram_device, EXMC_SDRAM_FLAG_NREADY) != RESET) && (timeout > 0)) {
+    while((exmc_flag_get(sdram_device, EXMC_SDRAM_FLAG_NREADY) != RESET) && (timeout > 0))
+    {
         timeout--;
     }
-    if(0 == timeout) {
+    if(0 == timeout)
+    {
         return RT_ERROR;
     }
     return RT_EOK;

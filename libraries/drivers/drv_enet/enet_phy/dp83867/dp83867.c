@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006-2024, RT-Thread Development Team
+ * Copyright (c) 2006-2024 RT-Thread Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -32,9 +32,12 @@ bool dp83867_check_id(rt_phy_t *phy)
     phy->bus->ops->read(phy->bus, phy->addr, DP83867_PHYIDR1, &id1, sizeof(id1));
     phy->bus->ops->read(phy->bus, phy->addr, DP83867_PHYIDR2, &id2, sizeof(id2));
 
-    if (DP83867_PHYIDR1_OUI_MSB_GET(id1) == DP83867_ID1 && DP83867_PHYIDR2_OUI_LSB_GET(id2) == DP83867_ID2) {
+    if (DP83867_PHYIDR1_OUI_MSB_GET(id1) == DP83867_ID1 && DP83867_PHYIDR2_OUI_LSB_GET(id2) == DP83867_ID2)
+    {
         return true;
-    } else {
+    }
+    else
+    {
         return false;
     }
 }
@@ -120,13 +123,15 @@ bool dp83867_basic_mode_init(rt_phy_t *phy, dp83867_config_t *config)
          |  DP83867_BMCR_RESTART_AN_SET(0)                   /* Normal operation (ignored when Auto-Negotiation is disabled) */
          |  DP83867_BMCR_COLLISION_TEST_SET(0);              /* Normal operation */
 
-    if (config->auto_negotiation == false) {
+    if (config->auto_negotiation == false)
+    {
         data |= DP83867_BMCR_SPEED0_SET(config->speed) | DP83867_BMCR_SPEED1_SET(config->speed >> 1); /* Set port speed */
         data |= DP83867_BMCR_DUPLEX_SET(config->duplex);                                              /* Set duplex mode */
     }
 
     /* check the id of dp83867 */
-    if (dp83867_check_id(phy) == false) {
+    if (dp83867_check_id(phy) == false)
+    {
         return false;
     }
 

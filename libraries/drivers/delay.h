@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006-2023, Evlers Developers
+ * Copyright (c) 2006-2024 Evlers Developers
  *
  * SPDX-License-Identifier: Apache-2.0
  *

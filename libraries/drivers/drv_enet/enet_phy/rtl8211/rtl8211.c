@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006-2024, RT-Thread Development Team
+ * Copyright (c) 2006-2024 RT-Thread Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -33,9 +33,12 @@ static bool rtl8211_check_id(rt_phy_t *phy)
     phy->bus->ops->read(phy->bus, phy->addr, RTL8211_PHYID1, &id1, sizeof(id1));
     phy->bus->ops->read(phy->bus, phy->addr, RTL8211_PHYID2, &id2, sizeof(id2));
 
-    if (RTL8211_PHYID1_OUI_MSB_GET(id1) == RTL8211_ID1 && RTL8211_PHYID2_OUI_LSB_GET(id2) == RTL8211_ID2) {
+    if (RTL8211_PHYID1_OUI_MSB_GET(id1) == RTL8211_ID1 && RTL8211_PHYID2_OUI_LSB_GET(id2) == RTL8211_ID2)
+    {
         return true;
-    } else {
+    }
+    else
+    {
         return false;
     }
 }
@@ -82,7 +85,8 @@ bool rtl8211_basic_mode_init(rt_phy_t *phy, rtl8211_config_t *config)
          |  RTL8211_BMCR_RESTART_AN_SET(0)                   /* Normal operation (ignored when Auto-Negotiation is disabled) */
          |  RTL8211_BMCR_COLLISION_TEST_SET(0);              /* Normal operation */
 
-    if (config->auto_negotiation == 0) {
+    if (config->auto_negotiation == 0)
+    {
         data |= RTL8211_BMCR_SPEED0_SET(config->speed) | RTL8211_BMCR_SPEED1_SET(config->speed >> 1);   /* Set port speed */
         data |= RTL8211_BMCR_DUPLEX_SET(config->duplex);                                                /* Set duplex mode */
     }
@@ -90,7 +94,8 @@ bool rtl8211_basic_mode_init(rt_phy_t *phy, rtl8211_config_t *config)
     phy->bus->ops->write(phy->bus, phy->addr, RTL8211_BMCR, &data, sizeof(data));
 
     /* check the id of rtl8211 */
-    if (rtl8211_check_id(phy) == false) {
+    if (rtl8211_check_id(phy) == false)
+    {
         return false;
     }
 

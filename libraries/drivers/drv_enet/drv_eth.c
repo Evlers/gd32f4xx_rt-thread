@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006-2024, RT-Thread Development Team
+ * Copyright (c) 2006-2024 RT-Thread Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -166,7 +166,7 @@ rt_weak void gd32_msp_eth_init (void)
     gpio_af_set(GPIOC, GPIO_AF_11, GPIO_PIN_4);
     gpio_af_set(GPIOC, GPIO_AF_11, GPIO_PIN_5);
 
-    NVIC_SetPriority(ENET_IRQn, 0);
+    NVIC_SetPriority(ENET_IRQn, 2);
 }
 
 static void enet_default_init (void)
@@ -295,7 +295,7 @@ static rt_err_t rt_gd32_eth_init (rt_device_t dev)
     /* enable the automatic zero-quanta generation function */
     enet_flowcontrol_feature_enable(ENET_ZERO_QUANTA_PAUSE);
 
-    /* initialize MAC address in ethernet MAC */ 
+    /* initialize MAC address in ethernet MAC */
     enet_mac_address_set(ENET_MAC_ADDRESS0, mac_addr);
 
     /* initialize descriptors list: chain/ring mode */
@@ -508,7 +508,7 @@ rt_err_t rt_gd32_eth_tx (rt_device_t dev, struct pbuf *p)
         copy_count = q->len;
         payload_offset = 0;
 
-        /* if the buffer is not enough to store the following data，split the data frame into each buffer */
+        /* if the buffer is not enough to store the following data, split the data frame into each buffer */
         while ((copy_count + buffer_offset) > ENET_MAX_FRAME_SIZE)
         {
             /* copy only data frames to buffer */
@@ -553,7 +553,7 @@ rt_err_t rt_gd32_eth_tx (rt_device_t dev, struct pbuf *p)
         LOG_W("sent frame length: %u, total length: %u", frame_length, p->tot_len);
     }
 
-    /* transmit descriptors to give to DMA */ 
+    /* transmit descriptors to give to DMA */
     ret = txpkt_chainmode(frame_length);
 
 #ifdef ETH_TX_DUMP
@@ -814,7 +814,7 @@ static void eth_msc_print (void)
     rt_kprintf("rx align errors: %u\n", ENET_MSC_RFAECNT);
     rt_kprintf("rx align errors: %u\n", ENET_MSC_RFAECNT);
     rt_kprintf("rx crc errors: %u\n", ENET_MSC_RFCECNT);
-    
+
     rt_kprintf("tx packets: %u\n", ENET_MSC_TGFCNT);
 }
 MSH_CMD_EXPORT(eth_msc_print, print mac statistics counters);

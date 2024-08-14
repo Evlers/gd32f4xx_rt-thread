@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006-2024, RT-Thread Development Team
+ * Copyright (c) 2006-2024 RT-Thread Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -30,7 +30,7 @@ extern "C" {
 #define UART4_DMA_RX_IRQHandler         DMA0_Channel0_IRQHandler
 #elif defined(BSP_UART7_TX_USING_DMA) && !defined(UART7_TX_DMA_CONFIG)
 #define UART7_TX_DMA_CONFIG             DRV_DMA_CONFIG(0, 0, 5)
-#define UART7_DMA_RX_IRQHandler         DMA0_Channel0_IRQHandler
+#define UART7_DMA_TX_IRQHandler         DMA0_Channel0_IRQHandler
 #endif
 
 /* DMA0 Channel1 */

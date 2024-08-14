@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006-2024, RT-Thread Development Team
+ * Copyright (c) 2006-2024 RT-Thread Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -176,7 +176,8 @@ static int rt_hw_rtc_init(void)
     uint32_t RTCSRC_FLAG = GET_BITS(RCU_BDCTL, 8, 9);
 
     /* check if RTC has aready been configured */
-    if ((0xAA55 != RTC_BKP0) || (0x00 == RTCSRC_FLAG)) {
+    if ((0xAA55 != RTC_BKP0) || (0x00 == RTCSRC_FLAG))
+    {
         /* backup data register value is not correct or not yet programmed
         or RTC clock source is not configured (when the first time the program
         is executed or data in RCU_BDCTL is lost due to Vbat feeding) */

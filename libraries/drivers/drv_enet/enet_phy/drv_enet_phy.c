@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006-2024, RT-Thread Development Team
+ * Copyright (c) 2006-2024 RT-Thread Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -95,7 +95,8 @@ rt_weak rt_phy_status phy_init (void *object, rt_uint32_t phy_addr, rt_uint32_t 
 
     dp83848_reset(&eth_phy_handle.phy_dev->phy);
     dp83848_basic_mode_default_config(&eth_phy_handle.phy_dev->phy, &phy_config);
-    if (dp83848_basic_mode_init(&eth_phy_handle.phy_dev->phy, &phy_config) == true) {
+    if (dp83848_basic_mode_init(&eth_phy_handle.phy_dev->phy, &phy_config) == true)
+    {
         return PHY_STATUS_OK;
     } else {
         return PHY_STATUS_FAIL;
@@ -110,7 +111,8 @@ rt_weak rt_phy_status phy_init (void *object, rt_uint32_t phy_addr, rt_uint32_t 
     dp83867_set_mdi_crossover_mode(&eth_phy_handle.phy_dev->phy, enet_phy_mdi_crossover_manual_mdix);
     #endif
     dp83867_basic_mode_default_config(&eth_phy_handle.phy_dev->phy, &phy_config);
-    if (dp83867_basic_mode_init(&eth_phy_handle.phy_dev->phy, &phy_config) == true) {
+    if (dp83867_basic_mode_init(&eth_phy_handle.phy_dev->phy, &phy_config) == true)
+    {
         return PHY_STATUS_OK;
     } else {
         return PHY_STATUS_FAIL;
@@ -122,7 +124,8 @@ rt_weak rt_phy_status phy_init (void *object, rt_uint32_t phy_addr, rt_uint32_t 
 
     lan8720_reset(&eth_phy_handle.phy_dev->phy);
     lan8720_basic_mode_default_config(&eth_phy_handle.phy_dev->phy, &phy_config);
-    if (lan8720_basic_mode_init(&eth_phy_handle.phy_dev->phy, &phy_config) == true) {
+    if (lan8720_basic_mode_init(&eth_phy_handle.phy_dev->phy, &phy_config) == true)
+    {
         return PHY_STATUS_OK;
     } else {
         return PHY_STATUS_FAIL;
@@ -134,7 +137,8 @@ rt_weak rt_phy_status phy_init (void *object, rt_uint32_t phy_addr, rt_uint32_t 
 
     rtl8201_reset(&eth_phy_handle.phy_dev->phy);
     rtl8201_basic_mode_default_config(&eth_phy_handle.phy_dev->phy, &phy_config);
-    if (rtl8201_basic_mode_init(&eth_phy_handle.phy_dev->phy, &phy_config) == true) {
+    if (rtl8201_basic_mode_init(&eth_phy_handle.phy_dev->phy, &phy_config) == true)
+    {
         return PHY_STATUS_OK;
     } else {
         return PHY_STATUS_FAIL;
@@ -146,7 +150,8 @@ rt_weak rt_phy_status phy_init (void *object, rt_uint32_t phy_addr, rt_uint32_t 
 
     rtl8211_reset(&eth_phy_handle.phy_dev->phy);
     rtl8211_basic_mode_default_config(&eth_phy_handle.phy_dev->phy, &phy_config);
-    if (rtl8211_basic_mode_init(&eth_phy_handle.phy_dev->phy, &phy_config) == true) {
+    if (rtl8211_basic_mode_init(&eth_phy_handle.phy_dev->phy, &phy_config) == true)
+    {
         return PHY_STATUS_OK;
     } else {
         return PHY_STATUS_FAIL;

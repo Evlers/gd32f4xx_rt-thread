@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006-2024, RT-Thread Development Team
+ * Copyright (c) 2006-2024 RT-Thread Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -7,6 +7,8 @@
  * Date           Author            Notes
  * 2023-12-11     Evlers            first version
  * 2024-01-29     Evlers            add interrupt critical section
+ * 2024-08-13     Evlers            close all interrupts before performing flash operations
+ * 2024-08-14     Evlers            add a backup of the primask register to the critical section
  */
 
 #include "board.h"
@@ -33,7 +35,7 @@
  *
  * @return result
  */
-int gd32_flash_read(rt_uint32_t addr, rt_uint8_t *buf, size_t size)
+int drv_flash_read(rt_uint32_t addr, rt_uint8_t *buf, size_t size)
 {
     if ((addr + size) > GD32_FLASH_END_ADDRESS)
     {
@@ -57,8 +59,9 @@ int gd32_flash_read(rt_uint32_t addr, rt_uint8_t *buf, size_t size)
  *
  * @return result
  */
-int gd32_flash_write(rt_uint32_t addr, const rt_uint8_t *buf, size_t size)
+int drv_flash_write(rt_uint32_t addr, const rt_uint8_t *buf, size_t size)
 {
+    uint32_t primask_bit;
     rt_err_t result = RT_EOK;
     fmc_state_enum fmc_state = FMC_READY;
 
@@ -78,14 +81,15 @@ int gd32_flash_write(rt_uint32_t addr, const rt_uint8_t *buf, size_t size)
 
     for (uint32_t i = 0; i < size; i ++)
     {
-        rt_base_t level = rt_hw_interrupt_disable();
+        primask_bit = __get_PRIMASK();
+       __disable_irq();
 
         /* clear pending flags */
         fmc_flag_clear(FMC_FLAG_END | FMC_FLAG_OPERR | FMC_FLAG_WPERR | FMC_FLAG_PGMERR | FMC_FLAG_PGSERR);
 
         /* write byte to the corresponding address */
         fmc_state = fmc_byte_program(addr, buf[i]);
-        rt_hw_interrupt_enable(level);
+        __set_PRIMASK(primask_bit);
 
         if (fmc_state != FMC_READY)
         {
@@ -118,8 +122,9 @@ int gd32_flash_write(rt_uint32_t addr, const rt_uint8_t *buf, size_t size)
  *
  * @return result
  */
-int gd32_flash_erase(rt_uint32_t addr, size_t size)
+int drv_flash_erase(rt_uint32_t addr, size_t size)
 {
+    uint32_t primask_bit;
     rt_err_t result = RT_EOK;
     fmc_state_enum fmc_state = FMC_READY;
 
@@ -134,14 +139,15 @@ int gd32_flash_erase(rt_uint32_t addr, size_t size)
 
     for (uint32_t i = 0; i < size; i += GD32_FLASH_PAGE_SIZE)
     {
-        rt_base_t level = rt_hw_interrupt_disable();
+        primask_bit = __get_PRIMASK();
+        __disable_irq();
 
         /* clear pending flags */
         fmc_flag_clear(FMC_FLAG_END | FMC_FLAG_OPERR | FMC_FLAG_WPERR | FMC_FLAG_PGMERR | FMC_FLAG_PGSERR);
 
         /* wait the erase operation complete */
         fmc_state = fmc_page_erase(addr + i);
-        rt_hw_interrupt_enable(level);
+        __set_PRIMASK(primask_bit);
 
         if (fmc_state != FMC_READY)
         {
@@ -184,17 +190,17 @@ const struct fal_flash_dev gd32_onchip_flash =
 
 static int fal_flash_read(long offset, rt_uint8_t *buf, size_t size)
 {
-    return gd32_flash_read(gd32_onchip_flash.addr + offset, buf, size);
+    return drv_flash_read(gd32_onchip_flash.addr + offset, buf, size);
 }
 
 static int fal_flash_write(long offset, const rt_uint8_t *buf, size_t size)
 {
-    return gd32_flash_write(gd32_onchip_flash.addr + offset, buf, size);
+    return drv_flash_write(gd32_onchip_flash.addr + offset, buf, size);
 }
 
 static int fal_flash_erase(long offset, size_t size)
 {
-    return gd32_flash_erase(gd32_onchip_flash.addr + offset, size);
+    return drv_flash_erase(gd32_onchip_flash.addr + offset, size);
 }
 
 

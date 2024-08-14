@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006-2024, RT-Thread Development Team
+ * Copyright (c) 2006-2024 RT-Thread Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -600,7 +600,7 @@ static rt_err_t gd32_pin_irq_enable(struct rt_device *device, rt_base_t pin, rt_
 #endif
 
         /* enable and set interrupt priority */
-        nvic_irq_enable(irqmap->irqno, 5U, 0U);
+        nvic_irq_enable(irqmap->irqno, 2, 0U);
 
         /* connect EXTI line to  GPIO pin */
 #if defined SOC_SERIES_GD32F4xx
