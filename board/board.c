@@ -38,7 +38,6 @@ void Error_Handler(void)
 void SystemClock_Config(void)
 {
     SysTick_Config(SystemCoreClock / RT_TICK_PER_SECOND);
-    NVIC_SetPriority(SysTick_IRQn, 0);
 }
 
 /**
