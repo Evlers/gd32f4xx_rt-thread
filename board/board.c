@@ -6,6 +6,7 @@
  * Change Logs:
  * Date         Author      Notes
  * 2024-07-10   Evlers      first implementation
+ * 2024-08-14   Evlers      add independent interrupt management
  */
 
 #include <stdint.h>
@@ -94,4 +95,24 @@ void rt_hw_board_init()
 #endif
 }
 
-/*@}*/
+#ifdef RT_USING_INDEPENDENT_INTERRUPT_MANAGEMENT
+#define RT_NVIC_PRO_BITS    __NVIC_PRIO_BITS
+
+rt_base_t rt_hw_interrupt_disable(void)
+{
+    rt_base_t level = __get_BASEPRI();
+    __set_BASEPRI(RT_MAX_SYSCALL_INTERRUPT_PRIORITY << (8 - RT_NVIC_PRO_BITS));
+
+    __ISB();
+    __DSB();
+
+    return level;
+}
+
+void rt_hw_interrupt_enable(rt_base_t level)
+{
+    __set_BASEPRI(level);
+}
+
+#endif /* RT_USING_INDEPENDENT_INTERRUPT_MANAGEMENT */
+

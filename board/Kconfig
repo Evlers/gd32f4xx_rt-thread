@@ -1,3 +1,18 @@
+menu "System Extension Configuration"
+
+    menuconfig RT_USING_INDEPENDENT_INTERRUPT_MANAGEMENT
+        bool "Enable independent interrupt management"
+        default n
+
+        if RT_USING_INDEPENDENT_INTERRUPT_MANAGEMENT
+            config RT_MAX_SYSCALL_INTERRUPT_PRIORITY
+                int "Set max syscall interrupt priority"
+                range 0 7
+                default 2
+        endif
+
+endmenu
+
 menu "Hardware Drivers Config"
 
 config SOC_SERIES_GD32F4xx
