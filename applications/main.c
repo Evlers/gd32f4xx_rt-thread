@@ -17,8 +17,10 @@
 
 int main(void)
 {
+#ifdef RT_USING_WIFI
     /* enable auto reconnect on WLAN device */
     rt_wlan_config_autoreconnect(RT_TRUE);
+#endif
 
     /* set LED1 pin mode to output */
     rt_pin_mode(LED1_PIN, PIN_MODE_OUTPUT);

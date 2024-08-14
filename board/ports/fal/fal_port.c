@@ -17,8 +17,9 @@
 #ifdef RT_USING_FAL
 
 #include "fal.h"
+#ifdef PKG_USING_EASYFLASH
 #include "easyflash.h"
-
+#endif
 
 static int rt_fal_init (void)
 {
