@@ -6,6 +6,7 @@
  * Change Logs:
  * Date         Author      Notes
  * 2024-06-13   Evlers      first implementation
+ * 2024-08-27   Evlers      close flow control and osf function to fix dma tx stop bug
  */
 
 #include <stdint.h>
@@ -203,7 +204,7 @@ static void enet_default_init (void)
     reg_value &= MAC_FCTL_MASK;
     reg_value |= MAC_FCTL_PTM(0) | ENET_ZERO_QUANTA_PAUSE_DISABLE \
                  | ENET_PAUSETIME_MINUS4 | ENET_UNIQUE_PAUSEDETECT \
-                 | ENET_RX_FLOWCONTROL_DISABLE | ENET_TX_FLOWCONTROL_ENABLE;
+                 | ENET_RX_FLOWCONTROL_DISABLE | ENET_TX_FLOWCONTROL_DISABLE;
     ENET_MAC_FCTL = reg_value;
 
     /* configure ENET_MAC_VLT register */
@@ -214,9 +215,9 @@ static void enet_default_init (void)
     reg_value = ENET_DMA_CTL;
     reg_value &= DMA_CTL_MASK;
     reg_value |= ENET_TCPIP_CKSUMERROR_DROP | ENET_RX_MODE_STOREFORWARD \
-                 | ENET_FLUSH_RXFRAME_DISABLE | ENET_TX_MODE_STOREFORWARD \
+                 | ENET_FLUSH_RXFRAME_ENABLE | ENET_TX_MODE_STOREFORWARD \
                  | ENET_TX_THRESHOLD_64BYTES | ENET_RX_THRESHOLD_64BYTES \
-                 | ENET_SECONDFRAME_OPT_ENABLE;
+                 | ENET_SECONDFRAME_OPT_DISABLE;
     ENET_DMA_CTL = reg_value;
 
     /* configure ENET_DMA_BCTL register */
