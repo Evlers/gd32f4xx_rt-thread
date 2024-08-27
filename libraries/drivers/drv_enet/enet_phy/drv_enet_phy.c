@@ -251,11 +251,11 @@ static void phy_poll_status (void *parameter)
     {
         phy_dev->phy_link = status ? PHY_LINK_UP : PHY_LINK_DOWN;
         eth_device_linkchange(eth_dev, status);
-        LOG_I("PHY Status: %s", status ? "Link up" : "Link down\n");
+        LOG_I("PHY Status: %s", status ? "Link up" : "Link down");
         if (status == PHY_LINK_UP)
         {
             LOG_I("PHY Speed: %s", ps[phy_dev->phy_info.phy_speed]);
-            LOG_I("PHY Duplex: %s\n", phy_dev->phy_info.phy_duplex & PHY_FULL_DUPLEX ? "full duplex" : "half duplex");
+            LOG_I("PHY Duplex: %s", phy_dev->phy_info.phy_duplex & PHY_FULL_DUPLEX ? "full duplex" : "half duplex");
 
             /* configure the rate and mode of the negotiation result */
             config_mode_and_speed(enet_duplex[phy_dev->phy_info.phy_duplex], enet_speed[phy_dev->phy_info.phy_speed]);
@@ -272,17 +272,17 @@ static void phy_init_thread_entry (void *args)
     /* hardware reset phy */
     phy_reset((uint32_t *)&eth_phy_handle->periph);
 
-    LOG_D("initialize the phy\n");
+    LOG_D("initialize the phy");
     if (eth_phy_handle->phy_dev->phy.ops->init((void *)eth_phy_handle->periph, 0, rcu_clock_freq_get(CK_AHB)) != PHY_STATUS_OK)
     {
-        LOG_E("no any PHY device is detected! Please check your hardware!\n");
+        LOG_E("no any PHY device is detected! Please check your hardware!");
     }
 
     phy_status_timer = rt_timer_create("phy link", phy_poll_status, eth_phy_handle, RT_TICK_PER_SECOND, RT_TIMER_FLAG_PERIODIC | RT_TIMER_FLAG_SOFT_TIMER);
 
     if (!phy_status_timer || rt_timer_start(phy_status_timer) != RT_EOK)
     {
-        LOG_E("failed to start link change detection timer\n");
+        LOG_E("failed to start link change detection timer");
     }
 }
 

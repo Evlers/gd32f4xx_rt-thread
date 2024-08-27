@@ -832,6 +832,6 @@ static void eth_dma_status (void)
 {
     rt_kprintf("0x%08X\n", ENET_DMA_STAT);
 }
-MSH_CMD_EXPORT(eth_dma_status, print ENET_DMA_STAT register);
+MSH_CMD_EXPORT(eth_dma_status, print eth dma status register);
 
 #endif /* BSP_ETH_COMMAND_LINE_DEBUG */
