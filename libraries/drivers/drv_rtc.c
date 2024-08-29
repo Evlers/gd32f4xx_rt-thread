@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  *
  * Change Logs:
- * Date           Author            Notes
- * 2022-01-25     iysheng           first version
+ * Date         Author          Notes
+ * 2024-08-29   Evlers          first implementation
  */
 
 #include <board.h>
@@ -18,10 +18,8 @@
 
 #ifdef RT_USING_RTC
 
-#define RTC_CLOCK_SOURCE_IRC32K
-// #define RTC_CLOCK_SOURCE_LXTAL
-
-typedef struct {
+typedef struct
+{
     struct rt_device rtc_dev;
 } gd32_rtc_device;
 
@@ -87,6 +85,11 @@ static rt_err_t rt_gd32_rtc_control(rt_device_t dev, int cmd, void *args)
         *(rt_uint32_t *)args = get_rtc_timestamp();
         break;
 
+    case RT_DEVICE_CTRL_RTC_GET_TIMEVAL:
+        ((struct timeval *)args)->tv_sec = get_rtc_timestamp();
+        ((struct timeval *)args)->tv_usec = 0;
+        break;
+
     case RT_DEVICE_CTRL_RTC_SET_TIME:
         if (set_rtc_timestamp(*(rt_uint32_t *)args))
         {
@@ -118,14 +121,14 @@ const static struct rt_device_ops g_gd32_rtc_ops =
 */
 static void rtc_pre_config (void)
 {
-    #if defined (RTC_CLOCK_SOURCE_IRC32K)
+    #if defined (BSP_RTC_USING_LSI)
           rcu_osci_on(RCU_IRC32K);
           rcu_osci_stab_wait(RCU_IRC32K);
           rcu_rtc_clock_config(RCU_RTCSRC_IRC32K);
 
           prescaler_s = 0x13F;
           prescaler_a = 0x63;
-    #elif defined (RTC_CLOCK_SOURCE_LXTAL)
+    #elif defined (BSP_RTC_USING_LSE)
           rcu_osci_on(RCU_LXTAL);
           rcu_osci_stab_wait(RCU_LXTAL);
           rcu_rtc_clock_config(RCU_RTCSRC_LXTAL);
