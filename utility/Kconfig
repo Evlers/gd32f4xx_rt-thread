@@ -13,4 +13,8 @@ menu "Utility Config"
         bool "Enable the reboot command"
         default n
 
+    config UTILITY_USING_PRINT_CLK
+        bool "Enable the print clock command"
+        default n
+
 endmenu
