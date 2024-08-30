@@ -1,0 +1,6 @@
+menu "multimedia packages"
+
+source "$OFFLINE_PKGS_DIR/multimedia/lvgl-7/Kconfig"
+source "$OFFLINE_PKGS_DIR/multimedia/lvgl-8/Kconfig"
+
+endmenu

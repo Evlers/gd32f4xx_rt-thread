@@ -1,0 +1,32 @@
+# Kconfig file for LVGL v8.4
+menuconfig PKG_USING_LVGL8
+    bool "LVGL8 (official): Light and Versatile Graphics Library"
+    default n
+
+if PKG_USING_LVGL8
+
+    config PKG_LVGL_THREAD_PRIO
+        int "Priority of LVGL thread"
+        default 20
+
+    config PKG_LVGL_THREAD_STACK_SIZE
+        int "Stack size of LVGL thread"
+        default 4096
+
+    config PKG_LVGL_DISP_REFR_PERIOD
+        int "Display refresh period (ms)"
+        default 5 # official suggestion
+
+    config PKG_LVGL_USING_SQUARELINE
+        bool "Support SquareLine Studio"
+        default n
+
+    config PKG_LVGL_USING_EXAMPLES
+        bool "Enable built-in examples"
+        default n
+
+    config PKG_LVGL_USING_DEMOS
+        bool "Enable built-in demos"
+        default n
+
+endif
