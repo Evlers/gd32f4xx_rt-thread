@@ -1,30 +1,37 @@
 #!/bin/bash
 
+# parameter 1: directory of files to be copied
+# parameter 2: output file path of the file system
+# parameter 3: size of the file system
+
 input=$1
 output=$2
+fssize=$3
 
-# 删除旧的文件
+# delete the old file system
 if [ -f $output ]; then
     rm $output
 fi
 
-# 制作文件系统[-S指定扇区大小(Byte)] [-C 文件 文件系统大小(KByte)]
-mkfs.fat -n "Nor Flash" -F 12 -S 4096 -C $output 2800
+# making a file system [-S specifies sector size (Byte)] [-C output file path and file system size (KByte)]
+mkfs.fat -n "Nor Flash" -F 12 -S 4096 -C $output $fssize
 
-# 创建临时文件夹
+# create a temporary folder
 if [ ! -d "/tmp/makefatfs_tmp" ]; then
     mkdir /tmp/makefatfs_tmp
 fi
 
-# 挂载文件系统
-sudo mount $output /tmp/makefatfs_tmp
+# mount the file system
+mount $output /tmp/makefatfs_tmp
 
-# 复制二进制图片文件
-sudo cp -rf $input /tmp/makefatfs_tmp
+# copy files to a temporary folder
+cp -rf $input/* /tmp/makefatfs_tmp
 
-# 同步下文件
+# ensure that the file is written to the file system
 sync
 
-# 卸载文件系统
-sudo umount /tmp/makefatfs_tmp
+# unmount the file system
+umount /tmp/makefatfs_tmp
+
+# delete temporary folders
 rm -rf /tmp/makefatfs_tmp
