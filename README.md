@@ -93,6 +93,7 @@ WHD VERSION      : 3.1.0.23284 : v3.1.0 : ARM CLANG 5060960 : 2024-03-21 22:57:1
 - 输入`scons --target=vsc/mdk5` 命令重新生成工程。
 
 **传输文件系统到设备**
-- 在子系统(WSL)中执行`./tools/makefs/makefatfs.sh images ./images.fatfs`制作文件系统。
+- 在子系统(WSL)中执行`dos2unix tools/makefs/makefatfs.sh`确保脚本的换行符是正确的。
+- 在子系统(WSL)中执行`sudo ./tools/makefs/makefatfs.sh ./resource ./resource.fatfs 2048`制作2MB的文件系统。
 - 在设备执行`umount /`卸载设备的文件系统，防止程序调用该文件系统分区导致异常。
-- 在设备执行`ymodem_ota -p filesystem -t uart0`命令将制作出来的`images.fatfs`文件写入设备中。
+- 在设备执行`ymodem_ota -p filesystem -t uart0`命令将制作出来的`resource.fatfs`文件写入设备中。
