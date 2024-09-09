@@ -38,10 +38,10 @@ extern const struct fal_flash_dev gd32_onchip_flash;
 #define FAL_PART_TABLE                                                                                                      \
 {                                                                                                                           \
     { FAL_PART_MAGIC_WORD,  "application",      ONCHIP_FLASH_DEV_NAME,               0,   2048 * 1024,          0 },        \
-    { FAL_PART_MAGIC_WORD,  "whd_firmware",     NOR_FLASH_DEV_NAME,                  0,   1024 * 1024,          0 },        \
-    { FAL_PART_MAGIC_WORD,  "whd_clm",          NOR_FLASH_DEV_NAME,        1024 * 1024,   1024 * 1024,          0 },        \
-    { FAL_PART_MAGIC_WORD,  "easyflash",        NOR_FLASH_DEV_NAME,        2048 * 1024,     64 * 1024,          0 },        \
-    { FAL_PART_MAGIC_WORD,  "filesystem",       NOR_FLASH_DEV_NAME,        3072 * 1024,  13312 * 1024,          0 },        \
+    { FAL_PART_MAGIC_WORD,  "whd_firmware",     NOR_FLASH_DEV_NAME,                  0,    952 * 1024,          0 },        \
+    { FAL_PART_MAGIC_WORD,  "whd_clm",          NOR_FLASH_DEV_NAME,         952 * 1024,     64 * 1024,          0 },        \
+    { FAL_PART_MAGIC_WORD,  "easyflash",        NOR_FLASH_DEV_NAME,        1016 * 1024,      8 * 1024,          0 },        \
+    { FAL_PART_MAGIC_WORD,  "filesystem",       NOR_FLASH_DEV_NAME,        1024 * 1024,  15360 * 1024,          0 },        \
 }
 
 #endif /* FAL_PART_HAS_TABLE_CFG */
