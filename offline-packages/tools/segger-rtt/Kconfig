@@ -1,0 +1,89 @@
+
+# Kconfig file for package SEGGER_RTT
+menuconfig PKG_USING_SEGGER_RTT
+    bool "SEGGER Real Time Transfer (RTT)"
+    default n
+
+if PKG_USING_SEGGER_RTT
+
+    choice
+        prompt "Console type"
+        default SEGGER_RTT_ENABLE
+        help
+            Select the transport type
+
+        config SEGGER_RTT_ENABLE
+            bool "SEGGER RTT support"
+
+        config SWO_ENABLE
+            bool "ARM CORTEX M SWO support"
+    endchoice
+
+    choice
+        prompt "UP Operating modes"
+        default SEGGER_RTT_UP_MODE_NO_BLOCK_SKIP
+        help
+            Define behavior if buffer is full (not enough space for entire message).
+
+        config SEGGER_RTT_UP_MODE_NO_BLOCK_SKIP
+            bool "Skip. Do not block, output nothing."
+
+        config SEGGER_RTT_UP_MODE_NO_BLOCK_TRIM
+            bool "Trim: Do not block, output as much as fits."
+
+        config SEGGER_RTT_UP_MODE_BLOCK_IF_FIFO_FULL
+            bool "Block: Wait until there is space in the buffer."
+    endchoice
+
+    config SEGGER_RTT_MAX_NUM_UP_BUFFERS
+        int "SEGGER_RTT_MAX_NUM_UP_BUFFERS"
+        depends on SEGGER_RTT_ENABLE
+        help
+            Max. number of up-buffers (T->H) available on this target    (Default: 3)
+        default 3
+
+    config SEGGER_RTT_MAX_NUM_DOWN_BUFFERS
+        int "SEGGER_RTT_MAX_NUM_DOWN_BUFFERS"
+        depends on SEGGER_RTT_ENABLE
+        help
+            Max. number of down-buffers (H->T) available on this target  (Default: 3)
+        default 3
+
+    config BUFFER_SIZE_UP
+        int "BUFFER_SIZE_UP"
+        depends on SEGGER_RTT_ENABLE
+        help
+            Size of the buffer for terminal output of target, up to host (Default: 1k)
+        default 1024
+
+    config BUFFER_SIZE_DOWN
+        int "BUFFER_SIZE_DOWN"
+        depends on SEGGER_RTT_ENABLE
+        help
+            Size of the buffer for terminal input to target from host (Usually keyboard input) (Default: 16)
+        default 16
+
+    config SEGGER_RTT_PRINTF_BUFFER_SIZE
+        int "SEGGER_RTT_PRINTF_BUFFER_SIZE"
+        depends on SEGGER_RTT_ENABLE
+        help
+            Size of buffer for RTT printf to bulk-send chars via RTT  
+        default 64
+        
+    config RTT_DEFAULT_BUFFER_INDEX
+        int "RTT_DEFAULT_BUFFER_INDEX"
+        depends on SEGGER_RTT_ENABLE
+        default 0
+        
+    config RTT_DEFAULT_TERMINAL_INDEX
+        int "RTT_DEFAULT_TERMINAL_INDEX"
+        depends on SEGGER_RTT_ENABLE
+        default 0
+
+    config SWO_PORT_NUMBER
+        int "SWO port number"
+        depends on SWO_ENABLE
+        default 0
+
+endif
+
