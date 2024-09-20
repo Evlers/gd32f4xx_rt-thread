@@ -7,6 +7,7 @@
  * Date         Author      Notes
  * 2024-07-10   Evlers      first implementation
  * 2024-08-14   Evlers      add independent interrupt management
+ * 2024-09-20   Evlers      add support for SEGGER Real Time Transfer (RTT)
  */
 
 #include <stdint.h>
@@ -83,6 +84,11 @@ void rt_hw_board_init()
     /* usart driver initialization is open by default */
 #ifdef RT_USING_SERIAL
     rt_hw_usart_init();
+#endif
+
+#ifdef PKG_USING_SEGGER_RTT
+    int rt_hw_segger_rtt_init(void);
+    rt_hw_segger_rtt_init();
 #endif
 
 #if defined(RT_USING_CONSOLE) && defined(RT_USING_DEVICE)
