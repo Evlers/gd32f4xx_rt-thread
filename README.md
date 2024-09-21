@@ -36,8 +36,19 @@
 
 #### 编译下载
 
+##### 使用KEIL(ARMCC)编译下载
 - 建议在打开MDK5工程之前先通过`scons --target=mdk5`命令重新生成工程文件。<br>
-- 双击 projects 目录中的 project.uvprojx 文件，打开 MDK5 工程，编译并下载程序到开发板。
+- 双击 `projects` 目录中的 `project.uvprojx` 文件，打开 `MDK5` 工程，编译并下载程序到开发板。
+
+##### 使用GCC编译
+- 使用`scons -j65535`命令编译工程。
+
+##### 使用openocd下载
+- 使用`openocd -f ./board/config/board.cfg -c "program rtthread.bin 0x08000000 verify reset exit;"`命令下载程序到开发板。
+
+##### 使用probe-rs下载
+- 使用`probe-rs download --chip GD32F470ZI --speed 40000 rtthread.elf`命令下载程序到开发板。
+- 使用`probe-rs reset --chip GD32F470ZI`命令复位设备。
 
 **注意：该项目使用的是FAL方式加载WiFi资源文件，请参考[WiFi-Host-Driver](https://github.com/Evlers/rt-thread_wifi-host-driver)中的`README.md`文件下载资源文件到开发板**
 
