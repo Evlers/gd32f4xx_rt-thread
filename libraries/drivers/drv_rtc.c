@@ -18,6 +18,9 @@
 
 #ifdef RT_USING_RTC
 
+#define byte_to_bcd(value)  ((((value) / 10 % 10) << 4) | ((value) % 10))
+#define bcd_to_byte(value)  ((((value) >> 4) * 10) + ((value) & 0x0F))
+
 typedef struct
 {
     struct rt_device rtc_dev;
@@ -28,44 +31,38 @@ static __IO uint32_t prescaler_a = 0, prescaler_s = 0;
 
 static time_t get_rtc_timestamp(void)
 {
-    time_t rtc_counter;
-
     struct tm t = { 0 };
     rtc_parameter_struct rtc_initpara;
 
     rtc_current_time_get(&rtc_initpara);
 
-    t.tm_year = (((rtc_initpara.year & 0xF0) >> 4) * 10) + (rtc_initpara.year & 0x0F) + 100;
-    t.tm_mon = rtc_initpara.month;
-    t.tm_mday = (((rtc_initpara.date & 0xF0) >> 4) * 10) + (rtc_initpara.date & 0x0F);
-    t.tm_hour = rtc_initpara.hour;
-    t.tm_min = (((rtc_initpara.minute & 0xF0) >> 4) * 10) + (rtc_initpara.minute &0x0F);
-    t.tm_sec = (((rtc_initpara.second & 0xF0) >> 4) * 10) + (rtc_initpara.second & 0x0F);
+    t.tm_year = bcd_to_byte(rtc_initpara.year) + 100;
+    t.tm_mon = bcd_to_byte(rtc_initpara.month) - 1;
+    t.tm_mday = bcd_to_byte(rtc_initpara.date);
+    t.tm_hour = bcd_to_byte(rtc_initpara.hour);
+    t.tm_min = bcd_to_byte(rtc_initpara.minute);
+    t.tm_sec = bcd_to_byte(rtc_initpara.second);
     t.tm_wday = rtc_initpara.day_of_week - 1;
 
-    rtc_counter = mktime(&t);
-
-    return rtc_counter;
+    return mktime(&t);
 }
 
 static rt_err_t set_rtc_timestamp(time_t time_stamp)
 {
-    uint32_t rtc_counter;
-
-    rtc_counter = (uint32_t)time_stamp;
-
-    struct tm *t = localtime((const time_t*)&rtc_counter);
+    struct tm t;
     rtc_parameter_struct rtc_initpara;
+
+    localtime_r(&time_stamp, &t);
 
     rtc_initpara.factor_asyn = prescaler_a;
     rtc_initpara.factor_syn = prescaler_s;
-    rtc_initpara.year = ((t->tm_year / 10 % 10) << 4) | (t->tm_year % 10);
-    rtc_initpara.month = t->tm_mon;
-    rtc_initpara.date = ((t->tm_mday / 10 % 10) << 4) | (t->tm_mday % 10);
-    rtc_initpara.hour = t->tm_hour;
-    rtc_initpara.minute = ((t->tm_min / 10 % 10) << 4) | (t->tm_min % 10);
-    rtc_initpara.second = ((t->tm_sec / 10 % 10) << 4) | (t->tm_sec % 10);
-    rtc_initpara.day_of_week = t->tm_wday + 1;
+    rtc_initpara.year = byte_to_bcd(t.tm_year - 100);
+    rtc_initpara.month = byte_to_bcd(t.tm_mon + 1);
+    rtc_initpara.date = byte_to_bcd(t.tm_mday);
+    rtc_initpara.hour = byte_to_bcd(t.tm_hour);
+    rtc_initpara.minute = byte_to_bcd(t.tm_min);
+    rtc_initpara.second = byte_to_bcd(t.tm_sec);
+    rtc_initpara.day_of_week = t.tm_wday + 1;
     rtc_initpara.display_format = RTC_24HOUR;
     rtc_initpara.am_pm = RTC_AM;
 
@@ -121,23 +118,23 @@ const static struct rt_device_ops g_gd32_rtc_ops =
 */
 static void rtc_pre_config (void)
 {
-    #if defined (BSP_RTC_USING_LSI)
-          rcu_osci_on(RCU_IRC32K);
-          rcu_osci_stab_wait(RCU_IRC32K);
-          rcu_rtc_clock_config(RCU_RTCSRC_IRC32K);
+#if defined (BSP_RTC_USING_LSI)
+    rcu_osci_on(RCU_IRC32K);
+    rcu_osci_stab_wait(RCU_IRC32K);
+    rcu_rtc_clock_config(RCU_RTCSRC_IRC32K);
 
-          prescaler_s = 0x13F;
-          prescaler_a = 0x63;
-    #elif defined (BSP_RTC_USING_LSE)
-          rcu_osci_on(RCU_LXTAL);
-          rcu_osci_stab_wait(RCU_LXTAL);
-          rcu_rtc_clock_config(RCU_RTCSRC_LXTAL);
+    prescaler_s = 0x13F;
+    prescaler_a = 0x63;
+#elif defined (BSP_RTC_USING_LSE)
+    rcu_osci_on(RCU_LXTAL);
+    rcu_osci_stab_wait(RCU_LXTAL);
+    rcu_rtc_clock_config(RCU_RTCSRC_LXTAL);
 
-          prescaler_s = 0xFF;
-          prescaler_a = 0x7F;
-    #else
+    prescaler_s = 0xFF;
+    prescaler_a = 0x7F;
+#else
     #error RTC clock source should be defined.
-    #endif /* RTC_CLOCK_SOURCE_IRC32K */
+#endif /* RTC_CLOCK_SOURCE_IRC32K */
 
     rcu_periph_clock_enable(RCU_RTC);
     rtc_register_sync_wait();
@@ -172,6 +169,7 @@ static int rt_hw_rtc_init(void)
 
     rcu_periph_clock_enable(RCU_PMU);
     pmu_backup_write_enable();
+    rcu_periph_clock_enable(RCU_BKPSRAM);
 
     rtc_pre_config();
 
@@ -191,11 +189,6 @@ static int rt_hw_rtc_init(void)
 
     rcu_all_reset_flag_clear();
 
-    /* RTC timestamp configuration */
-    rtc_timestamp_enable(RTC_TIMESTAMP_FALLING_EDGE);
-    rtc_interrupt_enable(RTC_INT_TIMESTAMP);
-    rtc_flag_clear(RTC_FLAG_TS | RTC_FLAG_TSOVR);
-
 #ifdef RT_USING_DEVICE_OPS
     g_gd32_rtc_dev.rtc_dev.ops         = &g_gd32_rtc_ops;
 #else
@@ -211,8 +204,7 @@ static int rt_hw_rtc_init(void)
     g_gd32_rtc_dev.rtc_dev.tx_complete = RT_NULL;
     g_gd32_rtc_dev.rtc_dev.user_data   = RT_NULL;
 
-    ret = rt_device_register(&g_gd32_rtc_dev.rtc_dev, "rtc", \
-        RT_DEVICE_FLAG_RDWR);
+    ret = rt_device_register(&g_gd32_rtc_dev.rtc_dev, "rtc", RT_DEVICE_FLAG_RDWR);
     if (ret != RT_EOK)
     {
         LOG_E("failed register internal rtc device, err=%d", ret);
