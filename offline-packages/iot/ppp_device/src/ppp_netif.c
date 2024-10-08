@@ -7,6 +7,7 @@
  * Date           Author          Notes
  * 2019-08-15     xiangxistu      the first version
  * 2019-09-19     xiaofan         use lwip_netdev_ops instead of ppp_netdev_ops
+ * 2024-09-13     Evlers          fix an bug where refresh caused the dns of other network devices to be set
  */
 
 #include "lwip/opt.h"
@@ -95,21 +96,33 @@ rt_err_t ppp_netdev_refresh(struct netif *ppp_netif)
     rt_strncpy(name, ppp_netif->name, LWIP_NETIF_NAME_LEN);
     netdev = netdev_get_by_name(name);
     netdev->mtu = ppp_netif->mtu;
+#if RT_USING_LWIP_VER_NUM >= 0x20102
+    ip_addr_t dns_server[2] = { netdev->dns_servers[0], netdev->dns_servers[1] };
+#else
+    ip_addr_t dns_server[2] = { *dns_getserver(0), *dns_getserver(1) };
+#endif /* RT_USING_LWIP_VER_NUM >= 0x20102 */
 
     /* sometime we can get second dns server but first dns server is empty, wo need do something to fix it */
-    if (!ip_addr_isany(dns_getserver(0)))
+    if (!ip_addr_isany_val(dns_server[0]))
     {
-        netdev_low_level_set_dns_server(netdev, 0, dns_getserver(0));
+        netdev_set_dns_server(netdev, 0, &dns_server[0]);
     }
     else
     {
 #define DEF_DNS_SERVER "114.114.114.114"
         ip_addr_t dns_server;
         inet_aton(DEF_DNS_SERVER, &dns_server);
+#if RT_USING_LWIP_VER_NUM >= 0x20102
+        /* Here we only need to set the dns server of the corresponding network device,
+         * but do not need to configure all network devices.
+         */
+        netdev_set_dns_server(netdev, 0, &dns_server);
+#else
         dns_setserver(0, &dns_server);
+#endif /* RT_USING_LWIP_VER_NUM >= 0x20102 */
     }
 
-    netdev_low_level_set_dns_server(netdev, 1, dns_getserver(1));
+    netdev_set_dns_server(netdev, 1, &dns_server[1]);
 
     return RT_EOK;
 }
