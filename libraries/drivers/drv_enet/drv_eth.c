@@ -403,10 +403,11 @@ static rt_err_t wait_dma_transfer_complete (enet_descriptors_struct *dma_tx_desc
     {
         resume_dma_transfer();
         rt_thread_yield();
-        if ((rt_tick_get() - start) > (RT_TICK_PER_SECOND / 100))
+        if ((rt_tick_get() - start) > rt_tick_from_millisecond(100))
         {
-            start = rt_tick_get();
-            return ERR_TIMEOUT;
+            /* restart DMA and MAC transmission */
+            enet_disable();
+            enet_enable();
         }
     }
 
