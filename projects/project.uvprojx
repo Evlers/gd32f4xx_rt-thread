@@ -10,7 +10,6 @@
       <TargetName>rt-thread</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060960::V5.06 update 7 (build 960)::.\ARMCC</pCCUsed>
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -185,6 +184,8 @@
             <uocXRam>0</uocXRam>
             <RvdsVP>2</RvdsVP>
             <RvdsMve>0</RvdsMve>
+            <RvdsCdeCp>0</RvdsCdeCp>
+            <nBranchProt>0</nBranchProt>
             <hadIRAM2>1</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -338,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>__STDC_LIMIT_MACROS, RT_USING_ARMLIBC, USE_STDPERIPH_DRIVER, GD32F470, RT_USING_LIBC, __CLK_TCK=RT_TICK_PER_SECOND, __RTTHREAD__</Define>
               <Undefine></Undefine>
-              <IncludePath>..\rt-thread\components\drivers\include;..\rt-thread\components\dfs\include;..\libraries\wifi-host-driver\porting\inc\hal;..\libraries\wifi-host-driver\porting\inc\rtos;..\packages\mbedtls\mbedtls\include;..\rt-thread\components\net\netdev\include;..\rt-thread\components\net\lwip-dhcpd;..\rt-thread\components\drivers\include;..\rt-thread\components\net\lwip\lwip-2.0.3\src\include\netif;..\packages\mbedtls\mbedtls\library;..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\resources\nvram\COMPONENT_43438\COMPONENT_AW-CU427-P;..\rt-thread\components\dfs\filesystems\elmfat;..\rt-thread\components\drivers\include;..\rt-thread\components\dfs\filesystems\devfs;..\rt-thread\components\net\sal\include\dfs_net;..\rt-thread\components\net\lwip\port;..\rt-thread\components\net\sal\include;..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\inc;..\rt-thread\components\libc\posix\io\poll;..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\resources\resource_imp;..\libraries\wifi-host-driver\wifi-host-driver;..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\include;..\board;..\rt-thread\components\net\sal\include\socket;..;..\packages\EasyFlash\inc;..\rt-thread\components\drivers\wlan;..\libraries\GD32F4xx_Firmware_Library\CMSIS\GD\GD32F4xx\Include;..\rt-thread\components\finsh;..\packages\webclient\inc;..\rt-thread\components\drivers\spi;..\rt-thread\components\net\lwip\lwip-2.0.3\src\include\ipv4;..\packages\pahomqtt\MQTTPacket\src;..\rt-thread\components\utilities\resource;..\rt-thread\components\utilities\ymodem;..\rt-thread\components\drivers\include;..\packages\mbedtls\ports\inc;..\board\ports;..\rt-thread\components\net\lwip\lwip-2.0.3\src\include;..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src;..\rt-thread\libcpu\arm\common;..\packages\netutils\ntp;..\rt-thread\components\libc\compilers\common\extension;..\rt-thread\components\libc\compilers\common\include;..\rt-thread\components\drivers\include;..\rt-thread\components\libc\posix\io\stdio;..\libraries\GD32F4xx_Firmware_Library\GD32F4xx_standard_peripheral\Include;..\rt-thread\libcpu\arm\cortex-m4;..\rt-thread\components\libc\compilers\common\extension\fcntl\octal;..\libraries\GD32F4xx_Firmware_Library\CMSIS;..\rt-thread\components\fal\inc;..\packages\pahomqtt\MQTTClient-RT;..\libraries\wifi-host-driver\porting\inc\bsp;..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\bus_protocols;..\applications;..\rt-thread\components\net\sal\include\socket\sys_socket;..\packages\netutils\tftp;..\rt-thread\components\libc\posix\ipc;..\rt-thread\include;..\rt-thread\components\net\sal\impl;..\packages\optparse;..\rt-thread\components\drivers\include;..\rt-thread\components\drivers\include;..\libraries\drivers</IncludePath>
+              <IncludePath>..\libraries\wifi-host-driver\wifi-host-driver;..\offline-packages\tools\segger-rtt;..\rt-thread\components\drivers\include;..\rt-thread\components\net\sal\impl;..\board\ports\fal;..\libraries\GD32F4xx_Firmware_Library\GD32F4xx_standard_peripheral\Include;..\rt-thread\components\net\lwip\lwip-2.1.2\src\include;..\rt-thread\components\libc\compilers\common\extension;..\rt-thread\components\dfs\dfs_v1\include;..\libraries\drivers\config;..\rt-thread\components\drivers\include;..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\include;..\rt-thread\components\net\lwip\lwip-2.1.2\src\include\netif;..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\bus_protocols;..\offline-packages\iot\webclient\inc;..\offline-packages\misc\optparse;..\rt-thread\components\drivers\include;..\board\ports;..\libraries\GD32F4xx_Firmware_Library\CMSIS;..\board\ports\sfud;..\rt-thread\components\finsh;..\offline-packages\iot\segger_rtt\RTT;..\offline-packages\iot\netutils\ntp;..;..\rt-thread\components\net\netdev\include;..\libraries\GD32F4xx_Firmware_Library\CMSIS\GD\GD32F4xx\Include;..\rt-thread\components\libc\posix\ipc;..\offline-packages\tools\segger-rtt\RTT;..\rt-thread\components\drivers\include;..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\resources\nvram\COMPONENT_43012\COMPONENT_CYSBSYS-RP01;..\offline-packages\security\mbedtls\mbedtls\include;..\rt-thread\components\drivers\include;..\rt-thread\components\dfs\dfs_v1\filesystems\devfs;..\rt-thread\components\net\sal\include\dfs_net;..\rt-thread\components\net\sal\include;..\rt-thread\components\drivers\include;..\rt-thread\components\net\sal\include\socket\sys_socket;..\rt-thread\components\dfs\dfs_v1\filesystems\elmfat;..\board\ports\sdram;..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src;..\libraries\drivers\include;..\rt-thread\components\libc\compilers\common\extension\fcntl\octal;..\libraries\wifi-host-driver\porting\inc\rtos;..\rt-thread\components\libc\posix\io\poll;..\offline-packages\security\mbedtls\ports\inc;..\utility;..\rt-thread\components\dfs\dfs_v1\filesystems\romfs;..\offline-packages\security\mbedtls\mbedtls\library;..\libraries\drivers;..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\inc;..\rt-thread\components\utilities\resource;..\board\ports\easyflash;..\rt-thread\components\drivers\include;..\rt-thread\libcpu\arm\cortex-m4;..\rt-thread\components\libc\posix\io\epoll;..\rt-thread\components\drivers\wlan;..\rt-thread\components\net\sal\include\socket;..\libraries\wifi-host-driver\porting\inc\hal;..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\resources\resource_imp;..\offline-packages\iot\segger_rtt;..\offline-packages\iot\netutils\tftp;..\rt-thread\components\drivers\include;..\offline-packages\security\tinycrypt\include;..\applications;..\rt-thread\components\fal\inc;..\rt-thread\components\net\lwip\port;..\rt-thread\components\drivers\spi\sfud\inc;..\rt-thread\components\drivers\spi;..\rt-thread\components\net\lwip-dhcpd;..\rt-thread\components\libc\posix\io\eventfd;..\board\ports\filesystem;..\rt-thread\components\drivers\include;..\rt-thread\include;..\rt-thread\components\drivers\include;..\libraries\wifi-host-driver\porting\inc\bsp;..\rt-thread\libcpu\arm\common;..\board;..\libraries\drivers\drv_sdio;..\offline-packages\tools\easyflash\inc;..\rt-thread\components\utilities\ymodem;..\rt-thread\components\libc\compilers\common\include;..\board\ports\wifi</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -351,7 +352,7 @@
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
             <useXO>0</useXO>
-            <uClangAs>0</uClangAs>
+            <ClangAsOpt>4</ClangAsOpt>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -360,7 +361,7 @@
             </VariousControls>
           </Aads>
           <LDads>
-            <umfTarg>1</umfTarg>
+            <umfTarg>0</umfTarg>
             <Ropi>0</Ropi>
             <Rwpi>0</Rwpi>
             <noStLib>0</noStLib>
@@ -369,7 +370,7 @@
             <TextAddressRange>0x08000000</TextAddressRange>
             <DataAddressRange>0x20000000</DataAddressRange>
             <pXoBase></pXoBase>
-            <ScatterFile>.\gd32_rom.ld</ScatterFile>
+            <ScatterFile>..\board\linker_scripts\link.sct</ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
             <Misc></Misc>
@@ -408,11 +409,6 @@
               <FilePath>..\rt-thread\components\libc\compilers\common\cctype.c</FilePath>
             </File>
             <File>
-              <FileName>cstdio.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\libc\compilers\common\cstdio.c</FilePath>
-            </File>
-            <File>
               <FileName>cstdlib.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\rt-thread\components\libc\compilers\common\cstdlib.c</FilePath>
@@ -428,6 +424,11 @@
               <FilePath>..\rt-thread\components\libc\compilers\common\ctime.c</FilePath>
             </File>
             <File>
+              <FileName>cunistd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\rt-thread\components\libc\compilers\common\cunistd.c</FilePath>
+            </File>
+            <File>
               <FileName>cwchar.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\rt-thread\components\libc\compilers\common\cwchar.c</FilePath>
@@ -437,6 +438,11 @@
         <Group>
           <GroupName>CPU</GroupName>
           <Files>
+            <File>
+              <FileName>atomic_arm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\rt-thread\libcpu\arm\common\atomic_arm.c</FilePath>
+            </File>
             <File>
               <FileName>div0.c</FileName>
               <FileType>1</FileType>
@@ -463,134 +469,1964 @@
           <GroupName>DeviceDrivers</GroupName>
           <Files>
             <File>
+              <FileName>device.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\rt-thread\components\drivers\core\device.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
+            </File>
+            <File>
+              <FileName>hwtimer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\rt-thread\components\drivers\hwtimer\hwtimer.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
+            </File>
+            <File>
+              <FileName>i2c-bit-ops.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\rt-thread\components\drivers\i2c\i2c-bit-ops.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
+            </File>
+            <File>
+              <FileName>i2c_core.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\rt-thread\components\drivers\i2c\i2c_core.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
+            </File>
+            <File>
+              <FileName>i2c_dev.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\rt-thread\components\drivers\i2c\i2c_dev.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
+            </File>
+            <File>
               <FileName>completion.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\rt-thread\components\drivers\ipc\completion.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
             <File>
               <FileName>dataqueue.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\rt-thread\components\drivers\ipc\dataqueue.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
             <File>
               <FileName>pipe.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\rt-thread\components\drivers\ipc\pipe.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
             <File>
               <FileName>ringblk_buf.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\rt-thread\components\drivers\ipc\ringblk_buf.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
             <File>
               <FileName>ringbuffer.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\rt-thread\components\drivers\ipc\ringbuffer.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
             <File>
               <FileName>waitqueue.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\rt-thread\components\drivers\ipc\waitqueue.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
             <File>
               <FileName>workqueue.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\rt-thread\components\drivers\ipc\workqueue.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
             <File>
               <FileName>pin.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\rt-thread\components\drivers\misc\pin.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
             <File>
               <FileName>mtd_nor.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\rt-thread\components\drivers\mtd\mtd_nor.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
             <File>
               <FileName>rtc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\rt-thread\components\drivers\rtc\rtc.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
+            </File>
+            <File>
+              <FileName>soft_rtc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\rt-thread\components\drivers\rtc\soft_rtc.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
             <File>
               <FileName>block_dev.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\rt-thread\components\drivers\sdio\block_dev.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
             <File>
               <FileName>gpt.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\rt-thread\components\drivers\sdio\gpt.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
             <File>
               <FileName>mmc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\rt-thread\components\drivers\sdio\mmc.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
             <File>
               <FileName>mmcsd_core.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\rt-thread\components\drivers\sdio\mmcsd_core.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
             <File>
               <FileName>sd.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\rt-thread\components\drivers\sdio\sd.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
             <File>
               <FileName>sdio.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\rt-thread\components\drivers\sdio\sdio.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
             <File>
-              <FileName>serial.c</FileName>
+              <FileName>serial_v2.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\drivers\serial\serial.c</FilePath>
+              <FilePath>..\rt-thread\components\drivers\serial\serial_v2.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
+            </File>
+            <File>
+              <FileName>sfud.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\rt-thread\components\drivers\spi\sfud\src\sfud.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
+            </File>
+            <File>
+              <FileName>sfud_sfdp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\rt-thread\components\drivers\spi\sfud\src\sfud_sfdp.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
             <File>
               <FileName>spi_core.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\rt-thread\components\drivers\spi\spi_core.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
             <File>
               <FileName>spi_dev.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\rt-thread\components\drivers\spi\spi_dev.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
+            </File>
+            <File>
+              <FileName>spi_flash_sfud.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\rt-thread\components\drivers\spi\spi_flash_sfud.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
             <File>
               <FileName>wlan_cfg.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\rt-thread\components\drivers\wlan\wlan_cfg.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
             <File>
               <FileName>wlan_cmd.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\rt-thread\components\drivers\wlan\wlan_cmd.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
             <File>
               <FileName>wlan_dev.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\rt-thread\components\drivers\wlan\wlan_dev.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
             <File>
               <FileName>wlan_lwip.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\rt-thread\components\drivers\wlan\wlan_lwip.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
             <File>
               <FileName>wlan_mgnt.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\rt-thread\components\drivers\wlan\wlan_mgnt.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
             <File>
               <FileName>wlan_prot.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\rt-thread\components\drivers\wlan\wlan_prot.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
             <File>
               <FileName>wlan_workqueue.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\rt-thread\components\drivers\wlan\wlan_workqueue.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls>  --c99</MiscControls>
+                      <Define> </Define>
+                      <Undefine> </Undefine>
+                      <IncludePath> </IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
           </Files>
         </Group>
@@ -603,24 +2439,9 @@
               <FilePath>..\board\board.c</FilePath>
             </File>
             <File>
-              <FileName>ef_fal_port.c</FileName>
+              <FileName>gd32_msp.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\board\ports\ef_fal_port.c</FilePath>
-            </File>
-            <File>
-              <FileName>fal_port.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\board\ports\fal_port.c</FilePath>
-            </File>
-            <File>
-              <FileName>rw007_port.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\board\ports\rw007_port.c</FilePath>
-            </File>
-            <File>
-              <FileName>wifi_config.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\board\ports\wifi_config.c</FilePath>
+              <FilePath>..\board\gd32_msp.c</FilePath>
             </File>
             <File>
               <FileName>startup_gd32f4xx.s</FileName>
@@ -643,19 +2464,24 @@
               <FilePath>..\libraries\drivers\drv_gpio.c</FilePath>
             </File>
             <File>
-              <FileName>drv_rtc.c</FileName>
+              <FileName>drv_hwtimer.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\libraries\drivers\drv_rtc.c</FilePath>
+              <FilePath>..\libraries\drivers\drv_hwtimer.c</FilePath>
             </File>
             <File>
               <FileName>drv_sdio.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\libraries\drivers\drv_sdio.c</FilePath>
+              <FilePath>..\libraries\drivers\drv_sdio\drv_sdio.c</FilePath>
             </File>
             <File>
               <FileName>drv_sdio_crc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\libraries\drivers\drv_sdio_crc.c</FilePath>
+              <FilePath>..\libraries\drivers\drv_sdio\drv_sdio_crc.c</FilePath>
+            </File>
+            <File>
+              <FileName>drv_sdram.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\drivers\drv_sdram.c</FilePath>
             </File>
             <File>
               <FileName>drv_spi.c</FileName>
@@ -663,54 +2489,64 @@
               <FilePath>..\libraries\drivers\drv_spi.c</FilePath>
             </File>
             <File>
-              <FileName>drv_usart.c</FileName>
+              <FileName>drv_usart_v2.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\libraries\drivers\drv_usart.c</FilePath>
+              <FilePath>..\libraries\drivers\drv_usart_v2.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>EasyFlash</GroupName>
+          <GroupName>easyflash</GroupName>
           <Files>
-            <File>
-              <FileName>easyflash.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\EasyFlash\src\easyflash.c</FilePath>
-            </File>
             <File>
               <FileName>ef_env_legacy.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\packages\EasyFlash\src\ef_env_legacy.c</FilePath>
-            </File>
-            <File>
-              <FileName>ef_cmd.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\EasyFlash\src\ef_cmd.c</FilePath>
-            </File>
-            <File>
-              <FileName>ef_env.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\EasyFlash\src\ef_env.c</FilePath>
-            </File>
-            <File>
-              <FileName>ef_env_legacy_wl.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\EasyFlash\src\ef_env_legacy_wl.c</FilePath>
-            </File>
-            <File>
-              <FileName>ef_utils.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\EasyFlash\src\ef_utils.c</FilePath>
+              <FilePath>..\offline-packages\tools\easyflash\src\ef_env_legacy.c</FilePath>
             </File>
             <File>
               <FileName>ef_log.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\packages\EasyFlash\src\ef_log.c</FilePath>
+              <FilePath>..\offline-packages\tools\easyflash\src\ef_log.c</FilePath>
+            </File>
+            <File>
+              <FileName>easyflash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\tools\easyflash\src\easyflash.c</FilePath>
+            </File>
+            <File>
+              <FileName>ef_utils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\tools\easyflash\src\ef_utils.c</FilePath>
+            </File>
+            <File>
+              <FileName>ef_cmd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\tools\easyflash\src\ef_cmd.c</FilePath>
             </File>
             <File>
               <FileName>ef_iap.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\packages\EasyFlash\src\ef_iap.c</FilePath>
+              <FilePath>..\offline-packages\tools\easyflash\src\ef_iap.c</FilePath>
+            </File>
+            <File>
+              <FileName>ef_env_legacy_wl.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\tools\easyflash\src\ef_env_legacy_wl.c</FilePath>
+            </File>
+            <File>
+              <FileName>ef_env.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\tools\easyflash\src\ef_env.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>easyflash-port</GroupName>
+          <Files>
+            <File>
+              <FileName>ef_fal_port.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\board\ports\easyflash\ef_fal_port.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -718,9 +2554,9 @@
           <GroupName>Fal</GroupName>
           <Files>
             <File>
-              <FileName>fal_rtt.c</FileName>
+              <FileName>fal.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\fal\src\fal_rtt.c</FilePath>
+              <FilePath>..\rt-thread\components\fal\src\fal.c</FilePath>
             </File>
             <File>
               <FileName>fal_flash.c</FileName>
@@ -728,14 +2564,29 @@
               <FilePath>..\rt-thread\components\fal\src\fal_flash.c</FilePath>
             </File>
             <File>
-              <FileName>fal.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\fal\src\fal.c</FilePath>
-            </File>
-            <File>
               <FileName>fal_partition.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\rt-thread\components\fal\src\fal_partition.c</FilePath>
+            </File>
+            <File>
+              <FileName>fal_rtt.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\rt-thread\components\fal\src\fal_rtt.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>fal-port</GroupName>
+          <Files>
+            <File>
+              <FileName>fal_flash_sfud_port.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\board\ports\fal\fal_flash_sfud_port.c</FilePath>
+            </File>
+            <File>
+              <FileName>fal_port.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\board\ports\fal\fal_port.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -745,42 +2596,62 @@
             <File>
               <FileName>devfs.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\dfs\filesystems\devfs\devfs.c</FilePath>
+              <FilePath>..\rt-thread\components\dfs\dfs_v1\filesystems\devfs\devfs.c</FilePath>
             </File>
             <File>
               <FileName>dfs_elm.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\dfs\filesystems\elmfat\dfs_elm.c</FilePath>
+              <FilePath>..\rt-thread\components\dfs\dfs_v1\filesystems\elmfat\dfs_elm.c</FilePath>
             </File>
             <File>
               <FileName>ff.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\dfs\filesystems\elmfat\ff.c</FilePath>
+              <FilePath>..\rt-thread\components\dfs\dfs_v1\filesystems\elmfat\ff.c</FilePath>
             </File>
             <File>
               <FileName>ffunicode.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\dfs\filesystems\elmfat\ffunicode.c</FilePath>
+              <FilePath>..\rt-thread\components\dfs\dfs_v1\filesystems\elmfat\ffunicode.c</FilePath>
+            </File>
+            <File>
+              <FileName>dfs_romfs.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\rt-thread\components\dfs\dfs_v1\filesystems\romfs\dfs_romfs.c</FilePath>
+            </File>
+            <File>
+              <FileName>romfs.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\rt-thread\components\dfs\dfs_v1\filesystems\romfs\romfs.c</FilePath>
             </File>
             <File>
               <FileName>dfs.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\dfs\src\dfs.c</FilePath>
+              <FilePath>..\rt-thread\components\dfs\dfs_v1\src\dfs.c</FilePath>
             </File>
             <File>
               <FileName>dfs_file.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\dfs\src\dfs_file.c</FilePath>
+              <FilePath>..\rt-thread\components\dfs\dfs_v1\src\dfs_file.c</FilePath>
             </File>
             <File>
               <FileName>dfs_fs.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\dfs\src\dfs_fs.c</FilePath>
+              <FilePath>..\rt-thread\components\dfs\dfs_v1\src\dfs_fs.c</FilePath>
             </File>
             <File>
               <FileName>dfs_posix.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\dfs\src\dfs_posix.c</FilePath>
+              <FilePath>..\rt-thread\components\dfs\dfs_v1\src\dfs_posix.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>filesystem-port</GroupName>
+          <Files>
+            <File>
+              <FileName>filesystem.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\board\ports\filesystem\filesystem.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -828,11 +2699,6 @@
               <FilePath>..\rt-thread\src\components.c</FilePath>
             </File>
             <File>
-              <FileName>device.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\rt-thread\src\device.c</FilePath>
-            </File>
-            <File>
               <FileName>idle.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\rt-thread\src\idle.c</FilePath>
@@ -856,6 +2722,11 @@
               <FileName>mem.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\rt-thread\src\mem.c</FilePath>
+            </File>
+            <File>
+              <FileName>memheap.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\rt-thread\src\memheap.c</FilePath>
             </File>
             <File>
               <FileName>mempool.c</FileName>
@@ -888,11 +2759,6 @@
           <GroupName>Libraries</GroupName>
           <Files>
             <File>
-              <FileName>gd32f4xx_syscfg.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\libraries\GD32F4xx_Firmware_Library\GD32F4xx_standard_peripheral\Source\gd32f4xx_syscfg.c</FilePath>
-            </File>
-            <File>
               <FileName>gd32f4xx_dma.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\libraries\GD32F4xx_Firmware_Library\GD32F4xx_standard_peripheral\Source\gd32f4xx_dma.c</FilePath>
@@ -903,19 +2769,14 @@
               <FilePath>..\libraries\GD32F4xx_Firmware_Library\GD32F4xx_standard_peripheral\Source\gd32f4xx_exti.c</FilePath>
             </File>
             <File>
+              <FileName>gd32f4xx_trng.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\GD32F4xx_Firmware_Library\GD32F4xx_standard_peripheral\Source\gd32f4xx_trng.c</FilePath>
+            </File>
+            <File>
               <FileName>gd32f4xx_gpio.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\libraries\GD32F4xx_Firmware_Library\GD32F4xx_standard_peripheral\Source\gd32f4xx_gpio.c</FilePath>
-            </File>
-            <File>
-              <FileName>gd32f4xx_rcu.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\libraries\GD32F4xx_Firmware_Library\GD32F4xx_standard_peripheral\Source\gd32f4xx_rcu.c</FilePath>
-            </File>
-            <File>
-              <FileName>gd32f4xx_fmc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\libraries\GD32F4xx_Firmware_Library\GD32F4xx_standard_peripheral\Source\gd32f4xx_fmc.c</FilePath>
             </File>
             <File>
               <FileName>gd32f4xx_pmu.c</FileName>
@@ -928,9 +2789,14 @@
               <FilePath>..\libraries\GD32F4xx_Firmware_Library\GD32F4xx_standard_peripheral\Source\gd32f4xx_misc.c</FilePath>
             </File>
             <File>
-              <FileName>gd32f4xx_usart.c</FileName>
+              <FileName>gd32f4xx_ctc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\libraries\GD32F4xx_Firmware_Library\GD32F4xx_standard_peripheral\Source\gd32f4xx_usart.c</FilePath>
+              <FilePath>..\libraries\GD32F4xx_Firmware_Library\GD32F4xx_standard_peripheral\Source\gd32f4xx_ctc.c</FilePath>
+            </File>
+            <File>
+              <FileName>gd32f4xx_tli.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\GD32F4xx_Firmware_Library\GD32F4xx_standard_peripheral\Source\gd32f4xx_tli.c</FilePath>
             </File>
             <File>
               <FileName>gd32f4xx_spi.c</FileName>
@@ -943,14 +2809,64 @@
               <FilePath>..\libraries\GD32F4xx_Firmware_Library\GD32F4xx_standard_peripheral\Source\gd32f4xx_rtc.c</FilePath>
             </File>
             <File>
-              <FileName>gd32f4xx_sdio.c</FileName>
+              <FileName>gd32f4xx_exmc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\libraries\GD32F4xx_Firmware_Library\GD32F4xx_standard_peripheral\Source\gd32f4xx_sdio.c</FilePath>
+              <FilePath>..\libraries\GD32F4xx_Firmware_Library\GD32F4xx_standard_peripheral\Source\gd32f4xx_exmc.c</FilePath>
+            </File>
+            <File>
+              <FileName>gd32f4xx_crc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\GD32F4xx_Firmware_Library\GD32F4xx_standard_peripheral\Source\gd32f4xx_crc.c</FilePath>
             </File>
             <File>
               <FileName>system_gd32f4xx.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\libraries\GD32F4xx_Firmware_Library\CMSIS\GD\GD32F4xx\Source\system_gd32f4xx.c</FilePath>
+            </File>
+            <File>
+              <FileName>gd32f4xx_timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\GD32F4xx_Firmware_Library\GD32F4xx_standard_peripheral\Source\gd32f4xx_timer.c</FilePath>
+            </File>
+            <File>
+              <FileName>gd32f4xx_iref.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\GD32F4xx_Firmware_Library\GD32F4xx_standard_peripheral\Source\gd32f4xx_iref.c</FilePath>
+            </File>
+            <File>
+              <FileName>gd32f4xx_i2c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\GD32F4xx_Firmware_Library\GD32F4xx_standard_peripheral\Source\gd32f4xx_i2c.c</FilePath>
+            </File>
+            <File>
+              <FileName>gd32f4xx_syscfg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\GD32F4xx_Firmware_Library\GD32F4xx_standard_peripheral\Source\gd32f4xx_syscfg.c</FilePath>
+            </File>
+            <File>
+              <FileName>gd32f4xx_ipa.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\GD32F4xx_Firmware_Library\GD32F4xx_standard_peripheral\Source\gd32f4xx_ipa.c</FilePath>
+            </File>
+            <File>
+              <FileName>gd32f4xx_rcu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\GD32F4xx_Firmware_Library\GD32F4xx_standard_peripheral\Source\gd32f4xx_rcu.c</FilePath>
+            </File>
+            <File>
+              <FileName>gd32f4xx_fmc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\GD32F4xx_Firmware_Library\GD32F4xx_standard_peripheral\Source\gd32f4xx_fmc.c</FilePath>
+            </File>
+            <File>
+              <FileName>gd32f4xx_usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\GD32F4xx_Firmware_Library\GD32F4xx_standard_peripheral\Source\gd32f4xx_usart.c</FilePath>
+            </File>
+            <File>
+              <FileName>gd32f4xx_sdio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\GD32F4xx_Firmware_Library\GD32F4xx_standard_peripheral\Source\gd32f4xx_sdio.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -965,177 +2881,197 @@
             <File>
               <FileName>api_lib.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\api\api_lib.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\api\api_lib.c</FilePath>
             </File>
             <File>
               <FileName>api_msg.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\api\api_msg.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\api\api_msg.c</FilePath>
             </File>
             <File>
               <FileName>err.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\api\err.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\api\err.c</FilePath>
+            </File>
+            <File>
+              <FileName>if_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\api\if_api.c</FilePath>
             </File>
             <File>
               <FileName>netbuf.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\api\netbuf.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\api\netbuf.c</FilePath>
             </File>
             <File>
               <FileName>netdb.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\api\netdb.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\api\netdb.c</FilePath>
             </File>
             <File>
               <FileName>netifapi.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\api\netifapi.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\api\netifapi.c</FilePath>
             </File>
             <File>
               <FileName>sockets.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\api\sockets.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\api\sockets.c</FilePath>
             </File>
             <File>
               <FileName>tcpip.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\api\tcpip.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\api\tcpip.c</FilePath>
             </File>
             <File>
               <FileName>ping.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\apps\ping\ping.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\apps\ping\ping.c</FilePath>
+            </File>
+            <File>
+              <FileName>altcp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\core\altcp.c</FilePath>
+            </File>
+            <File>
+              <FileName>altcp_alloc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\core\altcp_alloc.c</FilePath>
+            </File>
+            <File>
+              <FileName>altcp_tcp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\core\altcp_tcp.c</FilePath>
             </File>
             <File>
               <FileName>def.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\core\def.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\core\def.c</FilePath>
             </File>
             <File>
               <FileName>dns.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\core\dns.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\core\dns.c</FilePath>
             </File>
             <File>
               <FileName>inet_chksum.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\core\inet_chksum.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\core\inet_chksum.c</FilePath>
             </File>
             <File>
               <FileName>init.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\core\init.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\core\init.c</FilePath>
             </File>
             <File>
               <FileName>ip.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\core\ip.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\core\ip.c</FilePath>
             </File>
             <File>
               <FileName>autoip.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\core\ipv4\autoip.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\core\ipv4\autoip.c</FilePath>
             </File>
             <File>
               <FileName>dhcp.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\core\ipv4\dhcp.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\core\ipv4\dhcp.c</FilePath>
             </File>
             <File>
               <FileName>etharp.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\core\ipv4\etharp.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\core\ipv4\etharp.c</FilePath>
             </File>
             <File>
               <FileName>icmp.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\core\ipv4\icmp.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\core\ipv4\icmp.c</FilePath>
             </File>
             <File>
               <FileName>igmp.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\core\ipv4\igmp.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\core\ipv4\igmp.c</FilePath>
             </File>
             <File>
               <FileName>ip4.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\core\ipv4\ip4.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\core\ipv4\ip4.c</FilePath>
             </File>
             <File>
               <FileName>ip4_addr.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\core\ipv4\ip4_addr.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\core\ipv4\ip4_addr.c</FilePath>
             </File>
             <File>
               <FileName>ip4_frag.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\core\ipv4\ip4_frag.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\core\ipv4\ip4_frag.c</FilePath>
             </File>
             <File>
               <FileName>memp.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\core\memp.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\core\memp.c</FilePath>
             </File>
             <File>
               <FileName>netif.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\core\netif.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\core\netif.c</FilePath>
             </File>
             <File>
               <FileName>pbuf.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\core\pbuf.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\core\pbuf.c</FilePath>
             </File>
             <File>
               <FileName>raw.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\core\raw.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\core\raw.c</FilePath>
             </File>
             <File>
               <FileName>stats.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\core\stats.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\core\stats.c</FilePath>
             </File>
             <File>
               <FileName>sys.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\core\sys.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\core\sys.c</FilePath>
             </File>
             <File>
               <FileName>tcp.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\core\tcp.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\core\tcp.c</FilePath>
             </File>
             <File>
               <FileName>tcp_in.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\core\tcp_in.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\core\tcp_in.c</FilePath>
             </File>
             <File>
               <FileName>tcp_out.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\core\tcp_out.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\core\tcp_out.c</FilePath>
             </File>
             <File>
               <FileName>timeouts.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\core\timeouts.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\core\timeouts.c</FilePath>
             </File>
             <File>
               <FileName>udp.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\core\udp.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\core\udp.c</FilePath>
             </File>
             <File>
               <FileName>ethernet.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\netif\ethernet.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\netif\ethernet.c</FilePath>
             </File>
             <File>
               <FileName>lowpan6.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\rt-thread\components\net\lwip\lwip-2.0.3\src\netif\lowpan6.c</FilePath>
+              <FilePath>..\rt-thread\components\net\lwip\lwip-2.1.2\src\netif\lowpan6.c</FilePath>
             </File>
             <File>
               <FileName>ethernetif.c</FileName>
@@ -1153,544 +3089,544 @@
           <GroupName>mbedtls</GroupName>
           <Files>
             <File>
-              <FileName>psa_crypto_ecp.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\psa_crypto_ecp.c</FilePath>
-            </File>
-            <File>
-              <FileName>nist_kw.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\nist_kw.c</FilePath>
-            </File>
-            <File>
-              <FileName>blowfish.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\blowfish.c</FilePath>
-            </File>
-            <File>
-              <FileName>ecdh.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\ecdh.c</FilePath>
-            </File>
-            <File>
-              <FileName>psa_its_file.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\psa_its_file.c</FilePath>
-            </File>
-            <File>
-              <FileName>base64.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\base64.c</FilePath>
-            </File>
-            <File>
-              <FileName>cipher.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\cipher.c</FilePath>
-            </File>
-            <File>
-              <FileName>psa_crypto.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\psa_crypto.c</FilePath>
-            </File>
-            <File>
-              <FileName>timing.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\timing.c</FilePath>
-            </File>
-            <File>
-              <FileName>pkwrite.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\pkwrite.c</FilePath>
-            </File>
-            <File>
-              <FileName>psa_crypto_storage.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\psa_crypto_storage.c</FilePath>
-            </File>
-            <File>
-              <FileName>rsa_alt.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\ports\src\rsa_alt.c</FilePath>
-            </File>
-            <File>
-              <FileName>debug.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\debug.c</FilePath>
-            </File>
-            <File>
-              <FileName>ecp.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\ecp.c</FilePath>
-            </File>
-            <File>
-              <FileName>sha512.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\sha512.c</FilePath>
-            </File>
-            <File>
-              <FileName>md5_alt.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\ports\src\md5_alt.c</FilePath>
-            </File>
-            <File>
-              <FileName>psa_crypto_aead.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\psa_crypto_aead.c</FilePath>
-            </File>
-            <File>
-              <FileName>ssl_cookie.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\ssl_cookie.c</FilePath>
-            </File>
-            <File>
-              <FileName>ssl_tls13_keys.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\ssl_tls13_keys.c</FilePath>
-            </File>
-            <File>
-              <FileName>aes_alt.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\ports\src\aes_alt.c</FilePath>
-            </File>
-            <File>
-              <FileName>ecjpake.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\ecjpake.c</FilePath>
-            </File>
-            <File>
-              <FileName>mps_reader.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\mps_reader.c</FilePath>
-            </File>
-            <File>
-              <FileName>rsa_internal.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\rsa_internal.c</FilePath>
-            </File>
-            <File>
-              <FileName>timing_alt.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\ports\src\timing_alt.c</FilePath>
-            </File>
-            <File>
-              <FileName>x509_create.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\x509_create.c</FilePath>
-            </File>
-            <File>
-              <FileName>poly1305.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\poly1305.c</FilePath>
-            </File>
-            <File>
-              <FileName>version_features.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\version_features.c</FilePath>
-            </File>
-            <File>
-              <FileName>pkcs12.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\pkcs12.c</FilePath>
-            </File>
-            <File>
-              <FileName>md5.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\md5.c</FilePath>
-            </File>
-            <File>
-              <FileName>certs.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\certs.c</FilePath>
-            </File>
-            <File>
-              <FileName>psa_crypto_hash.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\psa_crypto_hash.c</FilePath>
-            </File>
-            <File>
-              <FileName>asn1parse.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\asn1parse.c</FilePath>
-            </File>
-            <File>
-              <FileName>sha512_alt.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\ports\src\sha512_alt.c</FilePath>
-            </File>
-            <File>
-              <FileName>x509.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\x509.c</FilePath>
-            </File>
-            <File>
-              <FileName>pkparse.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\pkparse.c</FilePath>
-            </File>
-            <File>
-              <FileName>sha1.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\sha1.c</FilePath>
-            </File>
-            <File>
-              <FileName>sha1_alt.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\ports\src\sha1_alt.c</FilePath>
-            </File>
-            <File>
-              <FileName>ecp_curves.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\ecp_curves.c</FilePath>
-            </File>
-            <File>
-              <FileName>ssl_tls.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\ssl_tls.c</FilePath>
-            </File>
-            <File>
-              <FileName>aria.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\aria.c</FilePath>
-            </File>
-            <File>
-              <FileName>tls_certificate.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\ports\src\tls_certificate.c</FilePath>
-            </File>
-            <File>
-              <FileName>chacha20.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\chacha20.c</FilePath>
-            </File>
-            <File>
-              <FileName>ssl_cache.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\ssl_cache.c</FilePath>
-            </File>
-            <File>
-              <FileName>des_alt.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\ports\src\des_alt.c</FilePath>
-            </File>
-            <File>
-              <FileName>md.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\md.c</FilePath>
-            </File>
-            <File>
-              <FileName>chachapoly.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\chachapoly.c</FilePath>
-            </File>
-            <File>
-              <FileName>pk.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\pk.c</FilePath>
-            </File>
-            <File>
-              <FileName>sha256.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\sha256.c</FilePath>
-            </File>
-            <File>
-              <FileName>psa_crypto_rsa.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\psa_crypto_rsa.c</FilePath>
-            </File>
-            <File>
-              <FileName>aes.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\aes.c</FilePath>
-            </File>
-            <File>
-              <FileName>xtea.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\xtea.c</FilePath>
-            </File>
-            <File>
-              <FileName>des.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\des.c</FilePath>
-            </File>
-            <File>
-              <FileName>pk_wrap.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\pk_wrap.c</FilePath>
-            </File>
-            <File>
-              <FileName>ssl_cli.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\ssl_cli.c</FilePath>
-            </File>
-            <File>
-              <FileName>version.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\version.c</FilePath>
-            </File>
-            <File>
-              <FileName>constant_time.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\constant_time.c</FilePath>
-            </File>
-            <File>
-              <FileName>oid.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\oid.c</FilePath>
-            </File>
-            <File>
-              <FileName>arc4.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\arc4.c</FilePath>
-            </File>
-            <File>
               <FileName>tls_hardware.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\ports\src\tls_hardware.c</FilePath>
-            </File>
-            <File>
-              <FileName>entropy.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\entropy.c</FilePath>
-            </File>
-            <File>
-              <FileName>gcm.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\gcm.c</FilePath>
-            </File>
-            <File>
-              <FileName>bignum.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\bignum.c</FilePath>
-            </File>
-            <File>
-              <FileName>pkcs11.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\pkcs11.c</FilePath>
-            </File>
-            <File>
-              <FileName>dhm.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\dhm.c</FilePath>
-            </File>
-            <File>
-              <FileName>platform_util.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\platform_util.c</FilePath>
-            </File>
-            <File>
-              <FileName>camellia.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\camellia.c</FilePath>
-            </File>
-            <File>
-              <FileName>x509_crl.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\x509_crl.c</FilePath>
-            </File>
-            <File>
-              <FileName>arc4_alt.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\ports\src\arc4_alt.c</FilePath>
-            </File>
-            <File>
-              <FileName>error.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\error.c</FilePath>
-            </File>
-            <File>
-              <FileName>hkdf.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\hkdf.c</FilePath>
-            </File>
-            <File>
-              <FileName>x509write_csr.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\x509write_csr.c</FilePath>
-            </File>
-            <File>
-              <FileName>platform.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\platform.c</FilePath>
-            </File>
-            <File>
-              <FileName>cipher_wrap.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\cipher_wrap.c</FilePath>
-            </File>
-            <File>
-              <FileName>pem.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\pem.c</FilePath>
-            </File>
-            <File>
-              <FileName>psa_crypto_driver_wrappers.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\psa_crypto_driver_wrappers.c</FilePath>
-            </File>
-            <File>
-              <FileName>ssl_srv.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\ssl_srv.c</FilePath>
-            </File>
-            <File>
-              <FileName>x509_crt.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\x509_crt.c</FilePath>
-            </File>
-            <File>
-              <FileName>x509write_crt.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\x509write_crt.c</FilePath>
-            </File>
-            <File>
-              <FileName>psa_crypto_se.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\psa_crypto_se.c</FilePath>
-            </File>
-            <File>
-              <FileName>sha256_alt.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\ports\src\sha256_alt.c</FilePath>
-            </File>
-            <File>
-              <FileName>tls_net.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\ports\src\tls_net.c</FilePath>
-            </File>
-            <File>
-              <FileName>havege.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\havege.c</FilePath>
+              <FilePath>..\offline-packages\security\mbedtls\ports\src\tls_hardware.c</FilePath>
             </File>
             <File>
               <FileName>md2.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\md2.c</FilePath>
-            </File>
-            <File>
-              <FileName>aesni.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\aesni.c</FilePath>
-            </File>
-            <File>
-              <FileName>psa_crypto_client.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\psa_crypto_client.c</FilePath>
-            </File>
-            <File>
-              <FileName>threading.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\threading.c</FilePath>
-            </File>
-            <File>
-              <FileName>ecdsa.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\ecdsa.c</FilePath>
-            </File>
-            <File>
-              <FileName>padlock.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\padlock.c</FilePath>
-            </File>
-            <File>
-              <FileName>ssl_ticket.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\ssl_ticket.c</FilePath>
-            </File>
-            <File>
-              <FileName>psa_crypto_mac.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\psa_crypto_mac.c</FilePath>
-            </File>
-            <File>
-              <FileName>asn1write.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\asn1write.c</FilePath>
-            </File>
-            <File>
-              <FileName>ripemd160.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\ripemd160.c</FilePath>
-            </File>
-            <File>
-              <FileName>md4.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\md4.c</FilePath>
-            </File>
-            <File>
-              <FileName>tls_client.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\ports\src\tls_client.c</FilePath>
-            </File>
-            <File>
-              <FileName>cmac.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\cmac.c</FilePath>
-            </File>
-            <File>
-              <FileName>pkcs5.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\pkcs5.c</FilePath>
-            </File>
-            <File>
-              <FileName>ssl_ciphersuites.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\ssl_ciphersuites.c</FilePath>
-            </File>
-            <File>
-              <FileName>entropy_poll.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\entropy_poll.c</FilePath>
-            </File>
-            <File>
-              <FileName>memory_buffer_alloc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\memory_buffer_alloc.c</FilePath>
-            </File>
-            <File>
-              <FileName>psa_crypto_cipher.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\psa_crypto_cipher.c</FilePath>
-            </File>
-            <File>
-              <FileName>mps_trace.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\mps_trace.c</FilePath>
-            </File>
-            <File>
-              <FileName>psa_crypto_slot_management.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\psa_crypto_slot_management.c</FilePath>
-            </File>
-            <File>
-              <FileName>x509_csr.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\x509_csr.c</FilePath>
-            </File>
-            <File>
-              <FileName>ctr_drbg.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\ctr_drbg.c</FilePath>
-            </File>
-            <File>
-              <FileName>hmac_drbg.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\hmac_drbg.c</FilePath>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\md2.c</FilePath>
             </File>
             <File>
               <FileName>ccm.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\ccm.c</FilePath>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\ccm.c</FilePath>
+            </File>
+            <File>
+              <FileName>chachapoly.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\chachapoly.c</FilePath>
+            </File>
+            <File>
+              <FileName>oid.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\oid.c</FilePath>
+            </File>
+            <File>
+              <FileName>entropy.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\entropy.c</FilePath>
+            </File>
+            <File>
+              <FileName>ecp_curves.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\ecp_curves.c</FilePath>
+            </File>
+            <File>
+              <FileName>version.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\version.c</FilePath>
+            </File>
+            <File>
+              <FileName>ssl_srv.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\ssl_srv.c</FilePath>
+            </File>
+            <File>
+              <FileName>ssl_cache.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\ssl_cache.c</FilePath>
+            </File>
+            <File>
+              <FileName>tls_net.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\ports\src\tls_net.c</FilePath>
+            </File>
+            <File>
+              <FileName>aesni.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\aesni.c</FilePath>
+            </File>
+            <File>
+              <FileName>arc4.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\arc4.c</FilePath>
+            </File>
+            <File>
+              <FileName>psa_crypto_aead.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\psa_crypto_aead.c</FilePath>
+            </File>
+            <File>
+              <FileName>sha1.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\sha1.c</FilePath>
+            </File>
+            <File>
+              <FileName>ssl_tls.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\ssl_tls.c</FilePath>
+            </File>
+            <File>
+              <FileName>hmac_drbg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\hmac_drbg.c</FilePath>
+            </File>
+            <File>
+              <FileName>x509.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\x509.c</FilePath>
+            </File>
+            <File>
+              <FileName>cipher_wrap.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\cipher_wrap.c</FilePath>
+            </File>
+            <File>
+              <FileName>entropy_poll.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\entropy_poll.c</FilePath>
+            </File>
+            <File>
+              <FileName>havege.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\havege.c</FilePath>
+            </File>
+            <File>
+              <FileName>hkdf.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\hkdf.c</FilePath>
+            </File>
+            <File>
+              <FileName>psa_crypto_cipher.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\psa_crypto_cipher.c</FilePath>
+            </File>
+            <File>
+              <FileName>des_alt.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\ports\src\des_alt.c</FilePath>
+            </File>
+            <File>
+              <FileName>cipher.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\cipher.c</FilePath>
+            </File>
+            <File>
+              <FileName>nist_kw.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\nist_kw.c</FilePath>
+            </File>
+            <File>
+              <FileName>md5_alt.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\ports\src\md5_alt.c</FilePath>
+            </File>
+            <File>
+              <FileName>cmac.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\cmac.c</FilePath>
+            </File>
+            <File>
+              <FileName>md5.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\md5.c</FilePath>
+            </File>
+            <File>
+              <FileName>sha512.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\sha512.c</FilePath>
+            </File>
+            <File>
+              <FileName>x509write_csr.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\x509write_csr.c</FilePath>
+            </File>
+            <File>
+              <FileName>ecdsa.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\ecdsa.c</FilePath>
+            </File>
+            <File>
+              <FileName>mps_reader.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\mps_reader.c</FilePath>
+            </File>
+            <File>
+              <FileName>ecp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\ecp.c</FilePath>
+            </File>
+            <File>
+              <FileName>aes_alt.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\ports\src\aes_alt.c</FilePath>
+            </File>
+            <File>
+              <FileName>error.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\error.c</FilePath>
+            </File>
+            <File>
+              <FileName>ssl_cookie.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\ssl_cookie.c</FilePath>
+            </File>
+            <File>
+              <FileName>blowfish.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\blowfish.c</FilePath>
+            </File>
+            <File>
+              <FileName>debug.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\debug.c</FilePath>
+            </File>
+            <File>
+              <FileName>pkcs12.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\pkcs12.c</FilePath>
+            </File>
+            <File>
+              <FileName>platform_util.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\platform_util.c</FilePath>
+            </File>
+            <File>
+              <FileName>pem.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\pem.c</FilePath>
+            </File>
+            <File>
+              <FileName>pk_wrap.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\pk_wrap.c</FilePath>
+            </File>
+            <File>
+              <FileName>des.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\des.c</FilePath>
+            </File>
+            <File>
+              <FileName>rsa_internal.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\rsa_internal.c</FilePath>
+            </File>
+            <File>
+              <FileName>ssl_ciphersuites.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\ssl_ciphersuites.c</FilePath>
+            </File>
+            <File>
+              <FileName>psa_crypto.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\psa_crypto.c</FilePath>
+            </File>
+            <File>
+              <FileName>certs.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\certs.c</FilePath>
+            </File>
+            <File>
+              <FileName>sha512_alt.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\ports\src\sha512_alt.c</FilePath>
+            </File>
+            <File>
+              <FileName>rsa_alt.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\ports\src\rsa_alt.c</FilePath>
+            </File>
+            <File>
+              <FileName>psa_crypto_rsa.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\psa_crypto_rsa.c</FilePath>
+            </File>
+            <File>
+              <FileName>mps_trace.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\mps_trace.c</FilePath>
+            </File>
+            <File>
+              <FileName>ssl_cli.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\ssl_cli.c</FilePath>
+            </File>
+            <File>
+              <FileName>version_features.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\version_features.c</FilePath>
+            </File>
+            <File>
+              <FileName>sha256_alt.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\ports\src\sha256_alt.c</FilePath>
+            </File>
+            <File>
+              <FileName>gcm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\gcm.c</FilePath>
+            </File>
+            <File>
+              <FileName>ecdh.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\ecdh.c</FilePath>
+            </File>
+            <File>
+              <FileName>arc4_alt.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\ports\src\arc4_alt.c</FilePath>
+            </File>
+            <File>
+              <FileName>psa_its_file.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\psa_its_file.c</FilePath>
+            </File>
+            <File>
+              <FileName>bignum.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\bignum.c</FilePath>
+            </File>
+            <File>
+              <FileName>asn1write.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\asn1write.c</FilePath>
+            </File>
+            <File>
+              <FileName>padlock.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\padlock.c</FilePath>
+            </File>
+            <File>
+              <FileName>constant_time.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\constant_time.c</FilePath>
+            </File>
+            <File>
+              <FileName>aes.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\aes.c</FilePath>
+            </File>
+            <File>
+              <FileName>psa_crypto_ecp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\psa_crypto_ecp.c</FilePath>
+            </File>
+            <File>
+              <FileName>ssl_tls13_keys.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\ssl_tls13_keys.c</FilePath>
             </File>
             <File>
               <FileName>ssl_msg.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\ssl_msg.c</FilePath>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\ssl_msg.c</FilePath>
+            </File>
+            <File>
+              <FileName>pkparse.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\pkparse.c</FilePath>
+            </File>
+            <File>
+              <FileName>timing_alt.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\ports\src\timing_alt.c</FilePath>
+            </File>
+            <File>
+              <FileName>psa_crypto_driver_wrappers.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\psa_crypto_driver_wrappers.c</FilePath>
+            </File>
+            <File>
+              <FileName>psa_crypto_mac.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\psa_crypto_mac.c</FilePath>
+            </File>
+            <File>
+              <FileName>ecjpake.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\ecjpake.c</FilePath>
+            </File>
+            <File>
+              <FileName>x509_create.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\x509_create.c</FilePath>
+            </File>
+            <File>
+              <FileName>sha256.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\sha256.c</FilePath>
+            </File>
+            <File>
+              <FileName>poly1305.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\poly1305.c</FilePath>
+            </File>
+            <File>
+              <FileName>x509_csr.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\x509_csr.c</FilePath>
+            </File>
+            <File>
+              <FileName>timing.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\timing.c</FilePath>
+            </File>
+            <File>
+              <FileName>tls_certificate.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\ports\src\tls_certificate.c</FilePath>
+            </File>
+            <File>
+              <FileName>aria.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\aria.c</FilePath>
+            </File>
+            <File>
+              <FileName>psa_crypto_se.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\psa_crypto_se.c</FilePath>
+            </File>
+            <File>
+              <FileName>pkcs5.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\pkcs5.c</FilePath>
+            </File>
+            <File>
+              <FileName>x509_crl.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\x509_crl.c</FilePath>
+            </File>
+            <File>
+              <FileName>ctr_drbg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\ctr_drbg.c</FilePath>
+            </File>
+            <File>
+              <FileName>pkcs11.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\pkcs11.c</FilePath>
+            </File>
+            <File>
+              <FileName>x509_crt.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\x509_crt.c</FilePath>
+            </File>
+            <File>
+              <FileName>pk.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\pk.c</FilePath>
+            </File>
+            <File>
+              <FileName>md4.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\md4.c</FilePath>
+            </File>
+            <File>
+              <FileName>sha1_alt.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\ports\src\sha1_alt.c</FilePath>
+            </File>
+            <File>
+              <FileName>x509write_crt.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\x509write_crt.c</FilePath>
+            </File>
+            <File>
+              <FileName>pkwrite.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\pkwrite.c</FilePath>
+            </File>
+            <File>
+              <FileName>psa_crypto_hash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\psa_crypto_hash.c</FilePath>
+            </File>
+            <File>
+              <FileName>base64.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\base64.c</FilePath>
+            </File>
+            <File>
+              <FileName>ripemd160.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\ripemd160.c</FilePath>
+            </File>
+            <File>
+              <FileName>psa_crypto_slot_management.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\psa_crypto_slot_management.c</FilePath>
+            </File>
+            <File>
+              <FileName>ssl_ticket.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\ssl_ticket.c</FilePath>
+            </File>
+            <File>
+              <FileName>dhm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\dhm.c</FilePath>
+            </File>
+            <File>
+              <FileName>platform.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\platform.c</FilePath>
+            </File>
+            <File>
+              <FileName>psa_crypto_client.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\psa_crypto_client.c</FilePath>
+            </File>
+            <File>
+              <FileName>xtea.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\xtea.c</FilePath>
+            </File>
+            <File>
+              <FileName>tls_client.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\ports\src\tls_client.c</FilePath>
+            </File>
+            <File>
+              <FileName>asn1parse.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\asn1parse.c</FilePath>
+            </File>
+            <File>
+              <FileName>chacha20.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\chacha20.c</FilePath>
+            </File>
+            <File>
+              <FileName>psa_crypto_storage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\psa_crypto_storage.c</FilePath>
+            </File>
+            <File>
+              <FileName>md.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\md.c</FilePath>
+            </File>
+            <File>
+              <FileName>threading.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\threading.c</FilePath>
+            </File>
+            <File>
+              <FileName>camellia.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\camellia.c</FilePath>
             </File>
             <File>
               <FileName>rsa.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\packages\mbedtls\mbedtls\library\rsa.c</FilePath>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\rsa.c</FilePath>
+            </File>
+            <File>
+              <FileName>memory_buffer_alloc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\mbedtls\mbedtls\library\memory_buffer_alloc.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1700,47 +3636,47 @@
             <File>
               <FileName>iperf.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\packages\netutils\iperf\iperf.c</FilePath>
+              <FilePath>..\offline-packages\iot\netutils\iperf\iperf.c</FilePath>
             </File>
             <File>
               <FileName>netio.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\packages\netutils\netio\netio.c</FilePath>
+              <FilePath>..\offline-packages\iot\netutils\netio\netio.c</FilePath>
             </File>
             <File>
               <FileName>ntp.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\packages\netutils\ntp\ntp.c</FilePath>
+              <FilePath>..\offline-packages\iot\netutils\ntp\ntp.c</FilePath>
             </File>
             <File>
               <FileName>tcpdump.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\packages\netutils\tcpdump\tcpdump.c</FilePath>
+              <FilePath>..\offline-packages\iot\netutils\tcpdump\tcpdump.c</FilePath>
             </File>
             <File>
               <FileName>telnet.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\packages\netutils\telnet\telnet.c</FilePath>
+              <FilePath>..\offline-packages\iot\netutils\telnet\telnet.c</FilePath>
             </File>
             <File>
               <FileName>tftp_client.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\packages\netutils\tftp\tftp_client.c</FilePath>
+              <FilePath>..\offline-packages\iot\netutils\tftp\tftp_client.c</FilePath>
             </File>
             <File>
               <FileName>tftp_port.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\packages\netutils\tftp\tftp_port.c</FilePath>
+              <FilePath>..\offline-packages\iot\netutils\tftp\tftp_port.c</FilePath>
             </File>
             <File>
               <FileName>tftp_server.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\packages\netutils\tftp\tftp_server.c</FilePath>
+              <FilePath>..\offline-packages\iot\netutils\tftp\tftp_server.c</FilePath>
             </File>
             <File>
               <FileName>tftp_xfer.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\packages\netutils\tftp\tftp_xfer.c</FilePath>
+              <FilePath>..\offline-packages\iot\netutils\tftp\tftp_xfer.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1750,77 +3686,7 @@
             <File>
               <FileName>optparse.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\packages\optparse\optparse.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>paho-mqtt</GroupName>
-          <Files>
-            <File>
-              <FileName>mqtt_sample.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\pahomqtt\samples\mqtt_sample.c</FilePath>
-            </File>
-            <File>
-              <FileName>MQTTConnectServer.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\pahomqtt\MQTTPacket\src\MQTTConnectServer.c</FilePath>
-            </File>
-            <File>
-              <FileName>MQTTPacket.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\pahomqtt\MQTTPacket\src\MQTTPacket.c</FilePath>
-            </File>
-            <File>
-              <FileName>MQTTUnsubscribeClient.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\pahomqtt\MQTTPacket\src\MQTTUnsubscribeClient.c</FilePath>
-            </File>
-            <File>
-              <FileName>paho_mqtt_pipe.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\pahomqtt\MQTTClient-RT\paho_mqtt_pipe.c</FilePath>
-            </File>
-            <File>
-              <FileName>MQTTDeserializePublish.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\pahomqtt\MQTTPacket\src\MQTTDeserializePublish.c</FilePath>
-            </File>
-            <File>
-              <FileName>MQTTSerializePublish.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\pahomqtt\MQTTPacket\src\MQTTSerializePublish.c</FilePath>
-            </File>
-            <File>
-              <FileName>MQTTUnsubscribeServer.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\pahomqtt\MQTTPacket\src\MQTTUnsubscribeServer.c</FilePath>
-            </File>
-            <File>
-              <FileName>mqtt_test.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\pahomqtt\tests\mqtt_test.c</FilePath>
-            </File>
-            <File>
-              <FileName>MQTTSubscribeClient.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\pahomqtt\MQTTPacket\src\MQTTSubscribeClient.c</FilePath>
-            </File>
-            <File>
-              <FileName>MQTTConnectClient.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\pahomqtt\MQTTPacket\src\MQTTConnectClient.c</FilePath>
-            </File>
-            <File>
-              <FileName>MQTTFormat.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\pahomqtt\MQTTPacket\src\MQTTFormat.c</FilePath>
-            </File>
-            <File>
-              <FileName>MQTTSubscribeServer.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\packages\pahomqtt\MQTTPacket\src\MQTTSubscribeServer.c</FilePath>
+              <FilePath>..\offline-packages\misc\optparse\optparse.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1880,6 +3746,46 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>sfud-port</GroupName>
+          <Files>
+            <File>
+              <FileName>sfud_port.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\board\ports\sfud\sfud_port.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>tinycrypt</GroupName>
+          <Files>
+            <File>
+              <FileName>tiny_base64.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\tinycrypt\src\tiny_base64.c</FilePath>
+            </File>
+            <File>
+              <FileName>tiny_sha1.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\tinycrypt\src\tiny_sha1.c</FilePath>
+            </File>
+            <File>
+              <FileName>tiny_sha2.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\tinycrypt\src\tiny_sha2.c</FilePath>
+            </File>
+            <File>
+              <FileName>tiny_md5.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\tinycrypt\src\tiny_md5.c</FilePath>
+            </File>
+            <File>
+              <FileName>tiny_aes.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\offline-packages\security\tinycrypt\src\tiny_aes.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>Utilities</GroupName>
           <Files>
             <File>
@@ -1895,17 +3801,37 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>WebClient</GroupName>
+          <GroupName>utility</GroupName>
+          <Files>
+            <File>
+              <FileName>utility.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\utility\utility.c</FilePath>
+            </File>
+            <File>
+              <FileName>random.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\utility\random.c</FilePath>
+            </File>
+            <File>
+              <FileName>i2cdetect.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\utility\i2cdetect.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>webclient</GroupName>
           <Files>
             <File>
               <FileName>webclient_file.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\packages\webclient\src\webclient_file.c</FilePath>
+              <FilePath>..\offline-packages\iot\webclient\src\webclient_file.c</FilePath>
             </File>
             <File>
               <FileName>webclient.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\packages\webclient\src\webclient.c</FilePath>
+              <FilePath>..\offline-packages\iot\webclient\src\webclient.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1913,104 +3839,19 @@
           <GroupName>whd</GroupName>
           <Files>
             <File>
-              <FileName>whd_proto.c</FileName>
+              <FileName>whd_debug.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_proto.c</FilePath>
+              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_debug.c</FilePath>
             </File>
             <File>
-              <FileName>whd_thread.c</FileName>
+              <FileName>whd_ring.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_thread.c</FilePath>
-            </File>
-            <File>
-              <FileName>whd_msgbuf_txrx.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_msgbuf_txrx.c</FilePath>
-            </File>
-            <File>
-              <FileName>whd_wifi_p2p.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_wifi_p2p.c</FilePath>
-            </File>
-            <File>
-              <FileName>cyhal_gpio.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\libraries\wifi-host-driver\porting\src\hal\cyhal_gpio.c</FilePath>
-            </File>
-            <File>
-              <FileName>whd_flowring.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_flowring.c</FilePath>
+              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_ring.c</FilePath>
             </File>
             <File>
               <FileName>cyhal_sdio.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\libraries\wifi-host-driver\porting\src\hal\cyhal_sdio.c</FilePath>
-            </File>
-            <File>
-              <FileName>whd_sdpcm.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_sdpcm.c</FilePath>
-            </File>
-            <File>
-              <FileName>whd_logging.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_logging.c</FilePath>
-            </File>
-            <File>
-              <FileName>whd_buffer_api.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_buffer_api.c</FilePath>
-            </File>
-            <File>
-              <FileName>cybsp.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\libraries\wifi-host-driver\porting\src\bsp\cybsp.c</FilePath>
-            </File>
-            <File>
-              <FileName>whd_rtos.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\libraries\wifi-host-driver\porting\src\rtos\whd_rtos.c</FilePath>
-            </File>
-            <File>
-              <FileName>cy_network_buffer.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\libraries\wifi-host-driver\porting\src\bsp\cy_network_buffer.c</FilePath>
-            </File>
-            <File>
-              <FileName>whd_chip_constants.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_chip_constants.c</FilePath>
-            </File>
-            <File>
-              <FileName>whd_commonring.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_commonring.c</FilePath>
-            </File>
-            <File>
-              <FileName>whd_bus_common.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\bus_protocols\whd_bus_common.c</FilePath>
-            </File>
-            <File>
-              <FileName>whd_ap.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_ap.c</FilePath>
-            </File>
-            <File>
-              <FileName>whd_network_if.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_network_if.c</FilePath>
-            </File>
-            <File>
-              <FileName>whd_bus_sdio_protocol.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\bus_protocols\whd_bus_sdio_protocol.c</FilePath>
-            </File>
-            <File>
-              <FileName>whd_management.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_management.c</FilePath>
             </File>
             <File>
               <FileName>whd_utils.c</FileName>
@@ -2023,14 +3864,39 @@
               <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_wifi.c</FilePath>
             </File>
             <File>
-              <FileName>whd_ring.c</FileName>
+              <FileName>whd_management.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_ring.c</FilePath>
+              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_management.c</FilePath>
             </File>
             <File>
-              <FileName>whd_cdc_bdc.c</FileName>
+              <FileName>whd_rtos.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_cdc_bdc.c</FilePath>
+              <FilePath>..\libraries\wifi-host-driver\porting\src\rtos\whd_rtos.c</FilePath>
+            </File>
+            <File>
+              <FileName>whd_thread.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_thread.c</FilePath>
+            </File>
+            <File>
+              <FileName>whd_chip.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_chip.c</FilePath>
+            </File>
+            <File>
+              <FileName>whd_wlan.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\wifi-host-driver\porting\src\wlan\whd_wlan.c</FilePath>
+            </File>
+            <File>
+              <FileName>whd_chip_constants.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_chip_constants.c</FilePath>
+            </File>
+            <File>
+              <FileName>whd_bus_common.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\bus_protocols\whd_bus_common.c</FilePath>
             </File>
             <File>
               <FileName>whd_events.c</FileName>
@@ -2038,39 +3904,14 @@
               <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_events.c</FilePath>
             </File>
             <File>
-              <FileName>whd_resource_if.c</FileName>
+              <FileName>whd_bus_sdio_protocol.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_resource_if.c</FilePath>
+              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\bus_protocols\whd_bus_sdio_protocol.c</FilePath>
             </File>
             <File>
-              <FileName>download.c</FileName>
+              <FileName>cy_network_buffer.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\libraries\wifi-host-driver\porting\src\resources\download.c</FilePath>
-            </File>
-            <File>
-              <FileName>whd_debug.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_debug.c</FilePath>
-            </File>
-            <File>
-              <FileName>resources.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\libraries\wifi-host-driver\porting\src\resources\resources.c</FilePath>
-            </File>
-            <File>
-              <FileName>whd_wifi_api.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_wifi_api.c</FilePath>
-            </File>
-            <File>
-              <FileName>whd_bus.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\bus_protocols\whd_bus.c</FilePath>
-            </File>
-            <File>
-              <FileName>cyw_wlan.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\libraries\wifi-host-driver\porting\src\wlan\cyw_wlan.c</FilePath>
+              <FilePath>..\libraries\wifi-host-driver\porting\src\bsp\cy_network_buffer.c</FilePath>
             </File>
             <File>
               <FileName>whd_clm.c</FileName>
@@ -2078,9 +3919,104 @@
               <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_clm.c</FilePath>
             </File>
             <File>
-              <FileName>whd_chip.c</FileName>
+              <FileName>whd_network_if.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_chip.c</FilePath>
+              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_network_if.c</FilePath>
+            </File>
+            <File>
+              <FileName>resources.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\wifi-host-driver\porting\src\resources\resources.c</FilePath>
+            </File>
+            <File>
+              <FileName>whd_msgbuf_txrx.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_msgbuf_txrx.c</FilePath>
+            </File>
+            <File>
+              <FileName>whd_ap.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_ap.c</FilePath>
+            </File>
+            <File>
+              <FileName>whd_proto.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_proto.c</FilePath>
+            </File>
+            <File>
+              <FileName>cybsp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\wifi-host-driver\porting\src\bsp\cybsp.c</FilePath>
+            </File>
+            <File>
+              <FileName>whd_logging.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_logging.c</FilePath>
+            </File>
+            <File>
+              <FileName>download.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\wifi-host-driver\porting\src\resources\download.c</FilePath>
+            </File>
+            <File>
+              <FileName>whd_flowring.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_flowring.c</FilePath>
+            </File>
+            <File>
+              <FileName>whd_cdc_bdc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_cdc_bdc.c</FilePath>
+            </File>
+            <File>
+              <FileName>cyhal_gpio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\wifi-host-driver\porting\src\hal\cyhal_gpio.c</FilePath>
+            </File>
+            <File>
+              <FileName>whd_bus.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\bus_protocols\whd_bus.c</FilePath>
+            </File>
+            <File>
+              <FileName>whd_resource_if.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_resource_if.c</FilePath>
+            </File>
+            <File>
+              <FileName>whd_wifi_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_wifi_api.c</FilePath>
+            </File>
+            <File>
+              <FileName>whd_buffer_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_buffer_api.c</FilePath>
+            </File>
+            <File>
+              <FileName>whd_wifi_p2p.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_wifi_p2p.c</FilePath>
+            </File>
+            <File>
+              <FileName>whd_commonring.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_commonring.c</FilePath>
+            </File>
+            <File>
+              <FileName>whd_sdpcm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libraries\wifi-host-driver\wifi-host-driver\WiFi_Host_Driver\src\whd_sdpcm.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>wifi-port</GroupName>
+          <Files>
+            <File>
+              <FileName>wifi_config.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\board\ports\wifi\wifi_config.c</FilePath>
             </File>
           </Files>
         </Group>

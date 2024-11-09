@@ -63,6 +63,7 @@ if GetDepend(['BSP_USING_ON_CHIP_FLASH']):
     src += ['drv_flash.c']
 
 path = [cwd]
+path += [os.path.join(cwd, 'include')]
 path += [os.path.join(cwd, 'config')]
 path += [os.path.join(cwd, 'drv_sdio')]
 
