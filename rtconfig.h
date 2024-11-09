@@ -320,6 +320,9 @@
 /* JSON: JavaScript Object Notation, a lightweight data-interchange format */
 
 
+/* multimedia packages */
+
+
 /* tools packages */
 
 #define PKG_USING_EASYFLASH
@@ -343,8 +346,9 @@
 #define PKG_USING_WIFI_HOST_DRIVER
 #define WHD_USING_CHIP_CYW43012
 #define WHD_RESOURCES_IN_EXTERNAL_STORAGE
-#define WHD_RESOURCES_FIRMWARE_NAME "whd_firmware"
-#define WHD_RESOURCES_CLM_NAME "whd_clm"
+#define WHD_RESOURCES_IN_EXTERNAL_STORAGE_FAL
+#define WHD_RESOURCES_FIRMWARE_PART_NAME "whd_firmware"
+#define WHD_RESOURCES_CLM_PART_NAME "whd_clm"
 #define WHD_RESOURCES_BLOCK_SIZE 1024
 #define CY_WIFI_WHD_THREAD_PRIORITY 8
 #define CY_WIFI_WHD_THREAD_STACK_SIZE 5120
