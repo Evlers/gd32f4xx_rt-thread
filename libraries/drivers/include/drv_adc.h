@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2006-2024 RT-Thread Development Team
+ * Copyright (c) 2006-2025 RT-Thread Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
  *
  * Change Logs:
- * Date           Author       Notes
- * 2022-05-03     BruceOu      first implementation
+ * Date           Author            Notes
+ * 2025-02-14     Evlers            first version
  */
 
 #ifndef __DRV_ADC_H__
@@ -25,9 +25,10 @@ struct gd32_adc
 {
     uint32_t adc_periph;
     rcu_periph_enum adc_clk;
-    rt_base_t adc_pins[16];
+    const rt_base_t *adc_pins;
     struct rt_adc_device *adc;
-    char *device_name;
+    const char *device_name;
+    uint16_t channel_en;
 };
 
 #ifdef __cplusplus
